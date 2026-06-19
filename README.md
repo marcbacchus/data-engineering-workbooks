@@ -1,191 +1,170 @@
-# Snowflake Engineering Workbook
+# Data Engineering Workbooks
 
-A hands-on, goal-driven workbook for learning Snowflake from environment setup through production-grade automation. Part of a five-workbook series covering the modern data and cloud engineering stack.
+A hands-on, goal-driven workbook series covering the modern data and cloud engineering stack. Free, community-focused, and built for practitioners — from beginners taking their first steps to experienced engineers filling gaps in their toolkit.
 
-**Workbook 1 of 5** — Snowflake · dbt · Terraform · Azure · Databricks
+**One consistent dataset. One GitHub repository. Nine workbooks.**
+
+---
+
+## The series
+
+| # | Workbook | Focus | Status |
+|---|---|---|---|
+| 00 | [Git for Data Engineers](00-git/) | Version control fundamentals in a data engineering context | Planned |
+| 01 | [Snowflake](01-snowflake/) | Data warehousing, pipelines, security, performance, Cortex AI | In Progress |
+| 02 | [dbt](02-dbt/) | Data transformation, modelling, testing, documentation | Planned |
+| 03 | [Terraform](03-terraform/) | Infrastructure as code for data platforms | Planned |
+| 04 | [Azure Data Engineering](04-azure/) | Azure data services, pipelines, and cloud integration | Planned |
+| 05 | [Databricks](05-databricks/) | Spark, Delta Lake, streaming, and ML pipelines | Planned |
+| 06 | [AWS Data Engineering](06-aws/) | S3, Glue, Redshift, Lambda, Kinesis, and Step Functions | Planned |
+| 07 | [Python for Data Engineers](07-python/) | Python applied to data engineering — not generic tutorials | Planned |
+| 08 | [AI for Data Engineers](08-ai/) | LLMs in pipelines, Cortex, prompt engineering, model evaluation | Planned |
 
 ---
 
 ## Who this is for
 
-This workbook is written for practitioners — people who learn by doing, not by reading feature lists. Whether you are new to Snowflake or coming from another data platform (Oracle, SQL Server, Redshift, BigQuery), the goal is the same: leave with working knowledge you can apply on Monday morning.
+This series is written for practitioners — people who learn by doing, not by reading feature lists. Each workbook is structured around real outcomes, not feature tours.
 
-Each goal is structured around a real outcome, not a feature. You will not find a chapter called "Virtual Warehouses." You will find a goal called "Optimize Performance" that uses virtual warehouses as a tool to get there.
+**Beginners** — no prior experience with a tool is assumed within each workbook. Basic SQL familiarity is helpful for the data platform workbooks.
 
-**Beginner to advanced.** Goals 1–3 assume only basic SQL familiarity. Goals 4–9 progressively assume the skills built in earlier goals. You can work through sequentially or jump to the goal most relevant to your current project.
+**Experienced engineers** — the goal-driven structure lets you jump directly to what is relevant. Every workbook covers topics that trip up even seasoned practitioners.
 
----
-
-## What you will build
-
-By the end of this workbook you will have:
-
-- A fully configured Snowflake environment with proper role hierarchy and security controls
-- A working data pipeline from raw CSV files through to transformed, queryable tables
-- Automated incremental loads using Streams and Tasks
-- Performance-tuned queries with clustering and warehouse sizing dialed in
-- A monitoring setup using ACCOUNT_USAGE and resource monitors
-- Hands-on experience with Snowflake Cortex AI functions on real text data
-- The practical knowledge to sit the SnowPro Core (COF-C03) certification with confidence
+**Career changers and students** — the series builds a complete, demonstrable portfolio of data engineering skills backed by a public GitHub repository.
 
 ---
 
-## Dataset
+## The dataset
 
-All exercises use a single consistent dataset throughout — a synthetic e-commerce platform covering customers, orders, products, suppliers, reviews, returns, and clickstream events.
+All nine workbooks use the same synthetic e-commerce dataset — customers, orders, products, suppliers, reviews, returns, and clickstream events spanning 2019–2023.
 
-| Table | Rows | Used for |
+| Table | Rows | Primary use |
 |---|---|---|
 | customers | 100,000 | Joins, segmentation, cohort analysis |
 | products | 10,000 | Catalog queries, category aggregations |
-| suppliers | 1,000 | Multi-table joins |
+| suppliers | 1,000 | Multi-table joins, supplier analysis |
 | orders | 2,000,000 | Time-series, revenue analysis, pipelines |
 | order_items | 4,659,254 | Performance exercises, large table operations |
-| product_reviews | 500,000 | Cortex AI — sentiment, summarization |
+| product_reviews | 500,000 | NLP, sentiment analysis, AI functions |
 | returns | 80,000 | Return rate analysis, DML exercises |
-| clickstream_events | 3,000,000 | Streaming, event pipelines (later workbooks) |
+| clickstream_events | 3,000,000 | Streaming, event pipelines, ML features |
 
-Data spans 2019–2023 with realistic seasonality (Q4 peak), year-over-year growth, and deliberate nulls where real-world data would have them. See [`dataset/SCHEMA.md`](dataset/SCHEMA.md) for full column definitions, data distributions, and sample queries.
+Using one dataset across all workbooks means you focus entirely on the technology — you already know the data by workbook two.
+
+See [`dataset/SCHEMA.md`](dataset/SCHEMA.md) for full column definitions, data distributions, and sample queries.
+
+---
+
+## How to get started
+
+### 1. Clone the repository
+
+```bash
+git clone git@github.com:marcbacchus/data-engineering-workbooks.git
+cd data-engineering-workbooks
+```
+
+> **Git LFS required** for the three large dataset files. Install from [git-lfs.com](https://git-lfs.github.com/) then run `git lfs pull`.
+
+### 2. Choose your starting point
+
+**New to data engineering?** Start with [00 — Git for Data Engineers](00-git/). Every other workbook assumes basic Git knowledge.
+
+**Already know Git?** Start with [01 — Snowflake](01-snowflake/). It is the foundation that dbt, Terraform, and the cloud workbooks build on.
+
+**Already know Snowflake?** Jump to whichever workbook covers your next learning goal.
+
+### 3. Follow the workbook structure
+
+Each workbook follows the same format:
+
+```
+Goal → Sub-tasks → Step-by-step code → Practice gap → What if variations
+```
+
+Every sub-task is a single SQL, Python, or HCL file. Run it step by step. Read the output. Do the practice gap. Then commit your progress.
+
+---
+
+## How the workbooks connect
+
+The series is designed so each workbook builds on the previous ones — but each is also self-contained enough to stand alone.
+
+```
+00-git          ← foundation for all version control in the series
+    ↓
+01-snowflake    ← data platform foundation
+    ↓
+02-dbt          ← transforms the data loaded in Snowflake
+    ↓
+03-terraform    ← provisions the Snowflake infrastructure as code
+    ↓
+04-azure        ← cloud pipelines feeding into Snowflake
+05-databricks   ← Spark and Delta Lake alongside Snowflake
+06-aws          ← AWS data services alongside Snowflake
+    ↓
+07-python       ← glue language across all platforms (Snowpark, PySpark, boto3)
+    ↓
+08-ai           ← AI applied across the full stack
+```
 
 ---
 
 ## Workbook structure
 
-### Goals
-
-| # | Goal | Key topics |
-|---|---|---|
-| 1 | [Set up your environment](goal-01-environment-setup/) | Architecture, object hierarchy, table types, warehouses, parameters |
-| 2 | [Get data in](goal-02-get-data-in/) | COPY INTO, file formats, Snowpipe, semi-structured data, unloading, external tables, schema evolution |
-| 3 | [Query and transform data](goal-03-query-transform/) | SQL, window functions, transactions, DML, Cortex AI, UDFs, Snowpark intro |
-| 4 | [Secure your environment](goal-04-security/) | RBAC, masking policies, row access policies, network policies, tags |
-| 5 | [Optimize performance](goal-05-performance/) | Query Profile, caching, clustering, warehouse sizing, Search Optimization |
-| 6 | [Automate workflows](goal-06-automation/) | Tasks, Streams, CDC pipelines, stored procedures, Dynamic Tables |
-| 7 | [Share and collaborate](goal-07-sharing/) | Secure data sharing, Marketplace, Data Clean Rooms |
-| 8 | [Recover from mistakes](goal-08-recovery/) | Time Travel, Fail-Safe, zero-copy cloning, replication |
-| 9 | [Monitor and manage costs](goal-09-monitoring/) | INFORMATION_SCHEMA, ACCOUNT_USAGE, SHOW commands, resource monitors |
-
-### Sub-task structure
-
-Each goal contains one SQL file per sub-task. Every file follows the same format:
+Every workbook follows the same internal structure:
 
 ```
--- ──────────────────────────────────────────────────────────
--- GOAL 3 · SUB-TASK 3.3: Manage transactions and concurrency
--- ──────────────────────────────────────────────────────────
--- WHAT YOU ARE DOING AND WHY
---   ...
---
--- CONCEPT
---   ...
--- ──────────────────────────────────────────────────────────
+XX-workbook/
+├── README.md                    ← workbook overview and goal index
+├── goal-01-<name>/
+│   ├── README.md                ← goal overview and sub-task index
+│   ├── 01_subtask_name.sql      ← one file per sub-task
+│   ├── 02_subtask_name.sql
+│   └── ...
+├── goal-02-<name>/
+└── ...
+```
 
--- Step 1: ...
--- Step 2: ...
+Each sub-task file follows a consistent format:
 
--- ── PRACTICE GAP ─────────────────────────────────────────
--- Your turn: ...
-
--- ── WHAT IF ──────────────────────────────────────────────
--- What if ...?
+```
+Header block    — what, why, time, warehouse size, COF-C03 alignment
+Concept         — explanation before any code
+Steps           — numbered, one concept per step, explained inline
+Practice gap    — your turn to extend or adapt
+What if         — open questions and edge cases
 ```
 
 ---
 
-## Prerequisites
+## Certification alignment
 
-**Snowflake account**
-A free 30-day trial account is sufficient for Goals 1–8. Goal 9 (monitoring and costs) benefits from having some query history to work with, which the earlier goals will generate naturally.
-
-Sign up at [snowflake.com/try](https://www.snowflake.com/try-snowflake/) — no credit card required for trial.
-
-**Snowflake edition**
-Standard edition is sufficient for most goals. A few sub-tasks note where Enterprise features are required (materialized views, Fail-Safe, multi-cluster warehouses, extended Time Travel retention). These are clearly flagged.
-
-**SQL client**
-Snowsight (Snowflake's built-in web UI) works for everything in this workbook. If you prefer a dedicated client, VS Code with the Snowflake extension or DBeaver both work well.
-
-**Python (optional)**
-Only needed if you want to regenerate the dataset from scratch using the script in [`utils/`](utils/). Not required to complete any workbook exercises.
-
----
-
-## Getting started
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/<your-username>/snowflake-workbook.git
-cd snowflake-workbook
-```
-
-> **Note:** The three largest CSV files (`orders.csv`, `order_items.csv`, `clickstream_events.csv`) are stored with Git LFS. If you do not have Git LFS installed:
-> ```bash
-> git lfs install
-> git lfs pull
-> ```
-> Or install Git LFS from [git-lfs.com](https://git-lfs.github.com/) before cloning.
-
-### 2. Load the dataset
-
-Goal 2 walks you through loading the dataset step by step — that is intentional. Loading data is the first real skill this workbook teaches. If you want to skip ahead to a later goal, run the setup script first:
-
-```sql
--- Run this in Snowsight to create the database and load all tables
--- File: goal-02-get-data-in/00_quickload_for_later_goals.sql
-```
-
-### 3. Start at Goal 1
-
-Open [`goal-01-environment-setup/`](goal-01-environment-setup/) and work through the sub-tasks in order. Each file is self-contained and runnable.
-
----
-
-## SnowPro Core alignment
-
-This workbook covers all six COF-C03 exam domains:
-
-| Domain | Weight | Goals |
-|---|---|---|
-| Snowflake AI Data Cloud Features & Architecture | 25% | 1, 9 |
-| Account Access and Security | 17% | 4, 9 |
-| Performance Concepts | 15% | 5 |
-| Data Loading and Unloading | 15% | 2 |
-| Data Transformations | 17% | 3, 6 |
-| Data Protection and Data Sharing | 11% | 7, 8 |
-
-Sub-tasks that map directly to exam objectives are marked with `-- [COF-C03]` in the SQL file header.
-
----
-
-## Workbook series
-
-This is the first in a series of five workbooks using the same dataset and building on the same foundation:
-
-| # | Workbook | Status |
-|---|---|---|
-| 1 | **Snowflake** (this workbook) | In progress |
-| 2 | dbt | Planned |
-| 3 | Terraform | Planned |
-| 4 | Azure Data Engineering | Planned |
-| 5 | Databricks | Planned |
-
-Each workbook is self-contained but references the others where the platforms intersect — for example, the Terraform workbook provisions the Snowflake infrastructure built manually in this workbook, and the Databricks workbook uses the same `clickstream_events` table for streaming exercises.
+| Workbook | Certification |
+|---|---|
+| 01 Snowflake | SnowPro Core COF-C03 |
+| 02 dbt | dbt Analytics Engineering Certification |
+| 03 Terraform | HashiCorp Terraform Associate |
+| 04 Azure | Microsoft Azure Data Engineer Associate (DP-203) |
+| 05 Databricks | Databricks Certified Data Engineer Associate |
+| 06 AWS | AWS Certified Data Engineer Associate (DEA-C01) |
 
 ---
 
 ## Contributing
 
-Found an error? Have a better way to explain a concept? Pull requests are welcome.
+Found an error? Have a better explanation? Pull requests are welcome.
 
-Please open an issue before making large changes so we can discuss the approach. For typos, broken SQL, or missing explanations — just open a PR directly.
+Please open an issue before making large changes. For typos, broken code, or missing explanations — open a PR directly.
 
 ---
 
 ## License
 
-MIT. Use this freely for learning, teaching, or building your own materials. Attribution appreciated but not required.
+MIT. Use freely for learning, teaching, or building your own materials. Attribution appreciated but not required.
 
 ---
 
 *Built for the data engineering community. No vendor sponsorship. No affiliate links. Just clean, honest technical content.*
+
+*[github.com/marcbacchus/data-engineering-workbooks](https://github.com/marcbacchus/data-engineering-workbooks)*
