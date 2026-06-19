@@ -1,3 +1,4 @@
 dataset/orders.csv              filter=lfs diff=lfs merge=lfs -text
 dataset/order_items.csv         filter=lfs diff=lfs merge=lfs -text
 dataset/clickstream_events.csv  filter=lfs diff=lfs merge=lfs -text
+dataset/product_reviews.csv filter=lfs diff=lfs merge=lfs -text
