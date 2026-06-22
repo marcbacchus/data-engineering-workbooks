@@ -355,6 +355,8 @@ WHERE "name" NOT IN ('INFORMATION_SCHEMA', 'PUBLIC')
 ORDER BY "name"
 ;
 
+
+
 -- Expected output:
 --   ANALYTICS  | Business-ready tables and views for end-user querying
 --   RAW        | Raw ingested data — source of truth, never modified
@@ -423,3 +425,34 @@ ORDER BY "name"
 --    DATABASE_NAME.SCHEMA_NAME.OBJECT_NAME
 --    is always safe, always explicit, always recommended
 --    in production code.
+
+
+-- ══════════════════════════════════════════════════════════════
+-- CLEANUP
+-- ══════════════════════════════════════════════════════════════
+-- Run this block when you want to reset and start fresh.
+-- This permanently drops the ECOMMERCE database and everything
+-- inside it — all schemas, tables, views, and stages.
+--
+-- NOTE: Snowflake's Time Travel gives you a safety net.
+-- If you drop this by mistake you can recover it with:
+--   UNDROP DATABASE ECOMMERCE;
+-- within your Time Travel retention window (1 day Standard,
+-- up to 90 days Enterprise). Covered in detail in Goal 8.
+--
+-- WARNING: Do NOT run this if you have already loaded data
+-- in Goal 2. Only use this to reset Goal 1 work.
+-- ══════════════════════════════════════════════════════════════
+
+-- Drop all schemas first (optional — dropping the DB cascades)
+-- Shown explicitly so you understand what is being removed
+DROP SCHEMA IF EXISTS ECOMMERCE.ANALYTICS;
+DROP SCHEMA IF EXISTS ECOMMERCE.STAGING;
+DROP SCHEMA IF EXISTS ECOMMERCE.RAW;
+
+-- Drop the database — this cascades and removes everything inside
+DROP DATABASE IF EXISTS ECOMMERCE;
+
+-- Verify it is gone
+SHOW DATABASES LIKE 'ECOMMERCE';
+-- Should return zero rows
