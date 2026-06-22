@@ -1,7 +1,12 @@
 -- ══════════════════════════════════════════════════════════════
--- GOAL 1: Set Up Your Environment
--- SUB-TASK 1.1: Understand the Snowflake architecture
--- [COF-C03 Domain 1 — Snowflake AI Data Cloud Features & Architecture]
+-- SNOWFLAKE ENGINEERING WORKBOOK
+-- Goal 1 : Set Up Your Environment
+-- Sub-task 1.1 : Understand the Snowflake architecture
+-- ──────────────────────────────────────────────────────────────
+-- Time to complete : ~20 minutes
+-- Warehouse size   : X-Small (COMPUTE_WH)
+-- Starting point   : Fresh Snowflake session, no database selected
+-- COF-C03 domain   : Domain 1 — Architecture & Features (25%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY
