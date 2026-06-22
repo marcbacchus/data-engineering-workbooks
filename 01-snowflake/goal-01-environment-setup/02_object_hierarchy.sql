@@ -441,7 +441,7 @@ ORDER BY "name"
 -- up to 90 days Enterprise). Covered in detail in Goal 8.
 --
 -- WARNING: Do NOT run this if you have already loaded data
--- in Goal 2. Only use this to reset Goal 1 work.
+-- in Goal 2. Only use this to reset Goal 2 work.
 -- ══════════════════════════════════════════════════════════════
 
 -- Drop all schemas first (optional — dropping the DB cascades)
