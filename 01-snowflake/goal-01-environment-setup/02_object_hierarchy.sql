@@ -444,6 +444,10 @@ ORDER BY "name"
 -- in Goal 2. Only use this to reset Goal 2 work.
 -- ══════════════════════════════════════════════════════════════
 
+-- NOTE: If you run this cleanup and continue to sub-task 1.3,
+-- the SETUP block in 1.3 will recreate everything you need.
+-- No manual intervention required.
+
 -- Drop all schemas first (optional — dropping the DB cascades)
 -- Shown explicitly so you understand what is being removed
 DROP SCHEMA IF EXISTS ECOMMERCE.ANALYTICS;
