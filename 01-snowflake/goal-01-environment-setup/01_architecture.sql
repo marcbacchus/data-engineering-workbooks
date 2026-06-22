@@ -189,12 +189,19 @@ ORDER BY
     L_LINESTATUS
 ;
 
--- After running: go to Query History, open this query, and click
+-- After running: go to Query History (see below), open this query, and click
 -- "Query Profile". You will see:
 --   · TableScan    — reading from the storage layer
 --   · Aggregate    — running on your compute (virtual warehouse)
 --   · Result       — returned through cloud services to your session
 -- This is the three-layer architecture made visible.
+
+-- ── HOW TO FIND QUERY HISTORY IN SNOWSIGHT ───────────────────
+-- Left sidebar → Monitoring → Query History
+-- Find your LINEITEM query in the list (most recent at the top)
+-- Click the Query ID link to open the query details
+-- Click the "Query Profile" tab at the top of the details panel
+-- ─────────────────────────────────────────────────────────────
 
 -- ══════════════════════════════════════════════════════════════
 -- STEP 5: Observe credit consumption
@@ -211,11 +218,11 @@ SELECT
     EXECUTION_TIME / 1000           AS execution_seconds,
     CREDITS_USED_CLOUD_SERVICES     AS cloud_services_credits,
     BYTES_SCANNED / (1024 * 1024)   AS mb_scanned,
-    PARTITIONS_SCANNED,
-    PARTITIONS_TOTAL
+    ROWS_PRODUCED
 FROM TABLE(INFORMATION_SCHEMA.QUERY_HISTORY(
-    DATE_RANGE_START => DATEADD('hour', -1, CURRENT_TIMESTAMP()),
-    RESULT_LIMIT     => 10
+    DATEADD('hour', -1, CURRENT_TIMESTAMP()),
+    CURRENT_TIMESTAMP(),
+    10
 ))
 ORDER BY START_TIME DESC
 ;
@@ -238,6 +245,10 @@ ORDER BY START_TIME DESC
 -- Suspend your warehouse (replace COMPUTE_WH with your warehouse name)
 ALTER WAREHOUSE COMPUTE_WH SUSPEND;
 
+-- Note: if you see "Invalid state. Warehouse cannot be suspended"
+-- your warehouse is either already suspended or auto-suspend
+-- handled it first. This is normal. Continue to the next query.
+
 -- This query works even with no warehouse running.
 -- Cloud services layer answers it from metadata alone.
 SELECT
@@ -259,6 +270,10 @@ ORDER BY ROW_COUNT DESC
 --
 -- Resume your warehouse when done:
 ALTER WAREHOUSE COMPUTE_WH RESUME;
+
+-- Note: if you see "Invalid state. Warehouse cannot be resumed"
+-- your warehouse was never suspended and is still running.
+-- This is fine — continue to the next step.
 
 -- ══════════════════════════════════════════════════════════════
 -- PRACTICE GAP
