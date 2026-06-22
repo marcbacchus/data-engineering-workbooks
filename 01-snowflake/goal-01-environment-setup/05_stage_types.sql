@@ -338,11 +338,14 @@ DROP TABLE IF EXISTS ECOMMERCE.RAW.STAGE_DEMO;
 -- WHAT IF
 -- ══════════════════════════════════════════════════════════════
 --
--- Q: What if I PUT a file to the wrong stage?
--- A: Use REMOVE to delete it:
+-- Q: What if I PUT a file to the wrong stage in Goal 2?
+-- A: Use REMOVE to delete it before running COPY INTO:
 --    REMOVE @ECOMMERCE.RAW.ECOMMERCE_RAW_STAGE/wrong_file.csv;
 --    Or remove all files: REMOVE @stage_name PATTERN='.*';
---    Files in stages do not affect tables until COPY INTO runs.
+--    This is safe because files sitting in a stage have no
+--    effect on any table until COPY INTO explicitly reads them.
+--    Staging and loading are always two separate steps —
+--    you can always clean up a stage without touching your tables.
 --
 -- Q: What if I want to keep files in my own S3 bucket but
 --    load them into Snowflake automatically?
