@@ -29,6 +29,12 @@ You will also have created the `ECOMMERCE` database and its three-schema structu
 
 ## Prerequisites
 
+- **Assumed knowledge:** You know what a database is, what a table is, 
+- and have written at least a basic SELECT statement. If not, complete 
+- a free SQL fundamentals course first — 
+- [Mode SQL Tutorial](https://mode.com/sql-tutorial/) or 
+- [SQLZoo](https://sqlzoo.net/) are both excellent starting points.
+
 - A Snowflake account (trial is fine — [sign up here](https://www.snowflake.com/try-snowflake/))
 - Access to Snowsight (Snowflake's web UI)
 - SYSADMIN or ACCOUNTADMIN role access
