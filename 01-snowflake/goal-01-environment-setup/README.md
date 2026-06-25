@@ -118,11 +118,11 @@ Domain 1 represents **25% of the COF-C03 exam** — the single largest domain. T
 
 ## When you are done
 
-After completing all 8 sub-tasks:
+After completing all 9 sub-tasks including the exam preparation:
 
 1. Commit your progress:
 ```bash
-git add goal-01-environment-setup/
+git add 01-snowflake/goal-01-environment-setup/
 git commit -m "feat: complete goal-01 environment setup"
 git push
 ```

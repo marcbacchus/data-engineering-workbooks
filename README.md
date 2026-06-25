@@ -149,6 +149,7 @@ What if         — open questions and edge cases
 | 05 Databricks | Databricks Certified Data Engineer Associate |
 | 06 AWS | AWS Certified Data Engineer Associate (DEA-C01) |
 
+Each workbook includes exam preparation questions at the end of every goal — written specifically to reinforce what was just built, not generic question banks.
 ---
 
 ## Contributing
