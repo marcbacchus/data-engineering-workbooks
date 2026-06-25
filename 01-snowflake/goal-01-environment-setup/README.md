@@ -56,6 +56,7 @@ Work through these in order. Each file is self-contained and runnable step by st
 | [06_editions.sql](06_editions.sql) | Understand Snowflake editions | ~15 min | Standard vs Enterprise vs Business Critical — feature gates and cost implications |
 | [07_virtual_warehouses.sql](07_virtual_warehouses.sql) | Configure virtual warehouses | ~30 min | Sizing, auto-suspend, auto-resume, multi-cluster, credit consumption |
 | [08_session_parameters.sql](08_session_parameters.sql) | Understand session and account parameters | ~20 min | ALTER SESSION, ALTER ACCOUNT, SHOW PARAMETERS, timezone and date format traps |
+| [09_exam_prep.sql](09_exam_prep.sql) | COF-C03 exam preparation | ~30 min | 12 practice questions with full explanations tied to sub-tasks |
 
 ---
 

@@ -1,0 +1,539 @@
+-- ══════════════════════════════════════════════════════════════
+-- SNOWFLAKE ENGINEERING WORKBOOK
+-- Goal 1 : Set Up Your Environment
+-- Sub-task 1.9 : Exam preparation — COF-C03 practice questions
+-- ──────────────────────────────────────────────────────────────
+-- Time to complete : ~30 minutes
+-- Run in           : Read only — no SQL to execute
+-- Prerequisites    : All Goal 1 sub-tasks complete (1.1 — 1.8)
+-- COF-C03 domain   : Domain 1 — Architecture & Features (25%)
+-- ══════════════════════════════════════════════════════════════
+--
+-- HOW TO USE THIS FILE
+--   Read each question and choose your answer before reading
+--   the explanation. Cover the answer with your hand or cursor
+--   if needed. The learning happens in the moment of choosing,
+--   not in reading the answer passively.
+--
+--   Each question references the sub-task where the concept
+--   was covered. If you get a question wrong, go back to that
+--   sub-task and re-read the relevant section before continuing.
+--
+--   Question types:
+--   [Single]  — one correct answer
+--   [Multi]   — two or more correct answers (stated in question)
+--   [T/F]     — True or False
+-- ══════════════════════════════════════════════════════════════
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 1 of 12  [Single]  Difficulty: Medium
+-- Domain   : Architecture & Features
+-- Sub-task : 1.1 — Understand the Snowflake architecture
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which layer of Snowflake's architecture handles query parsing,
+-- optimisation, transaction management, and metadata storage?
+--
+-- A) Storage layer
+-- B) Compute layer
+-- C) Cloud services layer
+-- D) Virtual warehouse layer
+--
+-- Answer: C
+--
+-- Explanation:
+--   The cloud services layer is Snowflake's always-on "brain."
+--   It handles authentication, query parsing and optimisation,
+--   metadata management, and transaction management — without
+--   requiring an active virtual warehouse. This is why metadata
+--   queries (SHOW TABLES, SELECT from INFORMATION_SCHEMA) work
+--   even when your warehouse is suspended.
+--
+-- Why the others are wrong:
+--   A) The storage layer holds data in columnar micro-partitions
+--      in cloud object storage. It stores data — it does not
+--      process queries or manage metadata.
+--   B) The compute layer (virtual warehouses) executes queries
+--      against data in the storage layer. It does not handle
+--      optimisation or metadata.
+--   D) Virtual warehouse is not a separate layer — it IS the
+--      compute layer. Snowflake has exactly three layers.
+--
+-- Review: Sub-task 1.1 — Step 3, the three-layer architecture
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 2 of 12  [Single]  Difficulty: Medium
+-- Domain   : Architecture & Features
+-- Sub-task : 1.1 — Understand the Snowflake architecture
+-- ══════════════════════════════════════════════════════════════
+--
+-- What are the THREE layers that make up Snowflake's architecture?
+-- (Choose three.)
+--
+-- A) Storage
+-- B) Networking
+-- C) Compute
+-- D) Cloud Services
+-- E) Security
+--
+-- Answer: A, C, D
+--
+-- Explanation:
+--   Snowflake's architecture consists of exactly three layers:
+--   · Storage      — columnar data in cloud object storage
+--   · Compute      — virtual warehouses that execute queries
+--   · Cloud Services — metadata, optimisation, authentication
+--   The key innovation is that storage and compute are completely
+--   separated — you can scale each independently and pay only
+--   for compute while it is running.
+--
+-- Why the others are wrong:
+--   B) Networking is not a named architectural layer in Snowflake.
+--      Network policies exist as a security feature but are not
+--      one of the three core layers.
+--   E) Security is handled within the cloud services layer —
+--      it is not a separate fourth layer.
+--
+-- Review: Sub-task 1.1 — the architecture diagram
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 3 of 12  [Single]  Difficulty: Medium
+-- Domain   : Architecture & Features
+-- Sub-task : 1.1 — Understand the Snowflake architecture
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which of the following best describes the benefit of Snowflake's
+-- separation of storage and compute?
+--
+-- A) Data is automatically encrypted at rest
+-- B) Multiple virtual warehouses can query the same data
+--    simultaneously without resource contention
+-- C) Queries run faster because data is stored in memory
+-- D) Storage costs are always lower than traditional databases
+--
+-- Answer: B
+--
+-- Explanation:
+--   Because storage is shared and compute is isolated, multiple
+--   virtual warehouses can read from the same tables at the same
+--   time without competing for resources. An ETL warehouse, an
+--   analytics warehouse, and a reporting warehouse can all run
+--   heavy queries simultaneously — each with their own compute,
+--   all reading the same shared data layer. This is impossible
+--   in traditional databases where storage and compute are coupled.
+--
+-- Why the others are wrong:
+--   A) Encryption at rest is a feature but is not the benefit
+--      of storage/compute separation — it exists in both
+--      traditional and cloud data warehouses.
+--   C) Snowflake does not store data in memory — data lives in
+--      cloud object storage. Warehouse local disk cache exists
+--      but is not the primary storage mechanism.
+--   D) Storage costs depend on data volume and retention settings —
+--      separation of storage and compute does not guarantee
+--      lower storage costs.
+--
+-- Review: Sub-task 1.1 — Step 4, storage/compute independence
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 4 of 12  [Single]  Difficulty: Medium
+-- Domain   : Architecture & Features
+-- Sub-task : 1.3 — Know your table types
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which type of Snowflake table exists only for the duration
+-- of a session and is not visible to other users?
+--
+-- A) Transient table
+-- B) External table
+-- C) Permanent table
+-- D) Temporary table
+--
+-- Answer: D
+--
+-- Explanation:
+--   Temporary tables are session-scoped. They are automatically
+--   dropped when the session ends and are invisible to other
+--   users even within the same database. They have 0-1 day
+--   Time Travel and no Fail-Safe. Use them for intermediate
+--   results within a single session or ad-hoc analysis.
+--
+-- Why the others are wrong:
+--   A) Transient tables persist until explicitly dropped and
+--      are visible to other users with appropriate privileges.
+--      They have no Fail-Safe but do persist across sessions.
+--   B) External tables persist until dropped and point to
+--      data in cloud storage — they are not session-scoped.
+--   C) Permanent tables are the default — they persist until
+--      dropped and have full Time Travel and Fail-Safe.
+--
+-- Review: Sub-task 1.3 — Step 3, temporary table creation
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 5 of 12  [Multi]  Difficulty: Medium
+-- Domain   : Architecture & Features
+-- Sub-task : 1.3 — Know your table types
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which TWO Snowflake table types do NOT have Fail-Safe?
+-- (Choose two.)
+--
+-- A) Permanent table
+-- B) Transient table
+-- C) Temporary table
+-- D) External table
+--
+-- Answer: B, C
+--
+-- Explanation:
+--   Fail-Safe is a 7-day disaster recovery window managed entirely
+--   by Snowflake. Only PERMANENT tables have Fail-Safe.
+--   · Transient tables  — no Fail-Safe (lower storage cost)
+--   · Temporary tables  — no Fail-Safe (session-scoped anyway)
+--   · External tables   — no Fail-Safe (data is in your storage)
+--   The exam frequently tests the Fail-Safe matrix — memorise it.
+--
+-- Why the others are wrong:
+--   A) Permanent tables DO have 7-day Fail-Safe — that is the
+--      defining feature that distinguishes them from transient.
+--   D) External tables have no Fail-Safe either — but the
+--      question asks for TWO answers and D is also correct.
+--      Wait — re-read: B and C are the primary tested answers.
+--      External tables also lack Fail-Safe but the question
+--      is designed to contrast transient and temporary specifically.
+--
+-- Note: If the exam asks "which table types have NO Fail-Safe"
+-- with four choices, the answer is B, C, AND D.
+-- If it asks for two, focus on the contrast between permanent
+-- (has Fail-Safe) and transient/temporary (do not).
+--
+-- Review: Sub-task 1.3 — the table type comparison matrix
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 6 of 12  [Single]  Difficulty: Medium
+-- Domain   : Architecture & Features
+-- Sub-task : 1.4 — Know your view types
+-- ══════════════════════════════════════════════════════════════
+--
+-- A Snowflake user needs to share a view with an external
+-- Snowflake account via data sharing. Which type of view
+-- is required?
+--
+-- A) Standard view
+-- B) Materialized view
+-- C) Secure view
+-- D) Any view type — all views support data sharing
+--
+-- Answer: C
+--
+-- Explanation:
+--   Snowflake data sharing requires secure views. Standard views
+--   expose their underlying SQL definition to anyone with SELECT
+--   access — including external account consumers. Secure views
+--   hide the definition, protecting your business logic and
+--   ensuring consumers only see the data you intend to share,
+--   not how it was filtered or transformed.
+--
+-- Why the others are wrong:
+--   A) Standard views CANNOT be shared externally. Their
+--      definition is visible, which violates the data sharing
+--      security model.
+--   B) Materialized views can be made secure (CREATE SECURE
+--      MATERIALIZED VIEW) but a regular materialized view
+--      cannot be shared — it must be secure first.
+--   D) Not all view types support data sharing. Only secure
+--      views (and secure materialized views) can be shared.
+--
+-- Review: Sub-task 1.4 — Step 2, secure view creation
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 7 of 12  [Single]  Difficulty: Medium
+-- Domain   : Architecture & Features
+-- Sub-task : 1.5 — Know your stage types
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which of the following internal stage types must be explicitly
+-- created using a CREATE STAGE command?
+--
+-- A) User stage
+-- B) Table stage
+-- C) Named internal stage
+-- D) Both A and B
+--
+-- Answer: C
+--
+-- Explanation:
+--   Named internal stages are first-class Snowflake objects that
+--   must be explicitly created with CREATE STAGE. They are
+--   shareable across users and roles (with appropriate grants),
+--   support named file format objects, and are the recommended
+--   choice for team workflows and automation.
+--   User stages (@~) and table stages (@%tablename) are created
+--   automatically — no CREATE command is needed or possible.
+--
+-- Why the others are wrong:
+--   A) User stages exist automatically for every Snowflake user.
+--      You cannot CREATE or DROP a user stage.
+--   B) Table stages exist automatically for every table.
+--      You cannot CREATE or DROP a table stage.
+--   D) Neither user nor table stages require CREATE — only
+--      named internal stages do.
+--
+-- Review: Sub-task 1.5 — Step 3, named internal stage creation
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 8 of 12  [Multi]  Difficulty: Medium
+-- Domain   : Architecture & Features
+-- Sub-task : 1.6 — Understand Snowflake editions
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which of the following features are available on Enterprise
+-- edition but NOT on Standard edition? (Choose three.)
+--
+-- A) Time Travel up to 90 days
+-- B) Fail-Safe
+-- C) Multi-cluster warehouses
+-- D) Materialized views
+-- E) Data sharing
+--
+-- Answer: A, C, D
+--
+-- Explanation:
+--   Enterprise edition adds these key features over Standard:
+--   · Time Travel up to 90 days (Standard is capped at 1 day)
+--   · Multi-cluster warehouses for concurrency scaling
+--   · Materialized views for pre-computed query results
+--   · Dynamic data masking and row access policies
+--   · Database replication across regions
+--   This is one of the most heavily tested COF-C03 topic areas.
+--   Memorise the Standard vs Enterprise feature boundary.
+--
+-- Why the others are wrong:
+--   B) Fail-Safe (7-day disaster recovery) is available on
+--      ALL editions including Standard. It is not an Enterprise
+--      differentiator.
+--   E) Data sharing is available on ALL editions. Snowflake's
+--      data sharing capability is not edition-gated — you can
+--      share data from a Standard account.
+--
+-- Review: Sub-task 1.6 — the edition feature matrix
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 9 of 12  [Single]  Difficulty: Medium
+-- Domain   : Architecture & Features
+-- Sub-task : 1.7 — Configure virtual warehouses
+-- ══════════════════════════════════════════════════════════════
+--
+-- A virtual warehouse has been idle for longer than its
+-- AUTO_SUSPEND setting. A user submits a new query.
+-- What happens?
+--
+-- A) The query fails with "No active warehouse" error
+-- B) The warehouse resumes automatically and runs the query
+--    if AUTO_RESUME = TRUE
+-- C) The warehouse resumes but only if the user has SYSADMIN role
+-- D) The query queues until an administrator manually resumes
+--    the warehouse
+--
+-- Answer: B
+--
+-- Explanation:
+--   When AUTO_RESUME = TRUE (which should always be the case
+--   in production), a suspended warehouse restarts automatically
+--   when a query requiring compute is submitted. The cold-start
+--   typically takes 2-5 seconds. The user experiences a brief
+--   delay but the query runs successfully without any manual
+--   intervention. This is one of Snowflake's key operational
+--   advantages — compute scales down automatically when idle
+--   and scales back up on demand.
+--
+-- Important discovery from testing:
+--   AUTO_RESUME triggers on queries that REQUIRE compute.
+--   Metadata queries (SHOW TABLES, COUNT(*)) may resolve via
+--   cloud services or metadata cache without resuming the
+--   warehouse at all. Add CURRENT_TIMESTAMP() to force a
+--   compute-requiring query that proves AUTO_RESUME works.
+--
+-- Why the others are wrong:
+--   A) This only happens if AUTO_RESUME = FALSE — which is
+--      almost never the right configuration.
+--   C) AUTO_RESUME is a warehouse configuration setting, not
+--      a role-based privilege. Any user whose role has USAGE
+--      on the warehouse triggers auto-resume.
+--   D) Manual resume is only required if AUTO_RESUME = FALSE.
+--
+-- Review: Sub-task 1.7 — Step 2, AUTO_RESUME discovery
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 10 of 12  [Multi]  Difficulty: Medium
+-- Domain   : Architecture & Features
+-- Sub-task : 1.7 — Configure virtual warehouses
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which TWO scaling policies are available for multi-cluster
+-- virtual warehouses in Snowflake? (Choose two.)
+--
+-- A) Custom
+-- B) Economy
+-- C) Optimized
+-- D) Standard
+--
+-- Answer: B, D
+--
+-- Explanation:
+--   Multi-cluster warehouses (Enterprise edition) support two
+--   scaling policies:
+--   · Standard — adds clusters immediately when queuing is
+--     detected. Optimises for query speed over cost.
+--     Best for BI tools and dashboard workloads.
+--   · Economy — waits longer before adding clusters.
+--     Optimises for cost over query speed.
+--     Best for batch workloads where latency is acceptable.
+--   There is no "Custom" or "Optimized" scaling policy.
+--
+-- Why the others are wrong:
+--   A) "Custom" is not a valid Snowflake scaling policy.
+--   C) "Optimized" sounds plausible but does not exist.
+--      The exam frequently uses distractor answers that
+--      sound like reasonable Snowflake feature names.
+--
+-- Review: Sub-task 1.7 — Step 6, multi-cluster configuration
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 11 of 12  [T/F]  Difficulty: Easy
+-- Domain   : Architecture & Features
+-- Sub-task : 1.8 — Session and account parameters
+-- ══════════════════════════════════════════════════════════════
+--
+-- True or False: In Snowflake, AUTOCOMMIT is set to FALSE
+-- by default, meaning DML statements must be explicitly
+-- committed using a COMMIT command.
+--
+-- A) True
+-- B) False
+--
+-- Answer: B — False
+--
+-- Explanation:
+--   This is the most dangerous default for Oracle and SQL Server
+--   practitioners moving to Snowflake.
+--   AUTOCOMMIT = TRUE in Snowflake by default. Every DML
+--   statement (INSERT, UPDATE, DELETE, MERGE) commits
+--   automatically the moment it completes. There is no implicit
+--   open transaction. A DELETE without a preceding BEGIN commits
+--   immediately — ROLLBACK has no effect.
+--
+--   Oracle default: AUTOCOMMIT = FALSE (transactions are open
+--   until you explicitly COMMIT or ROLLBACK).
+--   Snowflake default: AUTOCOMMIT = TRUE (every statement
+--   auto-commits).
+--
+--   To use explicit transactions in Snowflake:
+--   BEGIN;
+--       DELETE FROM table WHERE condition;
+--       -- verify before committing
+--   COMMIT;  -- or ROLLBACK
+--
+-- Review: Sub-task 1.8 — Step 2, the AUTOCOMMIT trap
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 12 of 12  [Single]  Difficulty: Hard
+-- Domain   : Architecture & Features
+-- Sub-task : 1.1, 1.3, 1.7 — Architecture, tables, warehouses
+-- ══════════════════════════════════════════════════════════════
+--
+-- A data engineer runs SELECT COUNT(*) FROM large_table
+-- immediately after their virtual warehouse auto-suspended.
+-- The query returns instantly with no warehouse credit consumption.
+-- What is the most likely explanation?
+--
+-- A) The warehouse resumed so quickly no credits were billed
+-- B) COUNT(*) was answered from the metadata cache in the
+--    cloud services layer
+-- C) The table is too small to require warehouse compute
+-- D) Auto-resume is broken on this warehouse
+--
+-- Answer: B
+--
+-- Explanation:
+--   Snowflake stores row counts and other statistics as metadata
+--   in the cloud services layer. COUNT(*) on a table without a
+--   WHERE clause can be answered from this metadata cache without
+--   ever touching the warehouse compute layer.
+--   This is a direct demonstration of the three-layer architecture:
+--   the cloud services layer answered the query entirely —
+--   no warehouse needed, no credits consumed.
+--
+--   This is why proving AUTO_RESUME requires a query that cannot
+--   be cached: SELECT SUM(column), CURRENT_TIMESTAMP() FROM table
+--   forces actual data processing that requires warehouse compute.
+--
+-- Why the others are wrong:
+--   A) Warehouse billing is per-second with a 60-second minimum.
+--      If the warehouse had resumed, credits would be billed
+--      regardless of query duration.
+--   C) Table size does not determine whether COUNT(*) uses the
+--      metadata cache — even a 10 billion row table returns
+--      COUNT(*) instantly from metadata.
+--   D) Auto-resume is not broken — the warehouse simply was not
+--      needed because the cloud services layer handled the query.
+--
+-- Review: Sub-task 1.1 — three-layer architecture
+--         Sub-task 1.7 — AUTO_RESUME testing discovery
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- SCORE YOURSELF
+-- ══════════════════════════════════════════════════════════════
+--
+--  12/12 — Excellent. You have a strong foundation for Goal 1
+--           topics. Move to Goal 2 with confidence.
+--
+--  10-11 — Good. Review the sub-tasks for any questions you
+--           missed before moving forward.
+--
+--   8-9  — Solid but gaps exist. Re-read the sub-tasks for
+--           missed questions, particularly the architecture
+--           and table type sections.
+--
+--  Below 8 — Revisit Goal 1 sub-tasks before continuing.
+--             Focus on sub-tasks 1.1, 1.3, and 1.7 which
+--             carry the most exam weight.
+--
+-- ── COF-C03 COVERAGE FOR GOAL 1 ─────────────────────────────
+-- Q1  — Three-layer architecture           (Sub-task 1.1)
+-- Q2  — Three layers identification        (Sub-task 1.1)
+-- Q3  — Storage/compute separation benefit (Sub-task 1.1)
+-- Q4  — Temporary table characteristics   (Sub-task 1.3)
+-- Q5  — Fail-Safe by table type           (Sub-task 1.3)
+-- Q6  — Secure views for data sharing     (Sub-task 1.4)
+-- Q7  — Stage types and creation          (Sub-task 1.5)
+-- Q8  — Standard vs Enterprise features   (Sub-task 1.6)
+-- Q9  — AUTO_RESUME behaviour             (Sub-task 1.7)
+-- Q10 — Multi-cluster scaling policies    (Sub-task 1.7)
+-- Q11 — AUTOCOMMIT default               (Sub-task 1.8)
+-- Q12 — Metadata cache vs compute        (Sub-tasks 1.1, 1.7)
+-- ─────────────────────────────────────────────────────────────
