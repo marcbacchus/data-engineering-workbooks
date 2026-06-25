@@ -186,6 +186,10 @@ FROM TABLE(RESULT_SCAN(LAST_QUERY_ID()))
 -- element is a review object with nested product and metadata.
 -- Used in Sub-task 2.5 (semi-structured data).
 
+-- STRIP_OUTER_ARRAY = TRUE  → file is a JSON array  [ {...}, {...} ]
+-- STRIP_OUTER_ARRAY = FALSE → file is NDJSON (Newline Delimited JSON)        {...}\n{...}
+
+
 CREATE OR REPLACE FILE FORMAT ECOMMERCE.RAW.JSON_FORMAT
     TYPE                = JSON
     STRIP_OUTER_ARRAY   = TRUE    -- file is a JSON array — strip the outer []

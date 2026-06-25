@@ -87,77 +87,194 @@ LIST @ECOMMERCE.RAW.ECOMMERCE_RAW_STAGE
 -- ══════════════════════════════════════════════════════════════
 
 -- ══════════════════════════════════════════════════════════════
--- STEP 1: Explore VARIANT using Snowflake sample data
+-- STEP 1: Build a VARIANT demo table inline
 -- ══════════════════════════════════════════════════════════════
--- Before loading our own JSON, let's explore VARIANT querying
--- using Snowflake's built-in weather dataset which already
--- has a VARIANT column — no loading required.
+-- Before loading our own JSON, we explore VARIANT querying
+-- using a small self-contained demo table built with PARSE_JSON.
+-- This is self-contained — no external schemas required.
+-- The structure mirrors real-world nested JSON: a city object
+-- with nested coordinates and an array of daily weather data.
 
--- Check what semi-structured sample data is available
-SHOW SCHEMAS IN DATABASE SNOWFLAKE_SAMPLE_DATA;
-
--- The WEATHER schema has real semi-structured data
-SELECT *
-FROM SNOWFLAKE_SAMPLE_DATA.WEATHER.DAILY_14_TOTAL
-LIMIT 3
+CREATE OR REPLACE TEMPORARY TABLE VARIANT_DEMO AS
+SELECT PARSE_JSON(column1) AS v
+FROM VALUES
+('{
+    "city": {
+        "name": "New York",
+        "country": "US",
+        "coord": {"lat": 40.71, "lon": -74.01}
+    },
+    "data": [
+        {"temp": {"day": 22.5, "min": 18.0, "max": 26.0},
+         "weather": [{"main": "Clear"}]},
+        {"temp": {"day": 19.0, "min": 15.5, "max": 23.0},
+         "weather": [{"main": "Clouds"}]},
+        {"temp": {"day": 17.0, "min": 13.0, "max": 21.0},
+         "weather": [{"main": "Rain"}]}
+    ]
+}'),
+('{
+    "city": {
+        "name": "London",
+        "country": "UK",
+        "coord": {"lat": 51.51, "lon": -0.13}
+    },
+    "data": [
+        {"temp": {"day": 15.0, "min": 11.0, "max": 18.0},
+         "weather": [{"main": "Rain"}]},
+        {"temp": {"day": 14.0, "min": 10.0, "max": 17.0},
+         "weather": [{"main": "Clouds"}]},
+        {"temp": {"day": 16.0, "min": 12.0, "max": 19.0},
+         "weather": [{"main": "Clear"}]}
+    ]
+}'),
+('{
+    "city": {
+        "name": "Tokyo",
+        "country": "JP",
+        "coord": {"lat": 35.69, "lon": 139.69}
+    },
+    "data": [
+        {"temp": {"day": 28.0, "min": 24.0, "max": 32.0},
+         "weather": [{"main": "Clear"}]},
+        {"temp": {"day": 30.0, "min": 25.0, "max": 34.0},
+         "weather": [{"main": "Clear"}]},
+        {"temp": {"day": 26.0, "min": 22.0, "max": 29.0},
+         "weather": [{"main": "Clouds"}]}
+    ]
+}')
+t
 ;
--- You will see a V column of type VARIANT containing
--- nested weather observation data as JSON objects.
 
--- ── Dot notation — access a top-level field ───────────────────
+-- Preview the raw VARIANT data
+SELECT v FROM VARIANT_DEMO;
+-- Each row shows a complete JSON object.
+-- This is exactly how our product_reviews.json will look
+-- after loading into a VARIANT column.
+
+-- ── First: query WITHOUT casting — see what VARIANT returns ───
+-- This shows why type casting is always needed with VARIANT.
 SELECT
-    V:city::VARCHAR                 AS city_name,
-    V:country::VARCHAR              AS country,
-    V:time::TIMESTAMP_NTZ           AS observation_time
-FROM SNOWFLAKE_SAMPLE_DATA.WEATHER.DAILY_14_TOTAL
-LIMIT 10
+    v:city.name             AS city_name,        -- returns VARIANT
+    v:city.country          AS country,           -- returns VARIANT
+    v:city.coord            AS lat_lon_json,      -- returns VARIANT object
+    v:city.coord.lat        AS latitude,          -- returns VARIANT
+    v:city.coord.lon        AS longitude          -- returns VARIANT
+FROM VARIANT_DEMO
 ;
+-- Every column returns as VARIANT (shown in quotes in results).
+-- "New York" not New York — values are JSON-encoded strings.
+-- You cannot do arithmetic on VARIANT — try adding 1 to latitude.
+-- This is why ::type casting is required for real use.
 
--- ── Nested field access ───────────────────────────────────────
+-- ── Now with casting — proper SQL types ───────────────────────
 SELECT
-    V:city.name::VARCHAR            AS city_name,
-    V:city.country::VARCHAR         AS country,
-    V:city.coord.lat::FLOAT         AS latitude,
-    V:city.coord.lon::FLOAT         AS longitude
-FROM SNOWFLAKE_SAMPLE_DATA.WEATHER.DAILY_14_TOTAL
-LIMIT 10
+    v:city.name::VARCHAR            AS city_name,
+    v:city.country::VARCHAR         AS country,
+    v:city.coord                    AS lat_lon_json,   -- keep as VARIANT to see structure
+    v:city.coord.lat::FLOAT         AS latitude,
+    v:city.coord.lon::FLOAT         AS longitude
+FROM VARIANT_DEMO
 ;
+-- Now values are proper SQL types:
+-- city_name = New York (VARCHAR, no quotes)
+-- latitude  = 40.71    (FLOAT, usable in arithmetic)
+-- lat_lon_json shows the nested object as VARIANT — useful
+-- to see the full structure before drilling into sub-fields
 
--- ── Access array elements ─────────────────────────────────────
--- The data field contains an array of daily observations
+-- Note the chaining: v:city.coord.lat
+-- v        → the VARIANT column
+-- :city    → access the city object
+-- .coord   → access the coord nested object
+-- .lat     → access the lat field
+-- ::FLOAT  → cast to FLOAT for arithmetic
+
+-- ── Access array elements by index ───────────────────────────
+-- Square bracket notation accesses array elements by position
+-- [0] = first element, [1] = second, etc.
 SELECT
-    V:city.name::VARCHAR            AS city_name,
-    V:data[0]:temp.day::FLOAT       AS day0_temp,
-    V:data[1]:temp.day::FLOAT       AS day1_temp,
-    V:data[2]:temp.day::FLOAT       AS day2_temp
-FROM SNOWFLAKE_SAMPLE_DATA.WEATHER.DAILY_14_TOTAL
-LIMIT 5
+    v:city.name::VARCHAR            AS city_name,
+    v:data[0].temp.day::FLOAT       AS day1_temp,
+    v:data[1].temp.day::FLOAT       AS day2_temp,
+    v:data[2].temp.day::FLOAT       AS day3_temp,
+    v:data[0].weather[0].main::VARCHAR AS day1_condition
+FROM VARIANT_DEMO
 ;
+-- Without casting (::type) values are returned as VARIANT.
+-- Always cast to the expected SQL type for calculations.
 
--- ── FLATTEN — expand array into rows ──────────────────────────
--- Each city has multiple days of data in an array.
--- FLATTEN turns that array into one row per day.
+-- ══════════════════════════════════════════════════════════════
+-- STEP 2: FLATTEN — expand arrays into rows
+-- ══════════════════════════════════════════════════════════════
+-- LATERAL FLATTEN is the most important semi-structured function
+-- in Snowflake. It turns one row with an array into multiple
+-- rows — one row per array element.
+-- Use it whenever you need to aggregate or filter on array data.
+
+-- ── First: query the array WITHOUT FLATTEN ────────────────────
+-- This shows the problem FLATTEN solves.
+-- Each city has 3 days of weather data in an array.
+-- Without FLATTEN you can only access one element at a time.
+
 SELECT
-    V:city.name::VARCHAR            AS city_name,
-    f.value:dt::TIMESTAMP_NTZ       AS forecast_date,
+    v:city.name::VARCHAR            AS city_name,
+    v:data                          AS all_days_as_variant,  -- entire array as one value
+    v:data[0].temp.day::FLOAT       AS day1_temp,            -- must hardcode index
+    v:data[1].temp.day::FLOAT       AS day2_temp,            -- and again
+    v:data[2].temp.day::FLOAT       AS day3_temp             -- and again
+FROM VARIANT_DEMO
+WHERE v:city.name::VARCHAR = 'New York'   -- one row for clarity
+;
+-- Problems with this approach:
+--   · You must hardcode every array index
+--   · If the array has 14 elements you need 14 columns
+--   · You cannot GROUP BY, filter, or aggregate across array elements
+--   · all_days_as_variant shows the entire array as one opaque value
+
+-- ── Now: use FLATTEN on that same one row ─────────────────────
+-- FLATTEN turns the array into one row per element.
+-- Three days of data become three rows.
+
+SELECT
+    v:city.name::VARCHAR            AS city_name,
+    f.index                         AS day_number,
     f.value:temp.day::FLOAT         AS temp_day,
     f.value:temp.min::FLOAT         AS temp_min,
     f.value:temp.max::FLOAT         AS temp_max,
     f.value:weather[0].main::VARCHAR AS weather_condition
-FROM SNOWFLAKE_SAMPLE_DATA.WEATHER.DAILY_14_TOTAL,
-    LATERAL FLATTEN(INPUT => V:data) f
-LIMIT 20
+FROM VARIANT_DEMO,
+    LATERAL FLATTEN(INPUT => v:data) f
+WHERE v:city.name::VARCHAR = 'New York'
 ;
--- LATERAL FLATTEN creates one row per array element.
--- f.value gives you the content of each element.
--- This is the core technique for querying JSON arrays.
+-- 3 rows returned — one per array element.
+-- f.value  → content of each element
+-- f.index  → position in the array (0-based)
+-- Now you can filter, aggregate, and JOIN on array data.
 
--- ══════════════════════════════════════════════════════════════
--- STEP 2: PARSE_JSON — build VARIANT from a string
--- ══════════════════════════════════════════════════════════════
--- PARSE_JSON converts a JSON string into a queryable VARIANT.
+-- ── Now apply FLATTEN to ALL cities ───────────────────────────
+-- Remove the WHERE clause — 3 cities × 3 days = 9 rows.
+SELECT
+    v:city.name::VARCHAR            AS city_name,
+    f.index                         AS day_number,
+    f.value:temp.day::FLOAT         AS temp_day,
+    f.value:weather[0].main::VARCHAR AS weather_condition
+FROM VARIANT_DEMO,
+    LATERAL FLATTEN(INPUT => v:data) f
+ORDER BY city_name, day_number
+;
+
+-- Find the hottest day across all cities — only possible with FLATTEN
+SELECT
+    v:city.name::VARCHAR            AS city_name,
+    MAX(f.value:temp.max::FLOAT)    AS max_temp_recorded
+FROM VARIANT_DEMO,
+    LATERAL FLATTEN(INPUT => v:data) f
+GROUP BY v:city.name::VARCHAR
+ORDER BY max_temp_recorded DESC
+;
+
+-- ── PARSE_JSON — convert a string to VARIANT ─────────────────
 -- Useful when JSON arrives as VARCHAR from a source system.
-
 SELECT
     PARSE_JSON('{"review_id": 1, "rating": 5, "text": "Excellent!"}')
                                     AS parsed_json,
@@ -167,12 +284,13 @@ SELECT
                                     AS review_text
 ;
 
--- PARSE_JSON with an array
+-- PARSE_JSON with an array — FLATTEN into rows
 SELECT
     f.value::VARCHAR                AS tag
 FROM TABLE(FLATTEN(INPUT => PARSE_JSON('["electronics", "review", "rating_5"]'))) f
 ;
 -- Returns 3 rows — one per array element.
+-- This is the same technique used on metadata.tags in our JSON file.
 
 -- ══════════════════════════════════════════════════════════════
 -- PART B: LOAD AND QUERY THE JSON FILE
@@ -181,15 +299,28 @@ FROM TABLE(FLATTEN(INPUT => PARSE_JSON('["electronics", "review", "rating_5"]'))
 -- ══════════════════════════════════════════════════════════════
 -- STEP 3: Preview the JSON file from the stage
 -- ══════════════════════════════════════════════════════════════
--- Each row in the stage returns one complete JSON object
--- as a VARIANT in $1.
+-- ── First: SELECT * to see the raw stage output ───────────────
+SELECT *
+FROM @ECOMMERCE.RAW.ECOMMERCE_RAW_STAGE/product_reviews.json
+    (FILE_FORMAT => 'ECOMMERCE.RAW.JSON_FORMAT')
+LIMIT 3
+;
+-- Returns one column called $1 containing the entire JSON object.
+-- This shows that JSON files load as a single VARIANT column —
+-- there are no separate columns like a CSV would have.
+-- The entire JSON object lands in $1 as one value.
 
+-- ── Then: SELECT $1 explicitly ────────────────────────────────
+-- $1 is the positional reference to the first (and only) column.
+-- For JSON files $1 and * return the same result —
+-- but $1 makes it explicit that you are working with
+-- a single VARIANT value, not a table with multiple columns.
 SELECT $1
 FROM @ECOMMERCE.RAW.ECOMMERCE_RAW_STAGE/product_reviews.json
     (FILE_FORMAT => 'ECOMMERCE.RAW.JSON_FORMAT')
 LIMIT 3
 ;
--- Each row shows one review as a complete JSON object.
+-- Each row is one complete JSON review object.
 -- You can see the nested product object and metadata.tags array.
 -- This confirms JSON_FORMAT is parsing correctly before loading.
 
@@ -232,10 +363,16 @@ SELECT
     review_data:rating::INTEGER         AS rating,
     review_data:review_text::VARCHAR    AS review_text,
     review_data:is_verified::BOOLEAN    AS is_verified,
-    review_data:created_at::TIMESTAMP_NTZ AS created_at
+    review_data:created_at::TIMESTAMP_NTZ AS created_at,
+    review_data:product                 AS product_json   -- raw VARIANT — no cast
 FROM ECOMMERCE.RAW.PRODUCT_REVIEWS_JSON
 LIMIT 10
 ;
+-- product_json shows the entire nested product object as VARIANT.
+-- Compare to the individual fields extracted in Step 6 using
+-- dot notation — same data, different access pattern.
+-- Seeing the raw VARIANT helps you understand what dot notation
+-- is drilling into.
 
 -- ══════════════════════════════════════════════════════════════
 -- STEP 6: Query nested objects using dot notation
@@ -270,6 +407,20 @@ ORDER BY avg_rating DESC
 -- The metadata.tags field is an array of strings.
 -- FLATTEN expands it — one row per tag per review.
 
+-- ── Without FLATTEN — the problem ────────────────────────────
+-- The tags field is an array. Without FLATTEN you can only
+-- access one tag at a time by index.
+SELECT
+    review_data:review_id::INTEGER          AS review_id,
+    review_data:metadata.tags               AS all_tags_as_variant,
+    review_data:metadata.tags[0]::VARCHAR   AS first_tag_only
+FROM ECOMMERCE.RAW.PRODUCT_REVIEWS_JSON
+LIMIT 1
+;
+-- all_tags_as_variant shows the entire array as one opaque value.
+-- You cannot filter, count, or aggregate across tags this way.
+
+-- ── With FLATTEN — one row per tag ───────────────────────────
 SELECT
     review_data:review_id::INTEGER          AS review_id,
     review_data:rating::INTEGER             AS rating,
@@ -312,6 +463,7 @@ JOIN ECOMMERCE.RAW.CUSTOMERS c
 WHERE r.review_data:rating::INTEGER = 1
 LIMIT 10
 ;
+
 -- Joining VARIANT fields to structured tables is seamless.
 -- Cast the VARIANT field to the correct type for the JOIN.
 
@@ -325,7 +477,7 @@ LIMIT 10
 -- Parquet files return as a single VARIANT per row
 -- containing all columns as key-value pairs.
 
-SELECT $1
+SELECT $1 -- instead of select * 
 FROM @ECOMMERCE.RAW.ECOMMERCE_RAW_STAGE/product_reviews.parquet
     (FILE_FORMAT => 'ECOMMERCE.RAW.PARQUET_FORMAT')
 LIMIT 3
@@ -337,12 +489,13 @@ LIMIT 3
 --   Parquet: types are strongly typed from embedded schema
 
 -- ══════════════════════════════════════════════════════════════
--- STEP 10: Load Parquet using MATCH_BY_COLUMN_NAME
+-- STEP 10: Load Parquet — encounter, diagnose, and fix a
+--          real-world timestamp issue
+--          Run in: Snowsight
 -- ══════════════════════════════════════════════════════════════
--- Parquet files have an embedded schema with column names.
--- MATCH_BY_COLUMN_NAME maps Parquet columns to table columns
--- by name rather than by position — safer and more readable.
--- This is the recommended approach for Parquet loading.
+-- This step deliberately shows a common Parquet loading problem
+-- and walks through the diagnosis and fix.
+-- This is the pattern you will use in production.
 
 CREATE OR REPLACE TABLE ECOMMERCE.RAW.PRODUCT_REVIEWS_PARQUET (
     review_id       INTEGER,
@@ -361,35 +514,116 @@ CREATE OR REPLACE TABLE ECOMMERCE.RAW.PRODUCT_REVIEWS_PARQUET (
 COMMENT = 'Product reviews loaded from Parquet — 10,000 rows'
 ;
 
+-- ── ATTEMPT 1: Load with MATCH_BY_COLUMN_NAME ─────────────────
+-- The natural first attempt — let Snowflake match columns by name.
 COPY INTO ECOMMERCE.RAW.PRODUCT_REVIEWS_PARQUET
 FROM @ECOMMERCE.RAW.ECOMMERCE_RAW_STAGE/product_reviews.parquet
-    FILE_FORMAT         = (FORMAT_NAME = 'ECOMMERCE.RAW.PARQUET_FORMAT')
+    FILE_FORMAT          = (FORMAT_NAME = 'ECOMMERCE.RAW.PARQUET_FORMAT')
     MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE
-    ON_ERROR            = ABORT_STATEMENT
+    ON_ERROR             = ABORT_STATEMENT
 ;
--- MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE means:
--- Parquet column 'review_id' → table column 'REVIEW_ID'
--- No need to specify column order — names do the mapping.
--- This is robust against column reordering in the source file.
 
-SELECT COUNT(*) AS row_count FROM ECOMMERCE.RAW.PRODUCT_REVIEWS_PARQUET;
--- Expected: 10,000
-
--- Query the Parquet table — behaves like any structured table
+-- Check the result
 SELECT
     review_id,
     product_name,
-    category,
     rating,
-    review_text,
+    created_at              -- this column will show Invalid date
+FROM ECOMMERCE.RAW.PRODUCT_REVIEWS_PARQUET
+LIMIT 5
+;
+-- created_at = Invalid date
+-- The load succeeded but timestamps are wrong.
+-- This is a silent data quality issue — no error was thrown.
+-- Always verify your data after loading, not just the row count.
+
+-- ── DIAGNOSE: What is in the raw Parquet file? ────────────────
+-- Query the stage directly to see the raw value.
+SELECT
+    $1:created_at                           AS raw_value,
+    $1:review_id::INTEGER                   AS review_id
+FROM @ECOMMERCE.RAW.ECOMMERCE_RAW_STAGE/product_reviews.parquet
+    (FILE_FORMAT => 'ECOMMERCE.RAW.PARQUET_FORMAT')
+LIMIT 5
+;
+-- raw_value = 1617398772000000
+-- This is a microseconds-since-epoch integer —
+-- a common Parquet timestamp encoding from pandas/PyArrow.
+-- Snowflake loaded it as-is into TIMESTAMP_NTZ which
+-- cannot interpret epoch integers without help.
+
+-- ── UNDERSTAND: Convert microseconds to timestamp ─────────────
+-- TO_TIMESTAMP(value, scale) converts epoch integers:
+--   scale = 0 → seconds since epoch
+--   scale = 3 → milliseconds since epoch
+--   scale = 6 → microseconds since epoch  ← our case
+--   scale = 9 → nanoseconds since epoch
+--
+-- Verify the conversion is correct before reloading:
+SELECT
+    $1:created_at                               AS raw_epoch,
+    TO_TIMESTAMP($1:created_at::INTEGER, 6)     AS converted_timestamp
+FROM @ECOMMERCE.RAW.ECOMMERCE_RAW_STAGE/product_reviews.parquet
+    (FILE_FORMAT => 'ECOMMERCE.RAW.PARQUET_FORMAT')
+LIMIT 5
+;
+-- raw_epoch          = 1617398772000000
+-- converted_timestamp = 2021-04-02 21:26:12
+-- Confirm this looks like a realistic review timestamp
+-- before committing to reloading all 10,000 rows.
+
+-- ── FIX: Truncate and reload with SELECT transformation ───────
+-- TRUNCATE removes all rows but keeps the table structure.
+-- Cleaner than DROP + CREATE when you just need to reload data.
+TRUNCATE TABLE ECOMMERCE.RAW.PRODUCT_REVIEWS_PARQUET;
+
+SELECT COUNT(*) AS row_count FROM ECOMMERCE.RAW.PRODUCT_REVIEWS_PARQUET;
+-- Expected: 0 — table is empty, ready for clean reload
+
+-- Reload with full column transformation
+-- FORCE = TRUE bypasses load deduplication since the file
+-- was already loaded in Attempt 1
+COPY INTO ECOMMERCE.RAW.PRODUCT_REVIEWS_PARQUET
+FROM (
+    SELECT
+        $1:review_id::INTEGER,
+        $1:product_id::INTEGER,
+        $1:customer_id::INTEGER,
+        $1:order_id::INTEGER,
+        $1:rating::INTEGER,
+        $1:review_text::VARCHAR,
+        $1:is_verified::BOOLEAN,
+        $1:helpful_votes::INTEGER,
+        TO_TIMESTAMP($1:created_at::INTEGER, 6),    -- microseconds → TIMESTAMP_NTZ
+        $1:product_name::VARCHAR,
+        $1:category::VARCHAR,
+        $1:subcategory::VARCHAR
+    FROM @ECOMMERCE.RAW.ECOMMERCE_RAW_STAGE/product_reviews.parquet
+)
+FILE_FORMAT = (FORMAT_NAME = 'ECOMMERCE.RAW.PARQUET_FORMAT')
+FORCE       = TRUE
+;
+-- When using SELECT transformation in COPY INTO:
+--   · MATCH_BY_COLUMN_NAME is NOT used
+--   · Columns map positionally — order must match CREATE TABLE
+--   · Every column must be explicitly listed — no * shortcut
+--   · This gives you complete control over type casting
+
+-- ── VERIFY: Confirm the fix ───────────────────────────────────
+SELECT COUNT(*) AS row_count FROM ECOMMERCE.RAW.PRODUCT_REVIEWS_PARQUET;
+-- Expected: 10,000
+
+SELECT
+    review_id,
+    product_name,
+    rating,
     created_at
 FROM ECOMMERCE.RAW.PRODUCT_REVIEWS_PARQUET
-LIMIT 10
+LIMIT 5
 ;
--- No dot notation needed — Parquet loaded into typed columns.
--- This is the key difference from JSON loading:
---   JSON   → VARIANT column, dot-notation to query
---   Parquet → typed columns, standard SQL to query
+-- created_at should now show readable timestamps
+-- e.g. 2021-04-02 21:26:12.000
+-- Problem diagnosed, understood, and fixed.
 
 -- ══════════════════════════════════════════════════════════════
 -- PART D: COMPARE ALL THREE FORMATS

@@ -47,6 +47,19 @@ By the end of this workbook you will have:
 | [08](goal-08-recovery/) | Recover from mistakes | Time Travel, Fail-Safe, zero-copy cloning, replication | ~1–2 hrs |
 | [09](goal-09-monitoring/) | Monitor and manage costs | INFORMATION_SCHEMA, ACCOUNT_USAGE, SHOW commands, resource monitors | ~1–2 hrs |
 
+## Exam Preparation
+
+Each goal includes a dedicated exam preparation file as the final sub-task. These files contain 10-15 COF-C03 aligned practice questions with full explanations, wrong answer breakdowns, and direct references back to the sub-task where each concept was covered.
+
+| Goal | Exam Prep File | Questions |
+|---|---|---|
+| Goal 1 | [09_exam_prep.sql](goal-01-environment-setup/09_exam_prep.sql) | 12 |
+| Goal 2 | 10_exam_prep.sql | Coming soon |
+| ... | ... | ... |
+
+Questions are original — written specifically for this workbook using the COF-C03 exam objectives as a guide. They are not reproduced from any third-party source.
+
+**How to use:** Complete all sub-tasks in a goal before attempting the exam prep. Read each question and choose your answer before reading the explanation. If you get a question wrong, go back to the referenced sub-task before continuing.
 ---
 
 ## Dataset
