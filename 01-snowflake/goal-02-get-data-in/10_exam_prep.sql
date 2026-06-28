@@ -1,0 +1,578 @@
+-- ══════════════════════════════════════════════════════════════
+-- SNOWFLAKE ENGINEERING WORKBOOK
+-- Goal 2 : Get Data In
+-- Sub-task 2.10 : Exam preparation — COF-C03 practice questions
+-- ──────────────────────────────────────────────────────────────
+-- Time to complete : ~35 minutes
+-- Run in           : Read only — no SQL to execute
+-- Prerequisites    : All Goal 2 sub-tasks complete (2.1 — 2.9)
+-- COF-C03 domains  : Domain 4 — Data Loading & Unloading (15%)
+--                    Domain 5 — Data Transformations (17%)
+-- ══════════════════════════════════════════════════════════════
+--
+-- HOW TO USE THIS FILE
+--   Read each question and choose your answer before reading
+--   the explanation. The learning happens in the moment of
+--   choosing, not in reading the answer passively.
+--
+--   Each question references the sub-task where the concept
+--   was covered. If you get a question wrong, go back to that
+--   sub-task before continuing.
+--
+--   Question types:
+--   [Single]  — one correct answer
+--   [Multi]   — two or more correct answers (stated in question)
+--   [T/F]     — True or False
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 1 of 14  [Multi]  Difficulty: Medium
+-- Domain   : Data Loading & Unloading
+-- Sub-task : 2.2 — Stage files for loading
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which TWO statements are true about the PUT command
+-- in Snowflake? (Choose two.)
+--
+-- A) PUT can be executed from the Snowsight web UI
+-- B) PUT automatically compresses files during upload
+--    unless AUTO_COMPRESS = FALSE is specified
+-- C) PUT can upload files to external stages (S3, Azure, GCS)
+-- D) PUT uploads files from your local machine to a Snowflake stage
+--    and runs from SnowSQL or a Snowflake connector
+--
+-- Answer: B, D
+--
+-- Explanation:
+--   PUT is the command to upload local files to a Snowflake stage.
+--   It runs from SnowSQL or programmatic connectors — NOT from
+--   the Snowsight web UI. By default it compresses files during
+--   upload (GZIP). Use AUTO_COMPRESS = FALSE to upload as-is.
+--
+-- Why the others are wrong:
+--   A) PUT cannot be executed from Snowsight — only from SnowSQL
+--      or a programmatic connector (Python, Java, etc.).
+--   C) PUT only works with internal stages (user, table, or named
+--      internal). For external stages (S3/Azure/GCS) you upload
+--      files directly to cloud storage using cloud tools —
+--      no PUT command involved.
+--
+-- Review: Sub-task 2.2 — Step 2, SnowSQL connection and PUT syntax
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 2 of 14  [Multi]  Difficulty: Medium
+-- Domain   : Data Loading & Unloading
+-- Sub-task : 2.2 — Stage files for loading
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which THREE of the following are valid internal stage types
+-- in Snowflake? (Choose three.)
+--
+-- A) User stage
+-- B) Schema stage
+-- C) Table stage
+-- D) Named internal stage
+-- E) Database stage
+--
+-- Answer: A, C, D
+--
+-- Explanation:
+--   Snowflake has three internal stage types:
+--   · User stage (@~)        — personal, automatic, not shareable
+--   · Table stage (@%table)  — per-table, automatic, not shareable
+--   · Named internal stage   — explicit CREATE, shareable, recommended
+--   There are no schema-level or database-level stages.
+--
+-- Why the others are wrong:
+--   B) Schema stage does not exist. Stages live within schemas
+--      but there is no automatic "schema stage" object.
+--   E) Database stage does not exist. The object hierarchy is
+--      account → database → schema → stage (named only).
+--
+-- Review: Sub-task 2.2 — CONCEPT section, stage types
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 3 of 14  [T/F]  Difficulty: Easy
+-- Domain   : Data Loading & Unloading
+-- Sub-task : 2.3 — Load data with COPY INTO
+-- ══════════════════════════════════════════════════════════════
+--
+-- True or False: The COPY INTO command must specify a FILE FORMAT
+-- in order to execute successfully.
+--
+-- A) True
+-- B) False
+--
+-- Answer: B — False
+--
+-- Explanation:
+--   FILE FORMAT is optional in COPY INTO. If omitted, Snowflake
+--   uses default format options (CSV with default settings).
+--   However, best practice is always to specify a named file
+--   format object — this ensures consistent parsing, makes
+--   options explicit, and makes the load reproducible.
+--   Omitting FILE FORMAT works but is fragile in production.
+--
+-- Review: Sub-task 2.1 — Step 7, named vs inline format options
+--         Sub-task 2.3 — all COPY INTO statements use FORMAT_NAME
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 4 of 14  [Multi]  Difficulty: Medium
+-- Domain   : Data Loading & Unloading
+-- Sub-task : 2.3 — Load data with COPY INTO
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which THREE statements are true about COPY INTO in Snowflake?
+-- (Choose three.)
+--
+-- A) COPY INTO loads files from a stage into a table
+-- B) COPY INTO can also unload data FROM a table TO a stage
+-- C) COPY INTO automatically deduplicates rows in the target table
+-- D) By default COPY INTO skips files that have already been loaded
+-- E) COPY INTO requires a running virtual warehouse
+--
+-- Answer: A, B, D
+--
+-- Explanation:
+--   COPY INTO is bidirectional:
+--   · COPY INTO <table> FROM @stage  — loads files into a table
+--   · COPY INTO @stage FROM <table>  — unloads data to files
+--   Snowflake tracks load history per table. Files already loaded
+--   are skipped by default (load deduplication) — use FORCE=TRUE
+--   to override. This prevents accidental duplicate loads.
+--
+-- Why the others are wrong:
+--   C) COPY INTO does not deduplicate rows within the data —
+--      it deduplicates FILES (skips already-loaded files).
+--      If the same row appears in different files, both rows load.
+--   E) COPY INTO does require a virtual warehouse for the compute
+--      — HOWEVER, Snowpipe uses serverless compute and does NOT
+--      require a user-managed warehouse. For regular COPY INTO
+--      you need a running warehouse.
+--      (Note: E is partially true for COPY INTO but false for
+--      Snowpipe which is the common exam gotcha here.)
+--
+-- Review: Sub-task 2.3 — Step 12, load deduplication
+--         Sub-task 2.7 — Step 1, COPY INTO <stage> for unloading
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 5 of 14  [Multi]  Difficulty: Medium
+-- Domain   : Data Loading & Unloading
+-- Sub-task : 2.4 — Handle load errors
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which TWO statements are true about VALIDATION_MODE
+-- in Snowflake? (Choose two.)
+--
+-- A) VALIDATION_MODE loads data into the target table
+--    while simultaneously checking for errors
+-- B) VALIDATION_MODE = RETURN_ERRORS returns all errors
+--    found in the file without loading any data
+-- C) VALIDATION_MODE can only be used with CSV files
+-- D) VALIDATION_MODE = RETURN_ALL_ERRORS returns errors
+--    across all files when loading multiple files at once
+--
+-- Answer: B, D
+--
+-- Explanation:
+--   VALIDATION_MODE is a dry-run parameter — it checks files
+--   against the table definition and file format WITHOUT loading
+--   any data. Two modes:
+--   · RETURN_ERRORS      — errors from the first file with errors
+--   · RETURN_ALL_ERRORS  — errors from ALL files being loaded
+--   Use RETURN_ALL_ERRORS before every production load to get
+--   a complete picture of data quality issues upfront.
+--
+-- Why the others are wrong:
+--   A) VALIDATION_MODE never loads data — it is purely a check.
+--      No rows reach the table regardless of what it finds.
+--   C) VALIDATION_MODE works with all file formats supported
+--      by COPY INTO — CSV, JSON, Parquet, Avro, ORC, XML.
+--
+-- Review: Sub-task 2.4 — Steps 2 and 3, VALIDATION_MODE
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 6 of 14  [Single]  Difficulty: Medium
+-- Domain   : Data Loading & Unloading
+-- Sub-task : 2.4 — Handle load errors
+-- ══════════════════════════════════════════════════════════════
+--
+-- A COPY INTO statement uses ON_ERROR = CONTINUE and loads
+-- a file with 1,000 rows where 3 rows have type errors.
+-- What is the result?
+--
+-- A) The load fails — all 1,000 rows are rejected
+-- B) 997 rows load successfully, 3 rows are skipped
+-- C) All 1,000 rows load — errors are ignored completely
+-- D) The load pauses and waits for manual intervention
+--
+-- Answer: B
+--
+-- Explanation:
+--   ON_ERROR = CONTINUE tells Snowflake to skip rows that fail
+--   and load everything else. The 3 bad rows are rejected and
+--   their details are available via VALIDATE() after the load.
+--   The remaining 997 valid rows load successfully.
+--   Always check ERROR_COUNT in LOAD_HISTORY after a CONTINUE
+--   load — a successful status does not mean zero errors.
+--
+-- Why the others are wrong:
+--   A) This is ON_ERROR = ABORT_STATEMENT behaviour — stops
+--      on the first error, loads nothing.
+--   C) Errors are not ignored — they are captured and available
+--      via VALIDATE(). The rows are skipped, not silently accepted.
+--   D) COPY INTO never pauses for manual intervention —
+--      it is a batch operation that runs to completion.
+--
+-- Review: Sub-task 2.4 — Step 5, ON_ERROR = CONTINUE
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 7 of 14  [Single]  Difficulty: Medium
+-- Domain   : Data Loading & Unloading
+-- Sub-task : 2.5 — Semi-structured data
+-- ══════════════════════════════════════════════════════════════
+--
+-- What is the recommended Snowflake data type for storing
+-- semi-structured data such as JSON, Avro, or Parquet?
+--
+-- A) VARCHAR
+-- B) OBJECT
+-- C) VARIANT
+-- D) ARRAY
+--
+-- Answer: C
+--
+-- Explanation:
+--   VARIANT is Snowflake's universal semi-structured data type.
+--   It can store any JSON, Avro, Parquet, ORC, or XML data
+--   up to 16MB per value. VARIANT is flexible — it does not
+--   require a fixed schema and can store nested objects and arrays.
+--   Use dot-notation (col:field::type) to access fields within
+--   a VARIANT column and FLATTEN to expand arrays into rows.
+--
+-- Why the others are wrong:
+--   A) VARCHAR stores plain text strings — not structured data.
+--      You could store JSON as a VARCHAR string but you could
+--      not use dot-notation or FLATTEN to query it. Use
+--      PARSE_JSON(varchar_col) to convert VARCHAR to VARIANT.
+--   B) OBJECT is a semi-structured type but is more restrictive
+--      than VARIANT — it stores key-value pairs but cannot hold
+--      primitive values or arrays at the top level.
+--   D) ARRAY stores ordered lists but cannot hold arbitrary
+--      nested structures. VARIANT encompasses both OBJECT and
+--      ARRAY — it is the correct answer for general semi-structured.
+--
+-- Review: Sub-task 2.5 — CONCEPT section, VARIANT data type
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 8 of 14  [T/F]  Difficulty: Easy
+-- Domain   : Data Loading & Unloading
+-- Sub-task : 2.5 — Semi-structured data
+-- ══════════════════════════════════════════════════════════════
+--
+-- True or False: Snowflake charges a premium for storing
+-- semi-structured data (VARIANT columns) compared to
+-- structured data (typed columns).
+--
+-- A) True
+-- B) False
+--
+-- Answer: B — False
+--
+-- Explanation:
+--   Snowflake does NOT charge a premium for semi-structured data.
+--   VARIANT columns are stored in Snowflake's columnar format
+--   just like typed columns — compressed and optimised.
+--   Storage costs are based on compressed data volume regardless
+--   of whether the data is structured or semi-structured.
+--   The exam tests this because it is a common misconception.
+--
+-- Review: Sub-task 2.5 — CONCEPT section, VARIANT data type
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 9 of 14  [T/F]  Difficulty: Medium
+-- Domain   : Data Loading & Unloading
+-- Sub-task : 2.5 — Semi-structured data
+-- ══════════════════════════════════════════════════════════════
+--
+-- True or False: It is possible to unload structured data
+-- from Snowflake to a semi-structured format such as JSON.
+--
+-- A) True
+-- B) False
+--
+-- Answer: A — True
+--
+-- Explanation:
+--   COPY INTO <stage> supports multiple output formats including
+--   JSON. To unload as JSON, use OBJECT_CONSTRUCT() to build
+--   a single VARIANT column from your typed columns, then
+--   specify FILE_FORMAT = (TYPE = JSON).
+--   The output is NDJSON — one JSON object per line.
+--   We demonstrated this in Sub-task 2.7 Step 3.
+--
+--   Important: Snowflake requires the SELECT in a JSON unload
+--   to return a single VARIANT or OBJECT column — you cannot
+--   select multiple typed columns directly into JSON format.
+--   OBJECT_CONSTRUCT() is the solution.
+--
+-- Review: Sub-task 2.7 — Step 3, unloading to JSON format
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 10 of 14  [Multi]  Difficulty: Medium
+-- Domain   : Data Loading & Unloading
+-- Sub-task : 2.6 — Snowpipe
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which TWO statements are true about Snowpipe via REST API?
+-- (Choose two.)
+--
+-- A) Snowpipe via REST API can only use external stages
+-- B) Snowpipe via REST API can use both internal and external stages
+-- C) Snowpipe via REST API uses serverless compute —
+--    not a user-managed virtual warehouse
+-- D) Snowpipe via REST API requires AUTO_INGEST = TRUE
+--
+-- Answer: B, C
+--
+-- Explanation:
+--   Snowpipe via REST API (AUTO_INGEST = FALSE) is flexible:
+--   · Works with both internal AND external stages
+--   · Uses Snowflake serverless compute — no warehouse credits
+--   · Your application calls the REST endpoint to trigger loads
+--   · Files are loaded within seconds to minutes of the API call
+--   The REST API approach works on any cloud provider without
+--   cloud event notification setup — that is its key advantage.
+--
+-- Why the others are wrong:
+--   A) REST API Snowpipe works with internal stages too —
+--      we demonstrated this in Sub-task 2.6 using our
+--      named internal stage ECOMMERCE_RAW_STAGE.
+--   D) AUTO_INGEST = TRUE is for cloud event notifications
+--      (S3 SQS, Azure Event Grid) — the OPPOSITE of REST API.
+--      REST API requires AUTO_INGEST = FALSE.
+--
+-- Review: Sub-task 2.6 — Step 4, AUTO_INGEST vs REST API
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 11 of 14  [T/F]  Difficulty: Easy
+-- Domain   : Data Loading & Unloading
+-- Sub-task : 2.6 — Snowpipe
+-- ══════════════════════════════════════════════════════════════
+--
+-- True or False: Pipes in Snowflake can be suspended and resumed
+-- without being dropped and recreated.
+--
+-- A) True
+-- B) False
+--
+-- Answer: A — True
+--
+-- Explanation:
+--   Pipes can be paused and resumed using:
+--   ALTER PIPE pipe_name SET PIPE_EXECUTION_PAUSED = TRUE;
+--   ALTER PIPE pipe_name SET PIPE_EXECUTION_PAUSED = FALSE;
+--
+--   Files that arrive while a pipe is paused are queued
+--   and loaded when the pipe resumes — within a 14-day window.
+--   After 14 days, queued files expire and must be manually
+--   reingested. Pausing is useful for maintenance windows
+--   without losing any arriving data.
+--
+--   Important: the syntax is SET PIPE_EXECUTION_PAUSED, NOT
+--   ALTER PIPE ... PAUSE — that syntax does not exist in Snowflake.
+--
+-- Review: Sub-task 2.6 — Step 7, pause and resume a pipe
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 12 of 14  [Single]  Difficulty: Medium
+-- Domain   : Data Loading & Unloading
+-- Sub-task : 2.6 — Snowpipe
+-- ══════════════════════════════════════════════════════════════
+--
+-- When a pipe is recreated using CREATE OR REPLACE PIPE,
+-- what happens to the pipe's load history?
+--
+-- A) Load history is preserved — already loaded files
+--    are still tracked and will not be reloaded
+-- B) Load history is reset — files previously loaded
+--    through the pipe will be loaded again
+-- C) The pipe is suspended automatically until manually resumed
+-- D) All staged files are automatically reloaded immediately
+--
+-- Answer: B
+--
+-- Explanation:
+--   CREATE OR REPLACE PIPE drops and recreates the pipe object.
+--   This resets the load history — Snowflake no longer remembers
+--   which files were previously loaded through this pipe.
+--   Any files matching the pipe's pattern will be reloaded,
+--   potentially causing duplicate data in the target table.
+--   Use ALTER PIPE to modify a pipe when you want to preserve
+--   load history. Only use CREATE OR REPLACE when you intentionally
+--   want to reset and reload — for example after fixing data issues.
+--
+-- Why the others are wrong:
+--   A) Load history is NOT preserved after CREATE OR REPLACE.
+--      This is the most important thing to know about pipe recreation.
+--   C) The pipe starts in its default state — not suspended.
+--   D) Files are not automatically reloaded immediately — Snowpipe
+--      still waits for a trigger (API call or event notification).
+--
+-- Review: Sub-task 2.6 — CONCEPT section, pipe management
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 13 of 14  [Single]  Difficulty: Hard
+-- Domain   : Data Loading & Unloading
+-- Sub-task : 2.3, 2.5, 2.9
+-- ══════════════════════════════════════════════════════════════
+--
+-- A data engineer needs to load a Parquet file where the
+-- timestamp column is stored as microseconds since epoch.
+-- Which approach correctly loads the timestamp into a
+-- TIMESTAMP_NTZ column?
+--
+-- A) Use MATCH_BY_COLUMN_NAME — Snowflake automatically converts
+--    epoch integers to timestamps
+-- B) Use COPY INTO with a SELECT transformation and
+--    TO_TIMESTAMP(col::INTEGER, 6) to convert the epoch value
+-- C) Set TIMESTAMP_FORMAT = 'EPOCH_MICROSECOND' in the Parquet
+--    file format object
+-- D) Load into a VARCHAR column and cast later using ALTER TABLE
+--
+-- Answer: B
+--
+-- Explanation:
+--   Parquet files from pandas/PyArrow store timestamps as
+--   microseconds since epoch (e.g. 1617398772000000).
+--   MATCH_BY_COLUMN_NAME loads this as-is — resulting in
+--   "Invalid date" in the TIMESTAMP_NTZ column.
+--   The correct fix: COPY INTO with a SELECT transformation:
+--
+--   COPY INTO table
+--   FROM (
+--       SELECT
+--           $1:other_col::VARCHAR,
+--           TO_TIMESTAMP($1:created_at::INTEGER, 6)
+--       FROM @stage/file.parquet
+--   )
+--   FILE_FORMAT = (FORMAT_NAME = 'parquet_format');
+--
+--   TO_TIMESTAMP(value, 6) converts microseconds to TIMESTAMP.
+--   Scale values: 0=seconds, 3=milliseconds, 6=microseconds, 9=nanoseconds
+--
+-- Why the others are wrong:
+--   A) MATCH_BY_COLUMN_NAME maps column names but cannot convert
+--      epoch integers to timestamps — this produces Invalid date.
+--   C) TIMESTAMP_FORMAT = 'EPOCH_MICROSECOND' does not exist
+--      as a valid Parquet format option in Snowflake.
+--   D) Loading into VARCHAR works but is an unnecessary extra step.
+--      The SELECT transformation handles it in one COPY INTO.
+--
+-- Review: Sub-task 2.5 — Step 10, Parquet timestamp diagnosis and fix
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 14 of 14  [Single]  Difficulty: Hard
+-- Domain   : Data Loading & Unloading + Data Transformations
+-- Sub-task : 2.9 — Schema evolution
+-- ══════════════════════════════════════════════════════════════
+--
+-- A production table is being queried continuously by a BI tool.
+-- A data engineer needs to replace it with a new version that
+-- has additional columns and updated data. What is the safest
+-- approach with zero query downtime?
+--
+-- A) DROP the old table and CREATE the new one
+-- B) TRUNCATE the old table and reload with the new schema
+-- C) Build the new table as a separate object, verify it,
+--    then use ALTER TABLE ... SWAP WITH to atomically replace it
+-- D) Use ALTER TABLE ADD COLUMN on the existing table
+--    and UPDATE the new columns in place
+--
+-- Answer: C
+--
+-- Explanation:
+--   ALTER TABLE ... SWAP WITH is an atomic operation — the two
+--   tables exchange names instantaneously. Any query hitting
+--   the old table name after the swap immediately sees the new
+--   table's data and schema. There is zero downtime window.
+--
+--   The production pattern:
+--   1. Build new_table with new schema and data
+--   2. Verify new_table is correct
+--   3. ALTER TABLE production_table SWAP WITH new_table
+--   4. DROP TABLE new_table (now contains the old data)
+--
+-- Why the others are wrong:
+--   A) DROP then CREATE has a gap where the table does not exist.
+--      Any BI query during that window fails with "table not found."
+--   B) TRUNCATE removes all data — during reload the table is empty.
+--      BI queries return zero rows during the reload window.
+--   D) ALTER TABLE ADD COLUMN + UPDATE works for adding columns
+--      but does not handle cases where data needs to be fully
+--      replaced or where schema changes are extensive.
+--      Also, in-place UPDATE of millions of rows is slower than
+--      SWAP which is instantaneous.
+--
+-- Review: Sub-task 2.9 — Step 5, TABLE SWAP for zero-downtime deploys
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- SCORE YOURSELF
+-- ══════════════════════════════════════════════════════════════
+--
+--  14/14 — Excellent. Goal 2 topics are solid.
+--           Move to Goal 3 with confidence.
+--
+--  12-13 — Good. Review the sub-tasks for questions you missed.
+--
+--  10-11 — Solid but gaps exist. Focus on the data loading
+--           and Snowpipe sections — heaviest exam weight.
+--
+--  Below 10 — Revisit Goal 2 sub-tasks before continuing.
+--              Priority: 2.3, 2.4, 2.5, 2.6.
+--
+-- ── COF-C03 COVERAGE FOR GOAL 2 ─────────────────────────────
+-- Q1  — PUT command characteristics          (Sub-task 2.2)
+-- Q2  — Internal stage types                 (Sub-task 2.2)
+-- Q3  — FILE FORMAT requirement in COPY INTO (Sub-task 2.1/2.3)
+-- Q4  — COPY INTO capabilities               (Sub-task 2.3/2.7)
+-- Q5  — VALIDATION_MODE behaviour            (Sub-task 2.4)
+-- Q6  — ON_ERROR = CONTINUE result           (Sub-task 2.4)
+-- Q7  — VARIANT data type                    (Sub-task 2.5)
+-- Q8  — Semi-structured storage cost         (Sub-task 2.5)
+-- Q9  — Unloading to JSON format             (Sub-task 2.7)
+-- Q10 — Snowpipe REST API characteristics    (Sub-task 2.6)
+-- Q11 — Pipe suspend and resume              (Sub-task 2.6)
+-- Q12 — CREATE OR REPLACE PIPE behaviour     (Sub-task 2.6)
+-- Q13 — Parquet timestamp handling           (Sub-task 2.5)
+-- Q14 — Zero-downtime table replacement      (Sub-task 2.9)
+-- ─────────────────────────────────────────────────────────────
