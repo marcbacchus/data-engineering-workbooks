@@ -1,8 +1,21 @@
 # Data Engineering Workbooks
 
-A hands-on, goal-driven workbook series covering the modern data and cloud engineering stack. Free, community-focused, and built for practitioners — from beginners taking their first steps to experienced engineers filling gaps in their toolkit.
+Learn modern data engineering by building production-ready solutions—one task at a time.
 
 **One consistent dataset. One GitHub repository. Nine workbooks.**
+Free, open source, and built for practitioners.
+
+---
+
+## Who is this for
+
+This series is written for practitioners — people who learn by doing, not by reading feature lists. Each workbook is structured around real outcomes, not feature tours.
+
+**Beginners** — no prior experience with a tool is assumed within each workbook. Basic SQL familiarity is helpful for the data platform workbooks.
+
+**Experienced engineers** — the goal-driven structure lets you jump directly to what is relevant. Every workbook covers topics that trip up even seasoned practitioners.
+
+**Career changers and students** — the series builds a complete, demonstrable portfolio of data engineering skills backed by a public GitHub repository.
 
 ---
 
@@ -19,18 +32,6 @@ A hands-on, goal-driven workbook series covering the modern data and cloud engin
 | 06 | [AWS Data Engineering](06-aws/) | S3, Glue, Redshift, Lambda, Kinesis, and Step Functions | Planned |
 | 07 | [Python for Data Engineers](07-python/) | Python applied to data engineering — not generic tutorials | Planned |
 | 08 | [AI for Data Engineers](08-ai/) | LLMs in pipelines, Cortex, prompt engineering, model evaluation | Planned |
-
----
-
-## Who this is for
-
-This series is written for practitioners — people who learn by doing, not by reading feature lists. Each workbook is structured around real outcomes, not feature tours.
-
-**Beginners** — no prior experience with a tool is assumed within each workbook. Basic SQL familiarity is helpful for the data platform workbooks.
-
-**Experienced engineers** — the goal-driven structure lets you jump directly to what is relevant. Every workbook covers topics that trip up even seasoned practitioners.
-
-**Career changers and students** — the series builds a complete, demonstrable portfolio of data engineering skills backed by a public GitHub repository.
 
 ---
 
@@ -150,6 +151,7 @@ What if         — open questions and edge cases
 | 06 AWS | AWS Certified Data Engineer Associate (DEA-C01) |
 
 Each workbook includes exam preparation questions at the end of every goal — written specifically to reinforce what was just built, not generic question banks.
+
 ---
 
 ## Contributing
