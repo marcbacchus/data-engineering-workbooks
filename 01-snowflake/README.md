@@ -40,37 +40,36 @@ By the end of this workbook you will have:
 | [01](goal-01-environment-setup/) | Set up your environment | Architecture, object hierarchy, table types, view types, stage types, editions, warehouses, parameters | ~2–3 hrs |
 | [02](goal-02-get-data-in/) | Get data in | COPY INTO, file formats, Snowpipe, semi-structured data, unloading, external tables, schema evolution, error handling | ~3–4 hrs |
 | [03](goal-03-query-transform/) | Query and transform data | SQL, window functions, transactions, DML, Cortex AI, UDFs, Snowpark intro | ~3–4 hrs |
-| [04](goal-04-security/) | Secure your environment | RBAC, masking policies, row access policies, network policies, tags | ~2 hrs |
-| [05](goal-05-performance/) | Optimize performance | Query Profile, caching, clustering, warehouse sizing, Search Optimization | ~2 hrs |
-| [06](goal-06-automation/) | Automate workflows | Tasks, Streams, CDC pipelines, stored procedures, Dynamic Tables | ~2–3 hrs |
-| [07](goal-07-sharing/) | Share and collaborate | Secure data sharing, Marketplace, Data Clean Rooms | ~1 hr |
-| [08](goal-08-recovery/) | Recover from mistakes | Time Travel, Fail-Safe, zero-copy cloning, replication | ~1–2 hrs |
-| [09](goal-09-monitoring/) | Monitor and manage costs | INFORMATION_SCHEMA, ACCOUNT_USAGE, SHOW commands, resource monitors | ~1–2 hrs |
+| [04](goal-04-secure-environment/) | Secure your environment | RBAC, masking policies, row access policies, network policies, tags | ~2 hrs |
+| [05](goal-05-optimize-performance/) | Optimize performance | Query Profile, caching, clustering, warehouse sizing, Search Optimization | ~2 hrs |
+| [06](goal-06-automate-pipelines/) | Automate workflows | Tasks, Streams, CDC pipelines, stored procedures, Dynamic Tables | ~2–3 hrs |
+| [07](goal-07-share-data/) | Share and collaborate | Secure data sharing, Marketplace, Data Clean Rooms | ~1 hr |
+| [08](goal-08-recover-data/) | Recover from mistakes | Time Travel, Fail-Safe, zero-copy cloning, replication | ~1–2 hrs |
+| [09](goal-09-monitor-govern/) | Monitor and manage costs | INFORMATION_SCHEMA, ACCOUNT_USAGE, SHOW commands, resource monitors | ~1–2 hrs |
 
-## Exam Preparation
+---
+
+## Exam preparation
 
 Each goal includes a dedicated exam preparation file as the final sub-task. These files contain 10-15 COF-C03 aligned practice questions with full explanations, wrong answer breakdowns, and direct references back to the sub-task where each concept was covered.
 
-| Goal | Exam Prep File | Questions |
+| Goal | Exam prep file | Questions |
 |---|---|---|
 | Goal 1 | [09_exam_prep.sql](goal-01-environment-setup/09_exam_prep.sql) | 12 |
 | Goal 2 | [10_exam_prep.sql](goal-02-get-data-in/10_exam_prep.sql) | 14 |
-| ... | ... | ... |
+| Goals 3–9 | Coming as each goal is published | — |
 
 Questions are original — written specifically for this workbook using the COF-C03 exam objectives as a guide. They are not reproduced from any third-party source.
 
 **How to use:** Complete all sub-tasks in a goal before attempting the exam prep. Read each question and choose your answer before reading the explanation. If you get a question wrong, go back to the referenced sub-task before continuing.
+
 ---
 
 ## Dataset
 
 This workbook uses the shared e-commerce dataset located in [`../dataset/`](../dataset/).
 
-Load instructions are in [Goal 02 — Get Data In](goal-02-get-data-in/). If you want to skip ahead to a later goal, run the quickload script first:
-
-```sql
--- goal-02-get-data-in/00_quickload.sql
-```
+Load instructions are in [Goal 02 — Get Data In](goal-02-get-data-in/). Work through Goal 02 sequentially — each sub-task builds on the previous one and by the end you will have all 10,350,254 rows loaded and ready for Goal 03.
 
 ---
 
@@ -86,7 +85,7 @@ Log into your Snowflake account at [app.snowflake.com](https://app.snowflake.com
 
 ### 3. Run step by step
 
-Copy a sub-task file into your worksheet. Run each step individually using **Cmd + Enter** — not the full file at once. Read the output before moving to the next step.
+Copy a sub-task file into your worksheet. Run each step individually using **Cmd + Enter** (Mac) or **Ctrl + Enter** (Windows) — not the full file at once. Read the output before moving to the next step.
 
 ### 4. Do the practice gaps
 
@@ -113,7 +112,7 @@ git push
 | Data Transformations | 17% | 03, 06 |
 | Data Protection and Data Sharing | 11% | 07, 08 |
 
-Sub-tasks that map directly to exam objectives are marked with `-- [COF-C03]` in the file header.
+Sub-tasks that map directly to exam objectives are marked with the COF-C03 domain in the file header.
 
 ---
 
@@ -125,7 +124,7 @@ Three things that will feel unfamiliar:
 
 **No tablespaces, extents, or data files to manage.** Snowflake handles all physical storage organisation internally. No REORG, VACUUM, or ANALYZE.
 
-**AUTOCOMMIT is ON by default.** A DELETE without an explicit BEGIN runs and commits immediately. Covered in depth in Goal 03, Sub-task 3.3.
+**AUTOCOMMIT is ON by default.** A DELETE without an explicit BEGIN runs and commits immediately. Covered in depth in Goal 01, Sub-task 1.8.
 
 ---
 
