@@ -1,5 +1,6 @@
 -- ══════════════════════════════════════════════════════════════
 -- SNOWFLAKE ENGINEERING WORKBOOK
+-- Author  : Marc Bacchus · github.com/marcbacchus/data-engineering-workbooks
 -- Goal 1 : Set Up Your Environment
 -- Sub-task 1.4 : Know your view types
 -- ──────────────────────────────────────────────────────────────

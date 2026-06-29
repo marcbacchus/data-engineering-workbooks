@@ -1,5 +1,6 @@
 -- ══════════════════════════════════════════════════════════════
 -- SNOWFLAKE ENGINEERING WORKBOOK
+-- Author  : Marc Bacchus · github.com/marcbacchus/data-engineering-workbooks
 -- Goal 2 : Get Data In
 -- Cleanup Script : Reset Goal 2 work
 -- ──────────────────────────────────────────────────────────────

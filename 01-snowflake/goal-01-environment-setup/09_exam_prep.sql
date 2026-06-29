@@ -1,5 +1,6 @@
 -- ══════════════════════════════════════════════════════════════
 -- SNOWFLAKE ENGINEERING WORKBOOK
+-- Author  : Marc Bacchus · github.com/marcbacchus/data-engineering-workbooks
 -- Goal 1 : Set Up Your Environment
 -- Sub-task 1.9 : Exam preparation — COF-C03 practice questions
 -- ──────────────────────────────────────────────────────────────

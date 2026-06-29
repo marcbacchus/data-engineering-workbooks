@@ -1,5 +1,6 @@
 -- ══════════════════════════════════════════════════════════════
 -- SNOWFLAKE ENGINEERING WORKBOOK
+-- Author  : Marc Bacchus · github.com/marcbacchus/data-engineering-workbooks
 -- Goal 2 : Get Data In
 -- Sub-task 2.8 : Work with external tables
 -- ──────────────────────────────────────────────────────────────
