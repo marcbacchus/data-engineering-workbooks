@@ -79,10 +79,17 @@ Load instructions are in [Goal 02 — Get Data In](goal-02-get-data-in/). Work t
 
 Log into your Snowflake account at [app.snowflake.com](https://app.snowflake.com).
 
-### 2. Create a worksheet per goal
+### 2. Organize your worksheets
 
-**Projects → Worksheets → +** — name it `Goal 01 — Environment Setup`. Create a new worksheet for each goal to keep your query history clean and organised.
+**Projects → Workspaces → [+ Add New] → Folder** — name it `Snowflake Workbook`.
 
+1. Click the `Snowflake Workbook` folder → **[+]** → **Folder** — name it `Goal 01 — Environment Setup`
+2. Click the `Goal 01 — Environment Setup` folder → **[+]** → **SQL File** — name it `01_architecture.sql`
+   - Alternatively, use **[+] → Upload Files** to upload the `.sql` file directly from your cloned repo
+3. Repeat for each sub-task file in the goal, keeping the same filename as the repo (e.g. `02_object_hierarchy.sql`)
+4. Repeat steps 1–3 for each goal
+
+This keeps your worksheets organized exactly like the repo structure — one folder per goal, one file per sub-task.
 ### 3. Run step by step
 
 Copy a sub-task file into your worksheet. Run each step individually using **Cmd + Enter** (Mac) or **Ctrl + Enter** (Windows) — not the full file at once. Read the output before moving to the next step.
