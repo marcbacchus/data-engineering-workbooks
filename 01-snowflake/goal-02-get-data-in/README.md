@@ -14,7 +14,7 @@ Data does not load itself. Before you can query, transform, or analyse anything 
 
 By the end of this goal you will have:
 
-- Loaded 10,350,254 rows across 8 tables into `ECOMMERCE.RAW`
+- Loaded 10,370,254 rows across 10 tables into `ECOMMERCE.RAW`
 - Loaded semi-structured data in both JSON and Parquet format
 - Handled real load errors and diagnosed them using Snowflake's tools
 - Automated ingestion using Snowpipe

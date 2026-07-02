@@ -69,7 +69,7 @@ Questions are original — written specifically for this workbook using the COF-
 
 This workbook uses the shared e-commerce dataset located in [`../dataset/`](../dataset/).
 
-Load instructions are in [Goal 02 — Get Data In](goal-02-get-data-in/). Work through Goal 02 sequentially — each sub-task builds on the previous one and by the end you will have all 10,350,254 rows loaded and ready for Goal 03.
+Load instructions are in [Goal 02 — Get Data In](goal-02-get-data-in/). Work through Goal 02 sequentially — each sub-task builds on the previous one and by the end you will have all 10,370,254 rows loaded and ready for Goal 03.
 
 ---
 

@@ -352,6 +352,9 @@ ORDER BY ROW_COUNT DESC
 -- CUSTOMERS              100,000
 -- PRODUCTS                10,000
 -- SUPPLIERS                1,000
+-- PRODUCT_REVIEWS_JSON    10,000
+-- PRODUCT_REVIEWS_PARQUET 10,000
+--
 
 -- Total rows across all tables
 SELECT SUM(ROW_COUNT) AS total_rows
@@ -359,7 +362,7 @@ FROM ECOMMERCE.INFORMATION_SCHEMA.TABLES
 WHERE TABLE_SCHEMA = 'RAW'
   AND TABLE_TYPE   = 'BASE TABLE'
 ;
--- Expected: 10,350,254
+-- Expected: 10,370,254
 
 -- ══════════════════════════════════════════════════════════════
 -- STEP 10: Run your first real queries on the dataset
