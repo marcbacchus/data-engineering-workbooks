@@ -1,0 +1,626 @@
+-- ══════════════════════════════════════════════════════════════
+-- SNOWFLAKE ENGINEERING WORKBOOK
+-- Author  : Marc Bacchus · github.com/marcbacchus/data-engineering-workbooks
+-- Goal 3  : Query and Transform Data
+-- Sub-task 3.9 : Exam preparation — COF-C03 practice questions
+-- ──────────────────────────────────────────────────────────────
+-- Time to complete : ~35 minutes
+-- Run in           : Read only — no SQL to execute
+-- Prerequisites    : All Goal 3 sub-tasks complete (3.1 — 3.8)
+-- COF-C03 domain   : Domain 5 — Data Transformations (17%)
+-- ══════════════════════════════════════════════════════════════
+--
+-- HOW TO USE THIS FILE
+--   Read each question and choose your answer before reading
+--   the explanation. The learning happens in the moment of
+--   choosing, not in reading the answer passively.
+--
+--   Each question references the sub-task where the concept
+--   was covered. If you get a question wrong, go back to that
+--   sub-task before continuing.
+--
+--   Question types:
+--   [Single]  — one correct answer
+--   [Multi]   — two or more correct answers (stated in question)
+--   [T/F]     — True or False
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 1 of 14  [Multi]  Difficulty: Medium
+-- Domain   : Data Transformations
+-- Sub-task : 3.7 — User-defined functions
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which of the following languages can be used to implement
+-- a Snowflake scalar UDF? (Choose three.)
+--
+-- A) SQL
+-- B) R
+-- C) JavaScript
+-- D) Python
+-- E) Ruby
+--
+-- Answer: A, C, D
+--
+-- Explanation:
+--   Snowflake scalar UDFs support SQL, JavaScript, Python,
+--   Java, and Scala. SQL is the simplest — wraps a SQL
+--   expression. JavaScript is available on all editions and
+--   good for string manipulation and math. Python requires
+--   Snowpark and is the most powerful — access to the full
+--   Python ecosystem. Java and Scala are also supported but
+--   less commonly used by data engineers.
+--
+-- Why the others are wrong:
+--   B) R is not supported as a UDF language in Snowflake.
+--      R can be used externally via the Snowflake connector
+--      but not as an embedded UDF language.
+--   E) Ruby is not supported. Snowflake's embedded language
+--      support is: SQL, JavaScript, Python, Java, Scala.
+--
+-- Review: Sub-task 3.7 — CONCEPT section, language options
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 2 of 14  [Single]  Difficulty: Medium
+-- Domain   : Data Transformations
+-- Sub-task : 3.3 — Window functions
+-- ══════════════════════════════════════════════════════════════
+--
+-- A data engineer needs to return only the most recent order
+-- for each customer, without using a subquery. Which Snowflake
+-- feature enables this cleanly?
+--
+-- A) HAVING MAX(created_at)
+-- B) QUALIFY ROW_NUMBER() OVER (PARTITION BY customer_id
+--    ORDER BY created_at DESC) = 1
+-- C) DISTINCT ON (customer_id) ORDER BY created_at DESC
+-- D) GROUP BY customer_id HAVING COUNT(*) = 1
+--
+-- Answer: B
+--
+-- Explanation:
+--   QUALIFY is Snowflake's clean alternative to wrapping a
+--   window function result in a subquery. ROW_NUMBER() assigns
+--   a unique sequence per customer ordered by date descending —
+--   row 1 is the most recent. QUALIFY filters to only those
+--   rows where the window function result equals 1, eliminating
+--   the need for an outer SELECT.
+--   Without QUALIFY the equivalent requires:
+--   SELECT * FROM (SELECT ..., ROW_NUMBER() OVER (...) AS rn
+--   FROM orders) WHERE rn = 1
+--
+-- Why the others are wrong:
+--   A) HAVING filters aggregated groups — it cannot reference
+--      individual row values like the most recent order date
+--      for a specific order_id.
+--   C) DISTINCT ON is a PostgreSQL feature — it does not exist
+--      in Snowflake.
+--   D) GROUP BY customer_id HAVING COUNT(*) = 1 only returns
+--      customers with exactly one order — not the most recent
+--      order for each customer.
+--
+-- Review: Sub-task 3.3 — Step 1, ROW_NUMBER and QUALIFY
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 3 of 14  [Single]  Difficulty: Medium
+-- Domain   : Data Transformations
+-- Sub-task : 3.3 — Window functions
+-- ══════════════════════════════════════════════════════════════
+--
+-- A query uses RANK() and the result shows: 1, 2, 2, 4, 5.
+-- What would DENSE_RANK() return for the same data?
+--
+-- A) 1, 2, 2, 4, 5
+-- B) 1, 2, 2, 3, 4
+-- C) 1, 2, 3, 4, 5
+-- D) 1, 1, 2, 3, 4
+--
+-- Answer: B
+--
+-- Explanation:
+--   RANK() assigns the same rank to ties and then SKIPS the
+--   next rank — hence 1, 2, 2, 4 (3 is skipped after two 2nds).
+--   DENSE_RANK() assigns the same rank to ties but does NOT
+--   skip — hence 1, 2, 2, 3, 4 (no gaps, next rank after a
+--   tie is always the next integer).
+--   ROW_NUMBER() would return 1, 2, 3, 4, 5 — always unique,
+--   no ties, arbitrary tiebreaking.
+--
+-- Why the others are wrong:
+--   A) This is RANK() output — the question asks for DENSE_RANK.
+--   C) This is ROW_NUMBER() output — unique, no ties.
+--   D) This would imply the first two rows are tied at rank 1 —
+--      but the RANK() output shows 1, 2, 2 meaning the first
+--      row is rank 1 alone, rows 2 and 3 are tied at rank 2.
+--
+-- Review: Sub-task 3.3 — Step 2, RANK vs DENSE_RANK vs ROW_NUMBER
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 4 of 14  [T/F]  Difficulty: Easy
+-- Domain   : Data Transformations
+-- Sub-task : 3.3 — Window functions
+-- ══════════════════════════════════════════════════════════════
+--
+-- True or False: PARTITION BY in a window function collapses
+-- rows the same way GROUP BY does — one row per partition value
+-- is returned.
+--
+-- A) True
+-- B) False
+--
+-- Answer: B — False
+--
+-- Explanation:
+--   This is the most important distinction between window
+--   functions and GROUP BY.
+--   GROUP BY collapses rows — 2 million order rows grouped by
+--   category becomes 10 rows. All row-level detail is lost.
+--   PARTITION BY in a window function keeps ALL rows — 2 million
+--   rows stay 2 million rows. Each row carries the partition-level
+--   calculation alongside its own values.
+--   Rule of thumb: if you need the detail AND the summary
+--   on the same row → window function.
+--   If you only need the summary → GROUP BY.
+--
+-- Review: Sub-task 3.3 — CONCEPT section, PARTITION BY
+--         Sub-task 3.3 — WHAT IF, PARTITION BY vs GROUP BY
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 5 of 14  [Single]  Difficulty: Medium
+-- Domain   : Data Transformations
+-- Sub-task : 3.2 — Joins and aggregations
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which of the following correctly describes when to use
+-- HAVING vs WHERE in a GROUP BY query?
+--
+-- A) WHERE filters after aggregation, HAVING filters before
+-- B) WHERE and HAVING are interchangeable — use either one
+-- C) WHERE filters rows before aggregation, HAVING filters
+--    groups after aggregation
+-- D) HAVING can only be used with COUNT — not SUM or AVG
+--
+-- Answer: C
+--
+-- Explanation:
+--   WHERE and HAVING operate at different stages of query execution.
+--   WHERE fires first — it filters individual rows before any
+--   aggregation happens. Fewer rows = faster aggregation.
+--   HAVING fires after GROUP BY — it filters the aggregated
+--   groups. Use HAVING when the filter condition involves an
+--   aggregate function (SUM, COUNT, AVG, MIN, MAX).
+--   Using an aggregate in a WHERE clause causes an error:
+--   WHERE SUM(order_total) > 5000 → ERROR
+--   HAVING SUM(order_total) > 5000 → correct
+--
+-- Why the others are wrong:
+--   A) This is backwards — WHERE filters BEFORE, HAVING AFTER.
+--   B) They are not interchangeable — WHERE cannot reference
+--      aggregate functions, HAVING can.
+--   D) HAVING works with all aggregate functions.
+--
+-- Review: Sub-task 3.2 — Step 6, HAVING vs WHERE
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 6 of 14  [Single]  Difficulty: Hard
+-- Domain   : Data Transformations
+-- Sub-task : 3.2 — Joins and aggregations
+-- ══════════════════════════════════════════════════════════════
+--
+-- A LEFT JOIN query returns MORE rows than expected.
+-- What is the most likely cause?
+--
+-- A) The WHERE clause is filtering too many rows
+-- B) The right table has multiple rows matching each
+--    left table row — causing row fan-out
+-- C) The LEFT JOIN is behaving like an INNER JOIN
+-- D) The ON clause has too many conditions
+--
+-- Answer: B
+--
+-- Explanation:
+--   Row fan-out is the most common cause of unexpected row
+--   multiplication in JOINs. When one row in the left table
+--   matches multiple rows in the right table, the result
+--   contains one output row per match — multiplying the
+--   left-side row count.
+--   Example: joining ORDERS to ORDER_ITEMS — each order has
+--   multiple items. One order row fans out to N item rows.
+--   Diagnose with: SELECT order_id, COUNT(*) FROM ORDER_ITEMS
+--   GROUP BY order_id — to see the fan-out factor.
+--   Fix with: COUNT(DISTINCT left_key) to verify driving table
+--   row counts, or aggregate the right table first before joining.
+--
+-- Why the others are wrong:
+--   A) WHERE filtering too much would produce FEWER rows,
+--      not more.
+--   C) A LEFT JOIN behaving like an INNER JOIN would produce
+--      FEWER rows — not more — since non-matching left rows
+--      with NULLs would be excluded.
+--   D) More ON conditions narrow the match — this would
+--      produce fewer rows, not more.
+--
+-- Review: Sub-task 3.2 — Step 4, Cartesian product warning
+--         Sub-task 3.2 — WHAT IF, more rows than expected
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 7 of 14  [Single]  Difficulty: Medium
+-- Domain   : Data Transformations
+-- Sub-task : 3.4 — CTEs
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which of the following is a key advantage of a CTE over
+-- a repeated subquery?
+--
+-- A) CTEs always execute faster than subqueries
+-- B) CTEs are persisted as database objects for reuse
+--    across multiple queries
+-- C) A CTE can be defined once and referenced multiple times
+--    within the same query
+-- D) CTEs support recursive queries but subqueries do not
+--
+-- Answer: C
+--
+-- Explanation:
+--   The primary advantage of a CTE over a subquery is that
+--   the CTE is defined once with a name and can be referenced
+--   multiple times within the same query. A subquery is anonymous
+--   and inline — if you need the same logic twice you must
+--   repeat the entire subquery, duplicating code and creating
+--   inconsistency risk. CTEs also improve readability — named
+--   steps read like documentation.
+--
+-- Why the others are wrong:
+--   A) CTEs do not always execute faster. Snowflake may inline
+--      a CTE (treat it like a subquery) or materialise it
+--      depending on the query plan. Performance depends on
+--      the specific query, not on using CTEs vs subqueries.
+--   B) CTEs are NOT persisted — they exist only for the duration
+--      of the single query in which they are defined. For
+--      persistence across queries, use a VIEW or TABLE.
+--   D) Recursive queries (WITH RECURSIVE) are a CTE feature —
+--      but standard subqueries can also reference themselves
+--      in some implementations. This is not the PRIMARY
+--      advantage of CTEs over subqueries.
+--
+-- Review: Sub-task 3.4 — CONCEPT, CTE vs subquery
+--         Sub-task 3.4 — Step 3, reusing a CTE multiple times
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 8 of 14  [T/F]  Difficulty: Medium
+-- Domain   : Data Transformations
+-- Sub-task : 3.5 — DML and transactions
+-- ══════════════════════════════════════════════════════════════
+--
+-- True or False: In Snowflake, a ROLLBACK statement will undo
+-- a DELETE that was executed without a preceding BEGIN statement.
+--
+-- A) True
+-- B) False
+--
+-- Answer: B — False
+--
+-- Explanation:
+--   This is the AUTOCOMMIT trap — the most dangerous default
+--   for Oracle and SQL Server practitioners moving to Snowflake.
+--   AUTOCOMMIT = TRUE in Snowflake by default. Every DML
+--   statement commits the moment it completes.
+--   A DELETE without BEGIN commits immediately — ROLLBACK has
+--   NO effect because there is no open transaction to roll back.
+--   The data is gone.
+--   The only safe pattern for destructive DML:
+--   BEGIN;
+--       DELETE FROM table WHERE condition;
+--       SELECT COUNT(*) FROM table; -- verify
+--   COMMIT; -- or ROLLBACK if something looks wrong
+--
+-- Review: Sub-task 3.5 — Step 2, the AUTOCOMMIT trap
+--         Sub-task 1.8 — AUTOCOMMIT session parameter
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 9 of 14  [Single]  Difficulty: Medium
+-- Domain   : Data Transformations
+-- Sub-task : 3.5 — DML and transactions
+-- ══════════════════════════════════════════════════════════════
+--
+-- What is the key difference between TRUNCATE TABLE and
+-- DELETE FROM table (with no WHERE clause)?
+--
+-- A) TRUNCATE is faster and cannot be recovered via Time Travel.
+--    DELETE is slower but the deleted rows are recoverable
+--    within the Time Travel retention window.
+-- B) DELETE removes all rows. TRUNCATE only removes the first
+--    1,000 rows.
+-- C) TRUNCATE and DELETE are identical — no difference.
+-- D) TRUNCATE can be rolled back with ROLLBACK.
+--    DELETE cannot be rolled back.
+--
+-- Answer: A
+--
+-- Explanation:
+--   Both TRUNCATE and DELETE (no WHERE) remove all rows from
+--   a table. The key differences:
+--   · Speed: TRUNCATE is much faster — minimal logging,
+--     drops and recreates internal micro-partitions.
+--     DELETE logs every row deletion — slow on large tables.
+--   · Time Travel: DELETE rows are recoverable within the
+--     retention window (1-90 days). TRUNCATE data is NOT
+--     recoverable via Time Travel — the micro-partitions
+--     are dropped, not time-travelled.
+--   · Transaction: TRUNCATE cannot be rolled back.
+--     DELETE within a BEGIN/COMMIT block CAN be rolled back.
+--   Use TRUNCATE for staging tables you reload completely.
+--   Use DELETE when you need Time Travel recovery as a safety net.
+--
+-- Why the others are wrong:
+--   B) TRUNCATE removes ALL rows — not a subset.
+--   C) They are significantly different in speed, recoverability,
+--      and transaction behaviour.
+--   D) This is backwards — TRUNCATE cannot be rolled back,
+--      DELETE within a transaction CAN be rolled back.
+--
+-- Review: Sub-task 3.5 — CONCEPT section, TRUNCATE vs DELETE
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 10 of 14  [Single]  Difficulty: Medium
+-- Domain   : Data Transformations
+-- Sub-task : 3.5 — DML and transactions
+-- ══════════════════════════════════════════════════════════════
+--
+-- A data engineer runs MERGE INTO target USING source ON (...).
+-- The source table has two rows with the same join key value.
+-- What happens?
+--
+-- A) MERGE updates both matching rows in the target
+-- B) MERGE inserts a duplicate row into the target
+-- C) MERGE errors or produces unpredictable results because
+--    the source has duplicate join keys
+-- D) MERGE skips duplicate source rows automatically
+--
+-- Answer: C
+--
+-- Explanation:
+--   MERGE requires that each target row matches AT MOST one
+--   source row. When the source has duplicate values on the
+--   join key, Snowflake may error or — more dangerously —
+--   apply updates in an unpredictable order producing
+--   non-deterministic results.
+--   Always deduplicate the source before MERGE:
+--   WITH deduped AS (
+--       SELECT *, ROW_NUMBER() OVER (
+--           PARTITION BY join_key ORDER BY updated_at DESC
+--       ) AS rn
+--       FROM source_table
+--   )
+--   MERGE INTO target USING (SELECT * FROM deduped WHERE rn = 1)
+--   This is one of the most common MERGE pitfalls in production.
+--
+-- Why the others are wrong:
+--   A) MERGE does not guarantee which source row wins when
+--      there are duplicates — behaviour is undefined.
+--   B) MERGE does not insert from WHEN MATCHED rows —
+--      only from WHEN NOT MATCHED rows. But the real issue
+--      is the non-deterministic behaviour, not insertion.
+--   D) MERGE does not automatically handle source duplicates.
+--      Deduplication is the developer's responsibility.
+--
+-- Review: Sub-task 3.5 — Step 6, MERGE
+--         Sub-task 3.5 — WHAT IF, MERGE duplicate rows
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 11 of 14  [Single]  Difficulty: Medium
+-- Domain   : Data Transformations
+-- Sub-task : 3.1 — SQL fundamentals
+-- ══════════════════════════════════════════════════════════════
+--
+-- Which Snowflake function should be used instead of CAST()
+-- when the input data may contain values that cannot be
+-- converted to the target type?
+--
+-- A) SAFE_CAST()
+-- B) TRY_CAST()
+-- C) NVL_CAST()
+-- D) CONVERT()
+--
+-- Answer: B
+--
+-- Explanation:
+--   TRY_CAST() is the safe alternative to CAST() in Snowflake.
+--   When a value cannot be converted to the target type:
+--   · CAST()     → throws a runtime error, query fails
+--   · TRY_CAST() → returns NULL, query continues
+--   TRY_CAST is essential when casting data from external sources,
+--   VARIANT fields, or any column with inconsistent formatting.
+--   After TRY_CAST, check for NULLs to identify bad values:
+--   WHERE TRY_CAST(col AS FLOAT) IS NULL AND col IS NOT NULL
+--
+-- Why the others are wrong:
+--   A) SAFE_CAST() does not exist in Snowflake. It exists in
+--      BigQuery — a common cross-platform confusion point.
+--   C) NVL_CAST() does not exist in Snowflake.
+--   D) CONVERT() is a SQL Server function — not available
+--      in Snowflake. Use CAST() or :: syntax instead.
+--
+-- Review: Sub-task 3.1 — Step 4, TRY_CAST
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 12 of 14  [T/F]  Difficulty: Easy
+-- Domain   : Data Transformations
+-- Sub-task : 3.8 — Snowpark Python
+-- ══════════════════════════════════════════════════════════════
+--
+-- True or False: A Snowpark DataFrame pulls data from Snowflake
+-- to the local machine when it is created, similar to a pandas
+-- DataFrame.
+--
+-- A) True
+-- B) False
+--
+-- Answer: B — False
+--
+-- Explanation:
+--   Snowpark DataFrames are LAZY — creating a DataFrame does
+--   not execute anything or move any data. The DataFrame is
+--   a query plan — a description of what to compute.
+--   Data is only fetched when an ACTION is called:
+--   .collect(), .show(), .count(), .write.save_as_table()
+--   This laziness is what makes Snowpark scalable — you can
+--   build a pipeline that references a billion-row table and
+--   no data moves until you explicitly trigger execution.
+--   pandas DataFrames ARE eager — data is pulled to local memory
+--   immediately on creation. A billion-row pandas DataFrame
+--   crashes your machine. A billion-row Snowpark DataFrame is
+--   just a query plan.
+--
+-- Review: Sub-task 3.8 — CONCEPT, lazy evaluation
+--         Sub-task 3.8 — Step 2, reading data
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 13 of 14  [Single]  Difficulty: Medium
+-- Domain   : Data Transformations
+-- Sub-task : 3.2 — Joins and aggregations
+-- ══════════════════════════════════════════════════════════════
+--
+-- What does a correlated subquery do that makes it
+-- potentially dangerous on large tables?
+--
+-- A) It runs once and caches the result for all rows
+-- B) It runs once per row in the outer query
+-- C) It prevents the query optimiser from using indexes
+-- D) It always produces incorrect results on NULL values
+--
+-- Answer: B
+--
+-- Explanation:
+--   A correlated subquery references a column from the outer
+--   query — this means it must re-execute for every row the
+--   outer query processes. On a table with 2 million rows,
+--   a correlated subquery executes 2 million times.
+--   The fix: rewrite using a CTE or JOIN that aggregates once
+--   and joins the result — the aggregation runs exactly once
+--   regardless of how many rows the outer query has.
+--   How to spot a correlated subquery: copy the subquery and
+--   try to run it independently. If it errors because it
+--   references a column from the outer query → it is correlated.
+--
+-- Why the others are wrong:
+--   A) This describes a NON-correlated subquery — independent,
+--      runs once, result is reused. Safe and efficient.
+--   C) Snowflake does not use traditional indexes — it uses
+--      micro-partition pruning. The correlated subquery issue
+--      is about execution count, not index usage.
+--   D) NULL handling is a separate concern — correlated
+--      subqueries are not specifically problematic for NULLs.
+--
+-- Review: Sub-task 3.2 — Step 7, correlated vs non-correlated
+--         Sub-task 3.4 — Step 4, CTEs replacing correlated subqueries
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- QUESTION 14 of 14  [Single]  Difficulty: Hard
+-- Domain   : Data Transformations
+-- Sub-task : 3.1, 3.2, 3.3, 3.5 — synthesis question
+-- ══════════════════════════════════════════════════════════════
+--
+-- A data engineer needs to find, for each customer, their
+-- single highest-value order where the order total is above
+-- the customer's own average order value. Which approach
+-- is most efficient in Snowflake?
+--
+-- A) A correlated subquery that calculates each customer's
+--    average for every row
+-- B) A CTE that pre-calculates each customer's average order
+--    value, joined back to orders, filtered with HAVING,
+--    then ROW_NUMBER() with QUALIFY to pick the top order
+-- C) GROUP BY customer_id with MAX(order_total) and a
+--    self-join to retrieve the full order row
+-- D) DISTINCT ON (customer_id) ORDER BY order_total DESC
+--
+-- Answer: B
+--
+-- Explanation:
+--   This question requires combining multiple Goal 3 concepts:
+--   1. CTE to pre-calculate customer averages (runs once)
+--   2. JOIN to bring the average alongside each order row
+--   3. Filter WHERE order_total > customer_avg
+--   4. ROW_NUMBER() OVER (PARTITION BY customer_id
+--      ORDER BY order_total DESC) to rank within customer
+--   5. QUALIFY rn = 1 to keep only the top order
+--   The CTE approach is efficient — the average calculation
+--   runs once. QUALIFY eliminates the need for a subquery.
+--
+-- Why the others are wrong:
+--   A) Correlated subquery calculates the average for every
+--      row — 2 million executions on the orders table.
+--      Correct result, terrible performance.
+--   C) GROUP BY with MAX retrieves the highest total but
+--      not the full order row cleanly. A self-join adds
+--      complexity and risk of fan-out if multiple orders
+--      share the exact same MAX value.
+--   D) DISTINCT ON is a PostgreSQL feature — does not exist
+--      in Snowflake. This query would error.
+--
+-- Review: Sub-task 3.3 — Step 1, ROW_NUMBER and QUALIFY
+--         Sub-task 3.4 — Step 4, CTEs replacing correlated subqueries
+--         Sub-task 3.2 — Step 7, correlated subquery warning
+-- ══════════════════════════════════════════════════════════════
+
+
+-- ══════════════════════════════════════════════════════════════
+-- SCORE YOURSELF
+-- ══════════════════════════════════════════════════════════════
+--
+--  14/14 — Excellent. Goal 3 topics are solid.
+--           Move to Goal 4 with full confidence.
+--
+--  12-13 — Good. Review sub-tasks for any questions missed.
+--
+--  10-11 — Solid but gaps exist. Focus on window functions
+--           (3.3), DML/transactions (3.5), and CTEs (3.4)
+--           which carry the most exam weight.
+--
+--  Below 10 — Revisit Goal 3 sub-tasks before continuing.
+--              Priority: 3.3, 3.5, 3.2, 3.4.
+--
+-- ── COF-C03 COVERAGE FOR GOAL 3 ─────────────────────────────
+-- Q1  — UDF supported languages              (Sub-task 3.7)
+-- Q2  — ROW_NUMBER and QUALIFY               (Sub-task 3.3)
+-- Q3  — RANK vs DENSE_RANK                   (Sub-task 3.3)
+-- Q4  — PARTITION BY vs GROUP BY             (Sub-task 3.3)
+-- Q5  — WHERE vs HAVING                      (Sub-task 3.2)
+-- Q6  — LEFT JOIN row fan-out                (Sub-task 3.2)
+-- Q7  — CTE advantages over subqueries       (Sub-task 3.4)
+-- Q8  — AUTOCOMMIT and ROLLBACK              (Sub-task 3.5)
+-- Q9  — TRUNCATE vs DELETE                   (Sub-task 3.5)
+-- Q10 — MERGE source duplicate behaviour     (Sub-task 3.5)
+-- Q11 — TRY_CAST vs CAST                     (Sub-task 3.1)
+-- Q12 — Snowpark lazy evaluation             (Sub-task 3.8)
+-- Q13 — Correlated subquery execution cost   (Sub-task 3.2)
+-- Q14 — Synthesis: window + CTE + DML        (Sub-tasks 3.2-3.5)
+-- ─────────────────────────────────────────────────────────────

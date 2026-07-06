@@ -57,7 +57,8 @@ Each goal includes a dedicated exam preparation file as the final sub-task. Thes
 |---|---|---|
 | Goal 1 | [09_exam_prep.sql](goal-01-environment-setup/09_exam_prep.sql) | 12 |
 | Goal 2 | [10_exam_prep.sql](goal-02-get-data-in/10_exam_prep.sql) | 14 |
-| Goals 3–9 | Coming as each goal is published | — |
+| Goal 3 | [9_exam_prep.sql](goal-03-query-transform/09_exam_prep.sql) | 14 |
+| Goals 4–9 | Coming as each goal is published | — |
 
 Questions are original — written specifically for this workbook using the COF-C03 exam objectives as a guide. They are not reproduced from any third-party source.
 
@@ -91,6 +92,7 @@ Log into your Snowflake account at [app.snowflake.com](https://app.snowflake.com
 
 This keeps your worksheets organized exactly like the repo structure — one folder per goal, one file per sub-task.
 ### 3. Run step by step
+
 
 Copy a sub-task file into your worksheet. Run each step individually using **Cmd + Enter** (Mac) or **Ctrl + Enter** (Windows) — not the full file at once. Read the output before moving to the next step.
 
