@@ -23,7 +23,7 @@ This series is written for practitioners — people who learn by doing, not by r
 
 | # | Workbook | Focus | Status |
 |---|---|---|---|
-| 00 | [Git for Data Engineers](00-git/) | Version control fundamentals in a data engineering context | Planned |
+| 00 | [Git for Data Engineers](00-git/) | Version control fundamentals in a data engineering context | Complete ✅ |
 | 01 | [Snowflake](01-snowflake/) | Data warehousing, pipelines, security, performance, Cortex AI | In Progress |
 | 02 | [dbt](02-dbt/) | Data transformation, modelling, testing, documentation | Planned |
 | 03 | [Terraform](03-terraform/) | Infrastructure as code for data platforms | Planned |
