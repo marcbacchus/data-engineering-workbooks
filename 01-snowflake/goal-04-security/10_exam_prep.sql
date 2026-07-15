@@ -1,0 +1,362 @@
+-- ══════════════════════════════════════════════════════════════
+-- SNOWFLAKE ENGINEERING WORKBOOK
+-- Author  : Marc Bacchus · github.com/marcbacchus/data-engineering-workbooks
+-- Goal 4  : Secure Your Environment
+-- Sub-task 4.10 : Exam prep — Data Governance and Security
+-- ──────────────────────────────────────────────────────────────
+-- Time to complete : ~30 minutes
+-- Warehouse size   : X-Small (WORKBOOK_WH)
+-- Database         : ECOMMERCE
+-- Run in           : Snowsight
+-- Prerequisites    : Sub-tasks 4.1-4.9 complete
+-- COF-C03 domain   : Domain 4 — Data Governance and Security (23%)
+-- ══════════════════════════════════════════════════════════════
+--
+-- WHAT YOU ARE DOING AND WHY
+--   15 practice questions covering everything built in Goal 4,
+--   in the style and weighting of COF-C03's Domain 4 (Data
+--   Governance and Security, 23% of the exam — the single
+--   largest domain). Every question maps to a specific sub-task
+--   and step in this goal, so a wrong answer tells you exactly
+--   where to go back and re-test something hands-on rather than
+--   just re-reading a definition.
+--
+--   Format: read each scenario, pick one answer (A-D), then check
+--   it against the ANSWER KEY at the bottom. Explanations
+--   reference the exact sub-task/step that demonstrated the
+--   concept live — worth re-running that step if you get it
+--   wrong, not just reading the explanation.
+--
+-- ══════════════════════════════════════════════════════════════
+-- QUESTIONS
+-- ══════════════════════════════════════════════════════════════
+
+-- ─────────────────────────────────────────────────────────────
+-- Q1. (Sub-task 4.1)
+-- You need to create a new database and warehouse for a project.
+-- Which system role is the correct daily-driver choice for this
+-- kind of work?
+--
+--   A. ACCOUNTADMIN
+--   B. SECURITYADMIN
+--   C. SYSADMIN
+--   D. USERADMIN
+-- ─────────────────────────────────────────────────────────────
+
+-- ─────────────────────────────────────────────────────────────
+-- Q2. (Sub-task 4.1)
+-- A role has been granted SELECT on a table directly, but a query
+-- against that table still fails with an authorization error.
+-- Assuming the privilege was granted correctly, what is the MOST
+-- likely missing piece?
+--
+--   A. The role also needs OWNERSHIP on the table
+--   B. The role is missing USAGE on the table's database and/or
+--      schema
+--   C. The table needs to be re-created with GRANT OPTION
+--   D. The role needs to be granted to PUBLIC first
+-- ─────────────────────────────────────────────────────────────
+
+-- ─────────────────────────────────────────────────────────────
+-- Q3. (Sub-task 4.1)
+-- You switch your session to a narrower role using USE ROLE
+-- ANALYST_ROLE specifically to test what that role alone can
+-- access. The test query unexpectedly succeeds even though
+-- ANALYST_ROLE was never granted access to the object queried.
+-- What is the most likely explanation?
+--
+--   A. ANALYST_ROLE inherited access through a masking policy
+--   B. The account's DEFAULT_SECONDARY_ROLES setting is ALL, and
+--      a different role your user holds still has access
+--   C. USE ROLE does not take effect until the session restarts
+--   D. PUBLIC was granted access to every object by default
+-- ─────────────────────────────────────────────────────────────
+
+-- ─────────────────────────────────────────────────────────────
+-- Q4. (Sub-task 4.2)
+-- In Snowflake's recommended custom role pattern, which statement
+-- correctly describes the difference between an access role and a
+-- functional role?
+--
+--   A. An access role is granted directly to users; a functional
+--      role is granted only to other roles
+--   B. A functional role holds object privileges; an access role
+--      holds only other roles
+--   C. An access role holds object privileges and is never granted
+--      directly to a user; a functional role holds access roles
+--      and IS granted to users
+--   D. There is no meaningful difference — both terms describe the
+--      same kind of role
+-- ─────────────────────────────────────────────────────────────
+
+-- ─────────────────────────────────────────────────────────────
+-- Q5. (Sub-task 4.3)
+-- A role was granted ALL PRIVILEGES on a table. Which privilege is
+-- guaranteed to be EXCLUDED from that grant?
+--
+--   A. SELECT
+--   B. REFERENCES
+--   C. OWNERSHIP
+--   D. TRUNCATE
+-- ─────────────────────────────────────────────────────────────
+
+-- ─────────────────────────────────────────────────────────────
+-- Q6. (Sub-task 4.3)
+-- ROLE_A was granted SELECT WITH GRANT OPTION on a table, and used
+-- that option to re-grant SELECT to ROLE_B. An administrator now
+-- runs REVOKE SELECT ... FROM ROLE_A, with no additional keywords.
+-- What happens?
+--
+--   A. ROLE_A loses SELECT; ROLE_B keeps its re-granted SELECT,
+--      now orphaned
+--   B. The REVOKE fails outright — 0 grants revoked — because
+--      ROLE_B's dependent grant exists and CASCADE was not
+--      specified
+--   C. Both ROLE_A and ROLE_B immediately lose SELECT
+--   D. The REVOKE succeeds, but only takes effect after ROLE_B's
+--      session ends
+-- ─────────────────────────────────────────────────────────────
+
+-- ─────────────────────────────────────────────────────────────
+-- Q7. (Sub-task 4.3)
+-- A schema has a future grant of SELECT on future tables at the
+-- DATABASE level. A more specific future grant of SELECT on future
+-- tables is then added at the SCHEMA level for one particular
+-- schema, with different privileges. A new table is created in
+-- that schema. Which future grant applies to it?
+--
+--   A. Both future grants apply and are merged together
+--   B. The database-level future grant always takes precedence
+--   C. The schema-level future grant takes precedence; the
+--      database-level one is ignored for that schema
+--   D. Neither applies — future grants never apply to tables
+--      created after the fact
+-- ─────────────────────────────────────────────────────────────
+
+-- ─────────────────────────────────────────────────────────────
+-- Q8. (Sub-task 4.3)
+-- SYSADMIN owns a database but attempts to run a GRANT ... ON
+-- FUTURE TABLES statement against it, and the statement fails with
+-- an insufficient-privileges error referencing MANAGE GRANTS. What
+-- is the correct fix?
+--
+--   A. Grant OWNERSHIP on the database to SYSADMIN again
+--   B. Switch to a role that holds MANAGE GRANTS (ACCOUNTADMIN or
+--      SECURITYADMIN by default) to run that specific statement
+--   C. Add WITH GRANT OPTION to the future grant statement
+--   D. Future grants can only ever be run by the object's creator,
+--      regardless of role
+-- ─────────────────────────────────────────────────────────────
+
+-- ─────────────────────────────────────────────────────────────
+-- Q9. (Sub-task 4.4)
+-- Which privilege must be explicitly granted to a custom role
+-- before that role can attach (not just author) a masking policy
+-- to a table column?
+--
+--   A. CREATE MASKING POLICY
+--   B. APPLY MASKING POLICY
+--   C. OWNERSHIP on the table
+--   D. USAGE on the masking policy
+-- ─────────────────────────────────────────────────────────────
+
+-- ─────────────────────────────────────────────────────────────
+-- Q10. (Sub-task 4.4 / 4.5 / 4.7)
+-- A masking policy, a row access policy, and a network rule are
+-- each already attached/referenced somewhere. In each case, what
+-- happens if you run CREATE OR REPLACE against the object itself?
+--
+--   A. All three succeed silently, updating the logic in place
+--   B. All three fail outright, since the object is already in use
+--      elsewhere — ALTER ... SET ... must be used instead
+--   C. Only the network rule fails; the two policy types allow
+--      CREATE OR REPLACE while attached
+--   D. All three require the object to be renamed first
+-- ─────────────────────────────────────────────────────────────
+
+-- ─────────────────────────────────────────────────────────────
+-- Q11. (Sub-task 4.5)
+-- A row access policy's body includes a subquery against a
+-- mapping table to look up which roles are allowed to see which
+-- region. The querying role has never been granted SELECT on that
+-- mapping table. What happens when a mapped role runs a query
+-- against the protected table?
+--
+--   A. The query fails — the querying role needs SELECT on the
+--      mapping table
+--   B. The query succeeds — the policy body executes with the
+--      PRIVILEGES OF THE POLICY OWNER, not the querying role
+--   C. The query succeeds only if the querying role also holds
+--      SECURITYADMIN
+--   D. Row access policies cannot reference other tables at all
+-- ─────────────────────────────────────────────────────────────
+
+-- ─────────────────────────────────────────────────────────────
+-- Q12. (Sub-task 4.6)
+-- What is the primary advantage of binding a masking policy to a
+-- TAG rather than attaching it directly to each column with ALTER
+-- TABLE ... SET MASKING POLICY?
+--
+--   A. Tag-based masking evaluates faster at query time
+--   B. Protecting a new or existing column of a matching data type
+--      only requires tagging it — no new ALTER TABLE ... SET
+--      MASKING POLICY statement is needed for that column
+--   C. Tags allow a masking policy to bypass row access policies
+--   D. Tag-based masking does not require the APPLY MASKING POLICY
+--      privilege
+-- ─────────────────────────────────────────────────────────────
+
+-- ─────────────────────────────────────────────────────────────
+-- Q13. (Sub-task 4.7)
+-- A network policy's ALLOWED_NETWORK_RULE_LIST includes a rule
+-- allowing a single specific IP address. Its
+-- BLOCKED_NETWORK_RULE_LIST includes a separate rule covering
+-- 0.0.0.0/0 (every IPv4 address). What happens when that specific
+-- allowed IP attempts to connect?
+--
+--   A. It is allowed, since the allow rule is more specific
+--   B. It is blocked — when an IP matches both lists, the blocked
+--      list always wins, regardless of specificity
+--   C. Snowflake rejects the policy at creation time as invalid
+--   D. The most recently created rule always takes precedence
+-- ─────────────────────────────────────────────────────────────
+
+-- ─────────────────────────────────────────────────────────────
+-- Q14. (Sub-task 4.8)
+-- A role has never been granted SELECT (or any privilege) on a
+-- base table. That role IS granted SELECT on a secure view built
+-- on top of that table. Can the role successfully query the view?
+--
+--   A. No — a role always needs privileges on the underlying base
+--      table(s) as well
+--   B. Yes — views (secure or not) execute with the OWNER's
+--      privileges on the base tables, so the querying role only
+--      needs SELECT on the view itself
+--   C. Only if the view is NOT secure
+--   D. Only if the role also holds ACCOUNTADMIN
+-- ─────────────────────────────────────────────────────────────
+
+-- ─────────────────────────────────────────────────────────────
+-- Q15. (Sub-task 4.9)
+-- ROLE_B has been granted into ROLE_A's hierarchy (GRANT ROLE
+-- ROLE_B TO ROLE ROLE_A). A masking policy's body reads:
+--   CASE WHEN CURRENT_ROLE() IN ('ROLE_B') THEN val ELSE '***' END
+-- A user whose ACTIVE PRIMARY role is ROLE_A queries the protected
+-- column. What do they see?
+--
+--   A. The real value — ROLE_A inherited ROLE_B's access through
+--      the hierarchy
+--   B. The masked value — CURRENT_ROLE() returns 'ROLE_A', not
+--      'ROLE_B', regardless of the hierarchy grant
+--   C. An error — Snowflake disallows granting a role referenced
+--      inside a masking policy to any other role
+--   D. It depends on whether secondary roles are enabled
+-- ─────────────────────────────────────────────────────────────
+
+-- ══════════════════════════════════════════════════════════════
+-- ANSWER KEY
+-- ══════════════════════════════════════════════════════════════
+--
+-- Q1.  C — SYSADMIN. ACCOUNTADMIN combines SYSADMIN and
+--      SECURITYADMIN and should not be a daily-driver role;
+--      SECURITYADMIN manages users/roles/grants, not warehouses
+--      or databases; USERADMIN can create users/roles but cannot
+--      grant object privileges. (Sub-task 4.1, CONCEPT)
+--
+-- Q2.  B — Missing USAGE on the database and/or schema. Querying
+--      a table requires USAGE on its database, USAGE on its
+--      schema, AND the object-level privilege (SELECT) — three
+--      separate grants, not one. (Sub-task 4.1, Step 6)
+--
+-- Q3.  B — DEFAULT_SECONDARY_ROLES = ALL means a session
+--      aggregates privileges from every role the user holds, not
+--      just the active primary role. USE ROLE alone does not
+--      isolate a role's true privileges — USE SECONDARY ROLES
+--      NONE is required for that. (Sub-task 4.1, CONCEPT and
+--      Step 5)
+--
+-- Q4.  C — Access roles hold privileges and are never granted to
+--      users directly; functional roles hold access roles and ARE
+--      granted to users. This split is Snowflake's documented,
+--      exam-tested convention. (Sub-task 4.2, CONCEPT)
+--
+-- Q5.  C — OWNERSHIP. ALL PRIVILEGES expands to every applicable
+--      privilege for the object type EXCEPT OWNERSHIP, which must
+--      always be transferred explicitly with GRANT OWNERSHIP.
+--      (Sub-task 4.3, CONCEPT and Practice Gap exercise 3)
+--
+-- Q6.  B — The REVOKE fails outright with zero grants revoked.
+--      Snowflake will not partially apply a revoke when dependent
+--      grants exist; CASCADE must be added to revoke the original
+--      grant and every dependent grant it enabled, together, in
+--      one statement. (Sub-task 4.3, Step 3)
+--
+-- Q7.  C — The schema-level future grant wins; the database-level
+--      one is ignored for that schema. This is a real gotcha since
+--      a broad database-level future grant can be silently
+--      overridden by a narrower schema-level one. (Sub-task 4.3,
+--      CONCEPT and Step 5)
+--
+-- Q8.  B — Switch to a role holding MANAGE GRANTS. Future grants
+--      require this global privilege, held only by ACCOUNTADMIN
+--      and SECURITYADMIN by default — regardless of what the
+--      requesting role owns. (Sub-task 4.3, CONCEPT and Steps 4-5)
+--
+-- Q9.  B — APPLY MASKING POLICY. This account-level privilege is
+--      required to ATTACH a policy to a column; CREATE MASKING
+--      POLICY only allows authoring the policy object itself.
+--      APPLY MASKING POLICY is held only by ACCOUNTADMIN by
+--      default in practice, not SECURITYADMIN, despite some
+--      documentation suggesting otherwise. (Sub-task 4.4, CONCEPT
+--      and Step 1)
+--
+-- Q10. B — All three fail outright once attached/referenced.
+--      CREATE OR REPLACE only works before an object is attached
+--      to anything; ALTER MASKING POLICY/ROW ACCESS POLICY ...
+--      SET BODY, or ALTER NETWORK RULE ... SET VALUE_LIST, must be
+--      used instead to update in place. (Sub-tasks 4.4/4.5 Step 7,
+--      Sub-task 4.7)
+--
+-- Q11. B — Succeeds, using the POLICY OWNER's privileges. Mapping
+--      table lookups inside a policy body execute with the rights
+--      of whoever OWNS the policy, not the querying role — the
+--      querying role never needs direct access to the mapping
+--      table. (Sub-task 4.5, CONCEPT)
+--
+-- Q12. B — Tagging is the entire fix for a new column; no separate
+--      ALTER TABLE ... SET MASKING POLICY statement is needed once
+--      a masking policy is bound to the tag. This directly answers
+--      masking's lack of a future-grant equivalent. (Sub-task 4.6,
+--      CONCEPT and Step 7)
+--
+-- Q13. B — Blocked always wins, even against a more specific
+--      allowed entry. Snowflake does not do longest-prefix-match
+--      the way network routing does. (Sub-task 4.7, CONCEPT and
+--      Practice Gap exercise 4)
+--
+-- Q14. B — Yes, via owner's rights. Any view (secure or not) runs
+--      with the OWNER's privileges on the underlying tables; the
+--      querying role only needs SELECT on the view. Masking and
+--      row access policies on the base table still apply, though
+--      — they evaluate the querying role's CURRENT_ROLE(), not the
+--      owner's. (Sub-task 4.8, CONCEPT and Step 7)
+--
+-- Q15. B — The masked value. CURRENT_ROLE() reflects only the
+--      literal active primary role, never a role inherited through
+--      hierarchy. IS_ROLE_IN_SESSION('ROLE_B') would return TRUE
+--      here and could be used instead if hierarchy-aware masking
+--      is the intended design. (Sub-task 4.9, CONCEPT and Steps
+--      1-6)
+--
+-- ══════════════════════════════════════════════════════════════
+-- SCORING GUIDE
+-- ══════════════════════════════════════════════════════════════
+--
+--   13-15 correct : Strong command of Domain 4. Ready to move on.
+--   10-12 correct : Solid, but revisit the specific sub-tasks
+--                   behind any missed questions before moving on.
+--   Below 10      : Worth re-running the hands-on steps for the
+--                   sub-tasks behind your missed questions —
+--                   this workbook is built so every concept here
+--                   was something you actually did, not just read.
+-- ══════════════════════════════════════════════════════════════

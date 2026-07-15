@@ -58,7 +58,8 @@ Each goal includes a dedicated exam preparation file as the final sub-task. Thes
 | Goal 1 | [09_exam_prep.sql](goal-01-environment-setup/09_exam_prep.sql) | 12 |
 | Goal 2 | [10_exam_prep.sql](goal-02-get-data-in/10_exam_prep.sql) | 14 |
 | Goal 3 | [9_exam_prep.sql](goal-03-query-transform/09_exam_prep.sql) | 14 |
-| Goals 4–9 | Coming as each goal is published | — |
+| Goal 4 | [10_exam_prep.sql](goal-04-security/10_exam_prep.sql) | 15 |
+| Goals 5–9 | Coming as each goal is published | — |
 
 Questions are original — written specifically for this workbook using the COF-C03 exam objectives as a guide. They are not reproduced from any third-party source.
 
