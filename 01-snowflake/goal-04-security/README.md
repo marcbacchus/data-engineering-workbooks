@@ -91,7 +91,7 @@ Assumes every object from 4.1–4.8 still exists and is correctly configured. If
 
 | Domain | Weight | Sub-tasks |
 |---|---|---|
-| Data Governance and Security | 23% | 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9 |
+| Account Management and Data Governance | 20% | 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9 |
 
 The exam prep file (`10_exam_prep.sql`) contains 15 questions covering all tested concepts from this goal.
 

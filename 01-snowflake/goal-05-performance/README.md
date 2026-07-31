@@ -94,7 +94,7 @@ Every prior sub-task in this goal used the workbook's own `ORDER_ITEMS` table (~
 
 | Domain | Weight | Sub-tasks |
 |---|---|---|
-| Performance & Query Optimization | ~10–15% | 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, Capstone |
+| Performance Optimization, Querying, and Transformation | 21% | 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, Capstone |
 
 The exam prep file (`11_exam_prep.sql`) contains 13 questions covering all tested concepts from this goal, including one capstone-synthesis question built directly from this workbook's own real testing results.
 

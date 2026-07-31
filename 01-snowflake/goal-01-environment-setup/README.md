@@ -112,7 +112,7 @@ Sub-tasks in this goal map to the following COF-C03 exam objectives:
 - Virtual warehouse configuration and credit consumption
 - Session and account parameter management
 
-Domain 1 represents **25% of the COF-C03 exam** — the single largest domain. This goal covers it comprehensively.
+Domain 1.0 represents **31% of the COF-C03 exam** — the single largest domain. This goal covers it comprehensively.
 
 ---
 
