@@ -192,8 +192,8 @@ These are behaviours we discovered by actually running every step — not from d
 
 | Domain | Weight | Sub-tasks |
 |---|---|---|
-| Data Loading & Unloading | 15% | 2.1, 2.2, 2.3, 2.4, 2.6, 2.7, 2.8 |
-| Data Transformations | 17% | 2.5, 2.9 |
+| Data Loading, Unloading, and Connectivity | 18% | 2.1, 2.2, 2.3, 2.4, 2.6, 2.7, 2.8 |
+| Performance Optimization, Querying, and Transformation | 21% | 2.5, 2.9 |
 
 The exam prep file (`10_exam_prep.sql`) contains 14 questions covering all tested concepts from this goal.
 

@@ -100,7 +100,7 @@ Always disconnect the kernel when done to avoid idle compute charges.
 
 | Domain | Weight | Sub-tasks |
 |---|---|---|
-| Data Transformations | 17% | 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8 |
+| Performance Optimization, Querying, and Transformation | 21% | 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8 |
 
 The exam prep file (`09_exam_prep.sql`) contains 14 questions covering all tested concepts from this goal.
 
