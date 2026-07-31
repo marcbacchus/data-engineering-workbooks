@@ -11,7 +11,7 @@
 -- Prerequisites    : Sub-tasks 4.1-4.8 complete — this file
 --                    assumes every role, policy, tag, and view
 --                    from the rest of Goal 4 already exists
--- COF-C03 domain   : Domain 4 — Data Governance and Security (23%)
+-- COF-C03 domain   : Domain 2.0 — Account Management and Data Governance (20%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY

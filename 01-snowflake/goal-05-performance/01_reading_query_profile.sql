@@ -10,7 +10,7 @@
   Database           : ECOMMERCE.RAW
   Run in             : Snowsight
   Prerequisites      : Goals 1-4 complete, ECOMMERCE tables loaded
-  COF-C03 domain     : Performance & Query Optimization (~10-15% of exam)
+  COF-C03 domain     : Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 ──────────────────────────────────────────────────────────────────────────
 */
 

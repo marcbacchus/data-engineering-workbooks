@@ -16,7 +16,7 @@
                         comparison, since it's already a known, measurable
                         piece of work (SortWithLimit dominated ~36% of its
                         execution time per 5.1's operator stats)
-  COF-C03 domain     : Performance & Query Optimization (~10-15% of exam)
+  COF-C03 domain     : Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 ──────────────────────────────────────────────────────────────────────────
 */
 

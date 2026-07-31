@@ -7,7 +7,7 @@
 -- Time to complete : ~30 minutes
 -- Run in           : Read only — no SQL to execute
 -- Prerequisites    : All Goal 1 sub-tasks complete (1.1 — 1.8)
--- COF-C03 domain   : Domain 1 — Architecture & Features (25%)
+-- COF-C03 domain   : Domain 1.0 — Snowflake AI Data Cloud Features & Architecture (31%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- HOW TO USE THIS FILE

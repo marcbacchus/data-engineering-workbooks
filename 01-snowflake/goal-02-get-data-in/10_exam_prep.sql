@@ -7,8 +7,8 @@
 -- Time to complete : ~35 minutes
 -- Run in           : Read only — no SQL to execute
 -- Prerequisites    : All Goal 2 sub-tasks complete (2.1 — 2.9)
--- COF-C03 domains  : Domain 4 — Data Loading & Unloading (15%)
---                    Domain 5 — Data Transformations (17%)
+-- COF-C03 domains  : Domain 3.0 — Data Loading, Unloading, and Connectivity (18%)
+--                    Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- HOW TO USE THIS FILE

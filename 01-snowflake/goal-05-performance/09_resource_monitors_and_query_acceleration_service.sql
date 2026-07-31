@@ -13,7 +13,7 @@
                         Service requires Enterprise Edition — confirmed
                         available (same requirement as 5.6/5.7/5.8).
                         Resource monitors require ACCOUNTADMIN to create.
-  COF-C03 domain     : Performance & Query Optimization (~10-15% of exam)
+  COF-C03 domain     : Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 ──────────────────────────────────────────────────────────────────────────
 */
 

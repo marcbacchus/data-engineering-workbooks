@@ -4,7 +4,7 @@
 **Dataset:** E-Commerce (loaded in Goal 2) — the Capstone additionally uses Snowflake's free, read-only `SNOWFLAKE_SAMPLE_DATA.TPCH_SF10` sample data
 **Estimated time:** 6–7 hours total
 **Warehouse size:** X-Small throughout (the Capstone copies real TPC-H benchmark data at ~60M rows, but still runs on X-Small)
-**COF-C03 domains:** Performance & Query Optimization (~10–15%)
+**COF-C03 domains:** Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 
 ---
 

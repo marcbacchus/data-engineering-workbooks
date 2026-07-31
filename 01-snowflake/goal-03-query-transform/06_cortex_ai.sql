@@ -10,7 +10,7 @@
 -- Run in           : Snowsight
 -- Prerequisites    : 05_dml_transactions.sql completed
 --                    CORTEX_USER database role granted (see Setup)
--- COF-C03 domain   : Domain 5 — Data Transformations (17%)
+-- COF-C03 domain   : Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY

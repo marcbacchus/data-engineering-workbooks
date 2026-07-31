@@ -10,7 +10,7 @@
 -- Prerequisites    : 02_object_hierarchy.sql completed
 --                    ECOMMERCE database exists with RAW, STAGING,
 --                    ANALYTICS schemas
--- COF-C03 domain   : Domain 1 — Architecture & Features (25%)
+-- COF-C03 domain   : Domain 1.0 — Snowflake AI Data Cloud Features & Architecture (31%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY

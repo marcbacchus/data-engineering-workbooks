@@ -21,7 +21,7 @@
                         Directly reuses 5.2's finding: PRODUCT_ID filters
                         on ORDER_ITEMS scanned 8/8 partitions (zero
                         pruning) — the textbook case this service targets.
-  COF-C03 domain     : Performance & Query Optimization (~10-15% of exam)
+  COF-C03 domain     : Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 ──────────────────────────────────────────────────────────────────────────
 */
 

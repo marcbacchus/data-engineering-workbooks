@@ -11,7 +11,7 @@
 --                    NOT a SQL worksheet
 -- Prerequisites    : 07_udfs.sql completed
 --                    Python familiarity helpful but not required
--- COF-C03 domain   : Domain 5 — Data Transformations (17%)
+-- COF-C03 domain   : Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY

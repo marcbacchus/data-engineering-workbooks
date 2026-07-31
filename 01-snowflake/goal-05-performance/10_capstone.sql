@@ -12,7 +12,7 @@
                         setup cost unlike every prior sub-task)
   Run in             : Snowsight
   Prerequisites      : Sub-tasks 5.1-5.9 complete
-  COF-C03 domain     : Performance & Query Optimization (~10-15% of exam)
+  COF-C03 domain     : Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 ──────────────────────────────────────────────────────────────────────────
   NOTE ON COST: every prior sub-task in Goal 5 used ORDER_ITEMS (~8 micro-
   partitions) and repeatedly found it too small for clustering, search

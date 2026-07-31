@@ -12,7 +12,7 @@
 --                    All 10 dataset files at:
 --                    Mac:     ~/projects/data-engineering-workbooks/dataset/
 --                    Windows: C:\Users\YourName\projects\data-engineering-workbooks\dataset\
--- COF-C03 domain   : Domain 4 — Data Loading & Unloading (15%)
+-- COF-C03 domain   : Domain 3.0 — Data Loading, Unloading, and Connectivity (18%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY

@@ -4,7 +4,7 @@
 **Dataset:** E-Commerce (loaded in this goal)
 **Estimated time:** 4–5 hours total
 **Warehouse size:** X-Small throughout
-**COF-C03 domains:** Domain 4 — Data Loading & Unloading (15%) · Domain 5 — Data Transformations (17%)
+**COF-C03 domains:** Domain 3.0 — Data Loading, Unloading, and Connectivity (18%)
 
 ---
 

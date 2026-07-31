@@ -11,7 +11,7 @@
 -- Prerequisites    : 01_file_formats.sql completed
 --                    02_staging_files.sql completed
 --                    All 10 files staged in ECOMMERCE_RAW_STAGE
--- COF-C03 domain   : Domain 4 — Data Loading & Unloading (15%)
+-- COF-C03 domain   : Domain 3.0 — Data Loading, Unloading, and Connectivity (18%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY

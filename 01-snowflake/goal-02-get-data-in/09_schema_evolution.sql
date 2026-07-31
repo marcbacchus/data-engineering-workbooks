@@ -10,8 +10,8 @@
 -- Run in           : Snowsight (all steps)
 -- Prerequisites    : 03_copy_into.sql completed
 --                    All 8 CSV tables loaded in ECOMMERCE.RAW
--- COF-C03 domain   : Domain 4 — Data Loading & Unloading (15%)
---                    Domain 5 — Data Transformations (17%)
+-- COF-C03 domain   : Domain 3.0 — Data Loading, Unloading, and Connectivity (18%)
+--                    Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY

@@ -9,14 +9,13 @@
 -- Database         : ECOMMERCE
 -- Run in           : Snowsight
 -- Prerequisites    : Sub-tasks 4.1-4.9 complete
--- COF-C03 domain   : Domain 4 — Data Governance and Security (23%)
+-- COF-C03 domain   : Domain 2.0 — Account Management and Data Governance (20%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY
 --   15 practice questions covering everything built in Goal 4,
 --   in the style and weighting of COF-C03's Domain 4 (Data
---   Governance and Security, 23% of the exam — the single
---   largest domain). Every question maps to a specific sub-task
+--   Governance and Security, 20% of the exam). Every question maps to a specific sub-task
 --   and step in this goal, so a wrong answer tells you exactly
 --   where to go back and re-test something hands-on rather than
 --   just re-reading a definition.
@@ -352,7 +351,7 @@
 -- SCORING GUIDE
 -- ══════════════════════════════════════════════════════════════
 --
---   13-15 correct : Strong command of Domain 4. Ready to move on.
+--   13-15 correct : Strong command of Domain 2.0. Ready to move on.
 --   10-12 correct : Solid, but revisit the specific sub-tasks
 --                   behind any missed questions before moving on.
 --   Below 10      : Worth re-running the hands-on steps for the

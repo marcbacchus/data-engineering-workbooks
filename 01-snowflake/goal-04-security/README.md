@@ -4,7 +4,7 @@
 **Dataset:** E-Commerce (loaded in Goal 2)
 **Estimated time:** 5–6 hours total
 **Warehouse size:** X-Small throughout
-**COF-C03 domains:** Domain 4 — Data Governance and Security (23%)
+**COF-C03 domains:** Domain 2.0 — Account Management and Data Governance (20%)
 
 ---
 

@@ -11,7 +11,7 @@
 -- Prerequisites    : Goal 2 complete
 --                    All 10 tables loaded in ECOMMERCE.RAW
 --                    10,370,254 rows available
--- COF-C03 domain   : Domain 5 — Data Transformations (17%)
+-- COF-C03 domain   : Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY

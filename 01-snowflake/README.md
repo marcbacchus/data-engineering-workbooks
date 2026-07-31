@@ -116,12 +116,11 @@ git push
 
 | Domain | Weight | Goals |
 |---|---|---|
-| Snowflake AI Data Cloud Features & Architecture | 25% | 01, 09 |
-| Account Access and Security | 17% | 04, 09 |
-| Performance Concepts | 15% | 05 |
-| Data Loading and Unloading | 15% | 02 |
-| Data Transformations | 17% | 03, 06 |
-| Data Protection and Data Sharing | 11% | 07, 08 |
+| Snowflake AI Data Cloud Features & Architecture | 31% | 01 |
+| Account Management and Data Governance | 20% | 04, 09 |
+| Data Loading, Unloading, and Connectivity | 18% | 02 |
+| Performance Optimization, Querying, and Transformation | 21% | 03, 05, 06 |
+| Data Collaboration | 10% | 07, 08* |
 
 Sub-tasks that map directly to exam objectives are marked with the COF-C03 domain in the file header.
 

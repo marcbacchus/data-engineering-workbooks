@@ -8,8 +8,7 @@
 -- Warehouse size   : X-Small (COMPUTE_WH)
 -- Database         : ECOMMERCE
 -- Prerequisites    : 06_editions.sql completed
--- COF-C03 domain   : Domain 1 — Architecture & Features (25%)
---                    Domain 3 — Performance Concepts (15%)
+-- COF-C03 domain   : Domain 1.0 — Snowflake AI Data Cloud Features & Architecture (31%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY

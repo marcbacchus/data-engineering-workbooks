@@ -17,7 +17,7 @@
                         an Enterprise Edition feature — confirmed available
                         on this account per the workbook's Enterprise
                         Snowflake account.
-  COF-C03 domain     : Performance & Query Optimization (~10-15% of exam)
+  COF-C03 domain     : Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 ──────────────────────────────────────────────────────────────────────────
 */
 

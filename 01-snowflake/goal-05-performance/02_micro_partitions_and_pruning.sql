@@ -11,7 +11,7 @@
   Run in             : Snowsight
   Prerequisites      : Sub-task 5.1 complete (EXPLAIN / GET_QUERY_OPERATOR_STATS
                         pruning methodology carries over directly here)
-  COF-C03 domain     : Performance & Query Optimization (~10-15% of exam)
+  COF-C03 domain     : Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 ──────────────────────────────────────────────────────────────────────────
 */
 

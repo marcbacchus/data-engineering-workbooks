@@ -12,7 +12,7 @@
 --                    ECOMMERCE database with RAW, STAGING,
 --                    ANALYTICS schemas
 --                    WORKBOOK_WH exists
--- COF-C03 domain   : Domain 4 — Data Loading & Unloading (15%)
+-- COF-C03 domain   : Domain 3.0 — Data Loading, Unloading, and Connectivity (18%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY

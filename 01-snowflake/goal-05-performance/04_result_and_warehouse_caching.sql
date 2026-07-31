@@ -17,7 +17,7 @@
                         query was re-run unintentionally — this sub-task
                         makes that same mechanism deliberate and adds the
                         two other cache layers around it
-  COF-C03 domain     : Performance & Query Optimization (~10-15% of exam)
+  COF-C03 domain     : Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 ──────────────────────────────────────────────────────────────────────────
 */
 

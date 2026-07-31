@@ -7,7 +7,7 @@
 -- Time to complete : ~35 minutes
 -- Run in           : Read only — no SQL to execute
 -- Prerequisites    : All Goal 3 sub-tasks complete (3.1 — 3.8)
--- COF-C03 domain   : Domain 5 — Data Transformations (17%)
+-- COF-C03 domain   : Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- HOW TO USE THIS FILE

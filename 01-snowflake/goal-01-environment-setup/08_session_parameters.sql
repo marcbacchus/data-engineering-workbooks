@@ -9,7 +9,7 @@
 -- Database         : ECOMMERCE
 -- Prerequisites    : 07_virtual_warehouses.sql completed
 --                    WORKBOOK_WH exists
--- COF-C03 domain   : Domain 1 — Architecture & Features (25%)
+-- COF-C03 domain   : Domain 1.0 — Snowflake AI Data Cloud Features & Architecture (31%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY

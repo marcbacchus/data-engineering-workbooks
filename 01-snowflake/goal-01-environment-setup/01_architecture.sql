@@ -7,7 +7,7 @@
 -- Time to complete : ~20 minutes
 -- Warehouse size   : X-Small (COMPUTE_WH)
 -- Starting point   : Fresh Snowflake session, no database selected
--- COF-C03 domain   : Domain 1 — Architecture & Features (25%)
+-- COF-C03 domain   : Domain 1.0 — Snowflake AI Data Cloud Features & Architecture (31%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY

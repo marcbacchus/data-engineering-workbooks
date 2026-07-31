@@ -15,7 +15,7 @@
                         Enterprise Edition — confirmed available on this
                         account (same requirement as 5.6's multi-cluster
                         warehouses).
-  COF-C03 domain     : Performance & Query Optimization (~10-15% of exam)
+  COF-C03 domain     : Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 ──────────────────────────────────────────────────────────────────────────
 */
 

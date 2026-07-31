@@ -4,7 +4,7 @@
 **Dataset:** E-Commerce (loaded in Goal 2)  
 **Estimated time:** 2–3 hours  
 **Warehouse size:** X-Small throughout  
-**COF-C03 domain:** Domain 1 — Snowflake AI Data Cloud Features & Architecture (25%)
+**COF-C03 domain:** Domain 1.0 — Snowflake AI Data Cloud Features & Architecture (31%)
 
 ---
 

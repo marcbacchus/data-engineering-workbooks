@@ -11,7 +11,7 @@
 -- Prerequisites    : Sub-task 4.1 complete
 --                    SYSADMIN owns ECOMMERCE.RAW, its tables, and
 --                    WORKBOOK_WH (fixed in Sub-task 4.1 SETUP)
--- COF-C03 domain   : Domain 4 — Data Governance and Security (23%)
+-- COF-C03 domain   : Domain 2.0 — Account Management and Data Governance (20%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY

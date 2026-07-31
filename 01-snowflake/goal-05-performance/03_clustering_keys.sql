@@ -16,7 +16,7 @@
                         5.2 left off: PRODUCT_ID filters on ORDER_ITEMS
                         scanned 8/8 partitions (zero pruning) due to poor
                         natural clustering
-  COF-C03 domain     : Performance & Query Optimization (~10-15% of exam)
+  COF-C03 domain     : Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 ──────────────────────────────────────────────────────────────────────────
 */
 

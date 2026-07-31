@@ -4,7 +4,7 @@
 **Dataset:** E-Commerce (loaded in Goal 2)  
 **Estimated time:** 4–5 hours total  
 **Warehouse size:** X-Small throughout  
-**COF-C03 domains:** Domain 5 — Data Transformations (17%)
+**COF-C03 domains:** Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 
 ---
 

@@ -11,7 +11,7 @@
 -- Prerequisites    : Sub-tasks 4.1-4.3 complete
 --                    Enterprise Edition or higher (masking is not
 --                    available on Standard Edition)
--- COF-C03 domain   : Domain 4 — Data Governance and Security (23%)
+-- COF-C03 domain   : Domain 2.0 — Account Management and Data Governance (20%)
 -- ══════════════════════════════════════════════════════════════
 --
 -- WHAT YOU ARE DOING AND WHY

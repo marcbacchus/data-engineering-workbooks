@@ -8,7 +8,7 @@
   Time to complete   : 35-40 min
   Run in             : Read only — no SQL to execute
   Prerequisites      : Goal 5 sub-tasks 5.1-5.9 and Capstone complete
-  COF-C03 domain     : Performance & Query Optimization (~10-15% of exam)
+  COF-C03 domain     : Domain 4.0 — Performance Optimization, Querying, and Transformation (21%)
 ──────────────────────────────────────────────────────────────────────────
 
 HOW TO USE THIS FILE
