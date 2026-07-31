@@ -29,7 +29,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 1 of 14  [Multi]  Difficulty: Medium
--- Domain   : Data Loading & Unloading
+-- Domain   : Data Loading, Unloading, and Connectivity
 -- Sub-task : 2.2 — Stage files for loading
 -- ══════════════════════════════════════════════════════════════
 --
@@ -65,7 +65,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 2 of 14  [Multi]  Difficulty: Medium
--- Domain   : Data Loading & Unloading
+-- Domain   : Data Loading, Unloading, and Connectivity
 -- Sub-task : 2.2 — Stage files for loading
 -- ══════════════════════════════════════════════════════════════
 --
@@ -99,7 +99,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 3 of 14  [T/F]  Difficulty: Easy
--- Domain   : Data Loading & Unloading
+-- Domain   : Data Loading, Unloading, and Connectivity
 -- Sub-task : 2.3 — Load data with COPY INTO
 -- ══════════════════════════════════════════════════════════════
 --
@@ -126,7 +126,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 4 of 14  [Multi]  Difficulty: Medium
--- Domain   : Data Loading & Unloading
+-- Domain   : Data Loading, Unloading, and Connectivity
 -- Sub-task : 2.3 — Load data with COPY INTO
 -- ══════════════════════════════════════════════════════════════
 --
@@ -167,7 +167,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 5 of 14  [Multi]  Difficulty: Medium
--- Domain   : Data Loading & Unloading
+-- Domain   : Data Loading, Unloading, and Connectivity
 -- Sub-task : 2.4 — Handle load errors
 -- ══════════════════════════════════════════════════════════════
 --
@@ -205,7 +205,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 6 of 14  [Single]  Difficulty: Medium
--- Domain   : Data Loading & Unloading
+-- Domain   : Data Loading, Unloading, and Connectivity
 -- Sub-task : 2.4 — Handle load errors
 -- ══════════════════════════════════════════════════════════════
 --
@@ -242,7 +242,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 7 of 14  [Single]  Difficulty: Medium
--- Domain   : Data Loading & Unloading
+-- Domain   : Data Loading, Unloading, and Connectivity
 -- Sub-task : 2.5 — Semi-structured data
 -- ══════════════════════════════════════════════════════════════
 --
@@ -282,7 +282,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 8 of 14  [T/F]  Difficulty: Easy
--- Domain   : Data Loading & Unloading
+-- Domain   : Data Loading, Unloading, and Connectivity
 -- Sub-task : 2.5 — Semi-structured data
 -- ══════════════════════════════════════════════════════════════
 --
@@ -309,7 +309,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 9 of 14  [T/F]  Difficulty: Medium
--- Domain   : Data Loading & Unloading
+-- Domain   : Data Loading, Unloading, and Connectivity
 -- Sub-task : 2.5 — Semi-structured data
 -- ══════════════════════════════════════════════════════════════
 --
@@ -340,7 +340,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 10 of 14  [Multi]  Difficulty: Medium
--- Domain   : Data Loading & Unloading
+-- Domain   : Data Loading, Unloading, and Connectivity
 -- Sub-task : 2.6 — Snowpipe
 -- ══════════════════════════════════════════════════════════════
 --
@@ -378,7 +378,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 11 of 14  [T/F]  Difficulty: Easy
--- Domain   : Data Loading & Unloading
+-- Domain   : Data Loading, Unloading, and Connectivity
 -- Sub-task : 2.6 — Snowpipe
 -- ══════════════════════════════════════════════════════════════
 --
@@ -410,7 +410,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 12 of 14  [Single]  Difficulty: Medium
--- Domain   : Data Loading & Unloading
+-- Domain   : Data Loading, Unloading, and Connectivity
 -- Sub-task : 2.6 — Snowpipe
 -- ══════════════════════════════════════════════════════════════
 --
@@ -449,7 +449,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 13 of 14  [Single]  Difficulty: Hard
--- Domain   : Data Loading & Unloading
+-- Domain   : Data Loading, Unloading, and Connectivity
 -- Sub-task : 2.3, 2.5, 2.9
 -- ══════════════════════════════════════════════════════════════
 --
@@ -501,7 +501,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 14 of 14  [Single]  Difficulty: Hard
--- Domain   : Data Loading & Unloading + Data Transformations
+-- Domain   : Data Loading, Unloading, and Connectivity + Performance Optimization, Querying, and Transformation
 -- Sub-task : 2.9 — Schema evolution
 -- ══════════════════════════════════════════════════════════════
 --

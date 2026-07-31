@@ -28,7 +28,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 1 of 14  [Multi]  Difficulty: Medium
--- Domain   : Data Transformations
+-- Domain   : Performance Optimization, Querying, and Transformation
 -- Sub-task : 3.7 — User-defined functions
 -- ══════════════════════════════════════════════════════════════
 --
@@ -65,7 +65,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 2 of 14  [Single]  Difficulty: Medium
--- Domain   : Data Transformations
+-- Domain   : Performance Optimization, Querying, and Transformation
 -- Sub-task : 3.3 — Window functions
 -- ══════════════════════════════════════════════════════════════
 --
@@ -108,7 +108,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 3 of 14  [Single]  Difficulty: Medium
--- Domain   : Data Transformations
+-- Domain   : Performance Optimization, Querying, and Transformation
 -- Sub-task : 3.3 — Window functions
 -- ══════════════════════════════════════════════════════════════
 --
@@ -144,7 +144,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 4 of 14  [T/F]  Difficulty: Easy
--- Domain   : Data Transformations
+-- Domain   : Performance Optimization, Querying, and Transformation
 -- Sub-task : 3.3 — Window functions
 -- ══════════════════════════════════════════════════════════════
 --
@@ -176,7 +176,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 5 of 14  [Single]  Difficulty: Medium
--- Domain   : Data Transformations
+-- Domain   : Performance Optimization, Querying, and Transformation
 -- Sub-task : 3.2 — Joins and aggregations
 -- ══════════════════════════════════════════════════════════════
 --
@@ -214,7 +214,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 6 of 14  [Single]  Difficulty: Hard
--- Domain   : Data Transformations
+-- Domain   : Performance Optimization, Querying, and Transformation
 -- Sub-task : 3.2 — Joins and aggregations
 -- ══════════════════════════════════════════════════════════════
 --
@@ -258,7 +258,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 7 of 14  [Single]  Difficulty: Medium
--- Domain   : Data Transformations
+-- Domain   : Performance Optimization, Querying, and Transformation
 -- Sub-task : 3.4 — CTEs
 -- ══════════════════════════════════════════════════════════════
 --
@@ -303,7 +303,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 8 of 14  [T/F]  Difficulty: Medium
--- Domain   : Data Transformations
+-- Domain   : Performance Optimization, Querying, and Transformation
 -- Sub-task : 3.5 — DML and transactions
 -- ══════════════════════════════════════════════════════════════
 --
@@ -336,7 +336,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 9 of 14  [Single]  Difficulty: Medium
--- Domain   : Data Transformations
+-- Domain   : Performance Optimization, Querying, and Transformation
 -- Sub-task : 3.5 — DML and transactions
 -- ══════════════════════════════════════════════════════════════
 --
@@ -382,7 +382,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 10 of 14  [Single]  Difficulty: Medium
--- Domain   : Data Transformations
+-- Domain   : Performance Optimization, Querying, and Transformation
 -- Sub-task : 3.5 — DML and transactions
 -- ══════════════════════════════════════════════════════════════
 --
@@ -430,7 +430,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 11 of 14  [Single]  Difficulty: Medium
--- Domain   : Data Transformations
+-- Domain   : Performance Optimization, Querying, and Transformation
 -- Sub-task : 3.1 — SQL fundamentals
 -- ══════════════════════════════════════════════════════════════
 --
@@ -468,7 +468,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 12 of 14  [T/F]  Difficulty: Easy
--- Domain   : Data Transformations
+-- Domain   : Performance Optimization, Querying, and Transformation
 -- Sub-task : 3.8 — Snowpark Python
 -- ══════════════════════════════════════════════════════════════
 --
@@ -502,7 +502,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 13 of 14  [Single]  Difficulty: Medium
--- Domain   : Data Transformations
+-- Domain   : Performance Optimization, Querying, and Transformation
 -- Sub-task : 3.2 — Joins and aggregations
 -- ══════════════════════════════════════════════════════════════
 --
@@ -544,7 +544,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 14 of 14  [Single]  Difficulty: Hard
--- Domain   : Data Transformations
+-- Domain   : Performance Optimization, Querying, and Transformation
 -- Sub-task : 3.1, 3.2, 3.3, 3.5 — synthesis question
 -- ══════════════════════════════════════════════════════════════
 --

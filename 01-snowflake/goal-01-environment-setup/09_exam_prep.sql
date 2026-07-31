@@ -28,7 +28,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 1 of 12  [Single]  Difficulty: Medium
--- Domain   : Architecture & Features
+-- Domain   : Snowflake AI Data Cloud Features & Architecture
 -- Sub-task : 1.1 — Understand the Snowflake architecture
 -- ══════════════════════════════════════════════════════════════
 --
@@ -66,7 +66,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 2 of 12  [Single]  Difficulty: Medium
--- Domain   : Architecture & Features
+-- Domain   : Snowflake AI Data Cloud Features & Architecture
 -- Sub-task : 1.1 — Understand the Snowflake architecture
 -- ══════════════════════════════════════════════════════════════
 --
@@ -103,7 +103,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 3 of 12  [Single]  Difficulty: Medium
--- Domain   : Architecture & Features
+-- Domain   : Snowflake AI Data Cloud Features & Architecture
 -- Sub-task : 1.1 — Understand the Snowflake architecture
 -- ══════════════════════════════════════════════════════════════
 --
@@ -144,7 +144,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 4 of 12  [Single]  Difficulty: Medium
--- Domain   : Architecture & Features
+-- Domain   : Snowflake AI Data Cloud Features & Architecture
 -- Sub-task : 1.3 — Know your table types
 -- ══════════════════════════════════════════════════════════════
 --
@@ -180,7 +180,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 5 of 12  [Multi]  Difficulty: Medium
--- Domain   : Architecture & Features
+-- Domain   : Snowflake AI Data Cloud Features & Architecture
 -- Sub-task : 1.3 — Know your table types
 -- ══════════════════════════════════════════════════════════════
 --
@@ -222,7 +222,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 6 of 12  [Single]  Difficulty: Medium
--- Domain   : Architecture & Features
+-- Domain   : Snowflake AI Data Cloud Features & Architecture
 -- Sub-task : 1.4 — Know your view types
 -- ══════════════════════════════════════════════════════════════
 --
@@ -261,7 +261,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 7 of 12  [Single]  Difficulty: Medium
--- Domain   : Architecture & Features
+-- Domain   : Snowflake AI Data Cloud Features & Architecture
 -- Sub-task : 1.5 — Know your stage types
 -- ══════════════════════════════════════════════════════════════
 --
@@ -298,7 +298,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 8 of 12  [Multi]  Difficulty: Medium
--- Domain   : Architecture & Features
+-- Domain   : Snowflake AI Data Cloud Features & Architecture
 -- Sub-task : 1.6 — Understand Snowflake editions
 -- ══════════════════════════════════════════════════════════════
 --
@@ -337,7 +337,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 9 of 12  [Single]  Difficulty: Medium
--- Domain   : Architecture & Features
+-- Domain   : Snowflake AI Data Cloud Features & Architecture
 -- Sub-task : 1.7 — Configure virtual warehouses
 -- ══════════════════════════════════════════════════════════════
 --
@@ -385,7 +385,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 10 of 12  [Multi]  Difficulty: Medium
--- Domain   : Architecture & Features
+-- Domain   : Snowflake AI Data Cloud Features & Architecture
 -- Sub-task : 1.7 — Configure virtual warehouses
 -- ══════════════════════════════════════════════════════════════
 --
@@ -422,7 +422,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 11 of 12  [T/F]  Difficulty: Easy
--- Domain   : Architecture & Features
+-- Domain   : Snowflake AI Data Cloud Features & Architecture
 -- Sub-task : 1.8 — Session and account parameters
 -- ══════════════════════════════════════════════════════════════
 --
@@ -461,7 +461,7 @@
 
 -- ══════════════════════════════════════════════════════════════
 -- QUESTION 12 of 12  [Single]  Difficulty: Hard
--- Domain   : Architecture & Features
+-- Domain   : Snowflake AI Data Cloud Features & Architecture
 -- Sub-task : 1.1, 1.3, 1.7 — Architecture, tables, warehouses
 -- ══════════════════════════════════════════════════════════════
 --
