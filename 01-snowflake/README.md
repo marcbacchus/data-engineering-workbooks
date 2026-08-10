@@ -2,7 +2,7 @@
 
 **Series:** [Data Engineering Workbooks](../README.md)  
 **Dataset:** [E-Commerce dataset](../dataset/SCHEMA.md)  
-**Estimated time:** 25–35 hours total (Goals 1–5 actual; Goals 6–9 estimated, will be refined as each is completed)
+**Estimated time:** 32–43 hours total (Goals 1–6 actual; Goals 7–9 estimated, will be refined as each is completed)
 **Certification alignment:** SnowPro Core COF-C03  
 
 ---
@@ -42,7 +42,7 @@ By the end of this workbook you will have:
 | [03](goal-03-query-transform/) | Query and transform data | SQL, window functions, transactions, DML, Cortex AI, UDFs, Snowpark intro | ~4–5 hrs |
 | [04](goal-04-security/) | Secure your environment | RBAC, masking policies, row access policies, network policies, tags | ~5–6 hrs |
 | [05](goal-05-performance/) | Optimize performance | Query Profile, caching, clustering, warehouse sizing, Search Optimization | ~6–7 hrs |
-| [06](goal-06-automation/) | Automate workflows | Tasks, Streams, CDC pipelines, stored procedures, Dynamic Tables | ~2–3 hrs |
+| [06](goal-06-automation/) | Automate workflows | Tasks, Streams, CDC pipelines, stored procedures, Dynamic Tables | ~7–8 hrs |
 | [07](goal-07-sharing/) | Share and collaborate | Secure data sharing, Marketplace, Data Clean Rooms | ~1 hr |
 | [08](goal-08-recovery/) | Recover from mistakes | Time Travel, Fail-Safe, zero-copy cloning, replication | ~1–2 hrs |
 | [09](goal-09-monitoring/) | Monitor and manage costs | INFORMATION_SCHEMA, ACCOUNT_USAGE, SHOW commands, resource monitors | ~1–2 hrs |
@@ -60,7 +60,8 @@ Each goal includes a dedicated exam preparation file as the final sub-task. Thes
 | Goal 3 | [9_exam_prep.sql](goal-03-query-transform/09_exam_prep.sql) | 14 |
 | Goal 4 | [10_exam_prep.sql](goal-04-security/10_exam_prep.sql) | 15 |
 | Goal 5 | [11_exam_prep.sql](goal-05-performance/11_exam_prep.sql) | 13 |
-| Goals 6–9 | Coming as each goal is published | — |
+| Goal 6 | [09_exam_prep.sql](goal-06-automation/09_exam_prep.sql) | 15 |
+| Goals 7–9 | Coming as each goal is published | — |
 
 Questions are original — written specifically for this workbook using the COF-C03 exam objectives as a guide. They are not reproduced from any third-party source.
 
