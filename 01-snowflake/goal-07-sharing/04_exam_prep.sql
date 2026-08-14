@@ -1,0 +1,337 @@
+-- ══════════════════════════════════════════════════════════════════
+-- SNOWFLAKE ENGINEERING WORKBOOK
+-- Author       : Marc Bacchus · github.com/marcbacchus/data-engineering-workbooks
+-- Goal 7       : Share and Collaborate
+-- Sub-task 7.4 : Exam Prep
+-- ══════════════════════════════════════════════════════════════════
+-- ──────────────────────────────────────────────────────────────────
+-- Time to complete : 30-40 min
+-- Warehouse size    : n/a
+-- Database          : n/a
+-- Run in            : Reading only
+-- Prerequisites     : Goal 7 sub-tasks 7.1-7.3 complete
+-- COF-C03 domain    : 5.0 Data Collaboration (10%)
+-- ──────────────────────────────────────────────────────────────────
+-- HOW TO USE THIS FILE
+-- 13 original COF-C03-aligned questions covering everything tested
+-- live in Goal 7. Read each question, commit to an answer, THEN read
+-- the explanation. If you get one wrong, go back to the referenced
+-- sub-task before continuing -- several of these map directly to
+-- real errors hit while building 7.1 and 7.2, not just theory.
+-- ──────────────────────────────────────────────────────────────────
+
+
+-- ══════════════════════════════════════════════════════════════════
+-- Q1. Secure Data Sharing fundamentals
+-- ══════════════════════════════════════════════════════════════════
+-- When a consumer account queries a table exposed via a Snowflake
+-- SHARE, where does the compute for that query run, and what happens
+-- to the provider's storage?
+--
+--   A. Compute runs in the provider's account; provider storage
+--      doubles as the data is copied to the consumer.
+--   B. Compute runs in the consumer's account (their own warehouse);
+--      no data is copied, provider storage is unaffected.
+--   C. Compute runs in a shared Snowflake-managed pool; the data is
+--      copied to a neutral staging area.
+--   D. Compute runs in the consumer's account; the data is copied to
+--      the consumer's account on first query, then cached there.
+--
+-- ANSWER: B
+-- Data sharing is metadata-only. The consumer's own warehouse reads
+-- the provider's underlying micro-partitions directly -- nothing is
+-- copied, and the consumer pays for their own compute. This is why
+-- provider storage cost is unaffected by how many consumers query a
+-- share, however heavily. See 7.1 CONCEPT.
+
+
+-- ══════════════════════════════════════════════════════════════════
+-- Q2. What can and cannot be shared
+-- ══════════════════════════════════════════════════════════════════
+-- Which of the following CANNOT be added to a Snowflake share?
+--
+--   A. A secure view
+--   B. A table
+--   C. A regular (non-secure) view
+--   D. A secure UDF
+--
+-- ANSWER: C
+-- Only tables, secure views, secure materialized views, and secure
+-- UDFs can go into a share. A standard view exposes its own
+-- definition to the consumer and Snowflake returns an error if you
+-- try. See 7.1 CONCEPT.
+
+
+-- ══════════════════════════════════════════════════════════════════
+-- Q3. Reader accounts vs. full accounts
+-- ══════════════════════════════════════════════════════════════════
+-- A provider wants to share data with a partner organization that
+-- does not have its own Snowflake account. What is the correct
+-- mechanism, and who pays for the consumer-side compute?
+--
+--   A. CREATE MANAGED ACCOUNT ... TYPE = READER; the reader account's
+--      compute is billed to the PROVIDER account.
+--   B. CREATE MANAGED ACCOUNT ... TYPE = READER; the reader account's
+--      compute is billed to the CONSUMER once they sign up separately.
+--   C. The partner must sign up for their own trial account first;
+--      shares cannot target accounts without existing billing.
+--   D. ALTER SHARE ... ADD ACCOUNTS accepts an email address directly,
+--      auto-provisioning a lightweight account.
+--
+-- ANSWER: A
+-- A managed reader account is created and owned by the provider, and
+-- all of its compute (including any warehouse the reader account's
+-- admin creates) bills against the provider's account. This is why
+-- 7.1 flagged it with an explicit ⚠️ cost warning and required
+-- teardown. See 7.1 STEP 3 and the cost warning block.
+
+
+-- ══════════════════════════════════════════════════════════════════
+-- Q4. ALTER SHARE ADD ACCOUNTS -- the value that's actually required
+-- ══════════════════════════════════════════════════════════════════
+-- After running CREATE MANAGED ACCOUNT SHARED_TEST_ACCOUNT ..., which
+-- value should be passed to ALTER SHARE ... ADD ACCOUNTS?
+--
+--   A. The literal identifier used at creation ('SHARED_TEST_ACCOUNT'),
+--      quoted as a string.
+--   B. The literal identifier used at creation (SHARED_TEST_ACCOUNT),
+--      unquoted.
+--   C. The account's locator, shown in the "locator" column of
+--      SHOW MANAGED ACCOUNTS -- an unquoted identifier, not a string.
+--   D. The full login URL returned by SHOW MANAGED ACCOUNTS.
+--
+-- ANSWER: C
+-- Confirmed live in 7.1: the CREATE MANAGED ACCOUNT name is only a
+-- display identifier within your account -- it is never accepted by
+-- ADD ACCOUNTS. The actual value is the "locator" column from
+-- SHOW MANAGED ACCOUNTS, and it must be unquoted (it's an identifier,
+-- not a string literal -- quoting it throws a syntax error). See
+-- 7.1 STEP 4.
+
+
+-- ══════════════════════════════════════════════════════════════════
+-- Q5. Confirming a share grant actually landed
+-- ══════════════════════════════════════════════════════════════════
+-- Immediately after ALTER SHARE ... ADD ACCOUNTS succeeds, you run
+-- SHOW GRANTS OF SHARE <share_name> and get zero rows. What does
+-- this mean?
+--
+--   A. The ADD ACCOUNTS call silently failed and needs to be re-run.
+--   B. This is expected -- SHOW GRANTS OF SHARE only lists accounts
+--      that have already run CREATE DATABASE FROM SHARE; check
+--      SHOW SHARES instead to confirm the grant itself.
+--   C. There is metadata replication latency of up to several hours
+--      before the grant becomes visible.
+--   D. The consumer account must first accept the share via an email
+--      confirmation link before it shows up anywhere.
+--
+-- ANSWER: B
+-- SHOW GRANTS OF SHARE lists accounts actively CONSUMING the share
+-- (i.e. that have created a database from it), not accounts merely
+-- granted access. Zero rows before the consumer has taken that step
+-- is correct behavior, not a failure or a latency issue. Use
+-- SHOW SHARES and check the "to" column to confirm the grant itself
+-- landed. See 7.1 STEP 4.
+
+
+-- ══════════════════════════════════════════════════════════════════
+-- Q6. Row access policies and cross-account context
+-- ══════════════════════════════════════════════════════════════════
+-- A table has a row access policy whose condition uses
+-- IS_ROLE_IN_SESSION(). The table is shared to a reader account, and
+-- a query against it from that reader account returns zero rows with
+-- no error, even though the equivalent query returns rows when run
+-- by the provider. What's the most likely cause?
+--
+--   A. The share's grants on the table were revoked.
+--   B. The reader account has no session role that matches anything
+--      the policy's condition checks for, so every branch evaluates
+--      to FALSE and every row is filtered.
+--   C. Row access policies are not supported on shared tables at all
+--      and always return zero rows.
+--   D. The reader account needs its own COPY of the row access policy
+--      created locally.
+--
+-- ANSWER: B
+-- Context functions like CURRENT_ROLE(), CURRENT_USER(), and
+-- IS_ROLE_IN_SESSION() don't resolve to anything meaningful across
+-- account boundaries -- the reader account's roles don't exist in the
+-- provider's role hierarchy. If the policy has no branch to handle
+-- that case, every row is silently filtered: no error, just an empty
+-- result. The durable fix is writing the policy around
+-- CURRENT_ACCOUNT() instead, which stays populated across accounts.
+-- Confirmed live against Goal 4's REGION_ACCESS_POLICY. See 7.1
+-- STEP 5.5 and WHAT IF.
+
+
+-- ══════════════════════════════════════════════════════════════════
+-- Q7. Marketplace listing types
+-- ══════════════════════════════════════════════════════════════════
+-- What's the functional difference between a STANDARD listing and a
+-- PERSONALIZED listing on the Snowflake Marketplace?
+--
+--   A. STANDARD listings are always free; PERSONALIZED listings are
+--      always paid.
+--   B. STANDARD listings mount instantly on "Get"; PERSONALIZED
+--      listings require the provider to approve the specific request
+--      first, and mount only after approval.
+--   C. STANDARD listings are read-only; PERSONALIZED listings allow
+--      the consumer to write back to the provider's tables.
+--   D. There is no functional difference -- "personalized" is a
+--      marketing label only.
+--
+-- ANSWER: B
+-- STANDARD (often free) listings provision immediately when you
+-- click Get. PERSONALIZED listings require the provider to approve
+-- your specific request before the database mounts -- common for
+-- paid/enterprise data products. Once mounted, both behave
+-- identically as consumer-side databases. See 7.2 WHAT IF.
+
+
+-- ══════════════════════════════════════════════════════════════════
+-- Q8. Marketplace data freshness
+-- ══════════════════════════════════════════════════════════════════
+-- After mounting a free weather dataset from the Marketplace, how do
+-- you keep the mounted data current?
+--
+--   A. Schedule a Task to re-run CREATE DATABASE FROM SHARE daily.
+--   B. Nothing -- the mounted database reflects the provider's share
+--      live; no refresh job is needed or possible from the consumer
+--      side.
+--   C. Run ALTER DATABASE ... REFRESH weekly.
+--   D. Marketplace data is a point-in-time snapshot and must be
+--      re-purchased periodically to update.
+--
+-- ANSWER: B
+-- A mounted listing is backed by the same zero-copy sharing mechanism
+-- as 7.1 -- there's no local copy to go stale. The provider's updates
+-- are visible immediately with no action from the consumer.
+-- Confirmed live in 7.2: a cold first query took 27 seconds, an
+-- immediate re-run took 878ms (result cache), but the underlying
+-- data itself needed no refresh action at all. See 7.2 STEP 4 and
+-- WHAT IF.
+
+
+-- ══════════════════════════════════════════════════════════════════
+-- Q9. Marketplace performance on first query
+-- ══════════════════════════════════════════════════════════════════
+-- A query joining your own tables against a freshly-mounted
+-- Marketplace listing takes 27 seconds on first run. The identical
+-- query re-run seconds later takes under 1 second. What's the most
+-- likely explanation?
+--
+--   A. The share mechanism itself adds a fixed 27-second network
+--      round-trip on every query against a provider's data.
+--   B. Normal Snowflake result caching applies to queries against
+--      shared objects the same as any other query; the first run
+--      paid full scan cost with no cache to reuse, and the provider's
+--      clustering (if any) isn't inspectable by a non-owner.
+--   C. The Marketplace throttles new consumers for the first 24
+--      hours after mounting a listing.
+--   D. XSMALL warehouses cannot query shared databases efficiently
+--      and must be resized to SMALL or larger first.
+--
+-- ANSWER: B
+-- Sharing doesn't add network overhead -- compute runs locally
+-- against the provider's micro-partitions (see Q1). The 27-second
+-- first run is ordinary cold-cache full-scan behavior, worsened by
+-- having no visibility into a table you don't own well enough to
+-- reason about its clustering (an extension of Goal 5's discovery
+-- that MV/clustering internals aren't inspectable without OWNERSHIP).
+-- Confirmed live. See 7.2 WHAT IF.
+
+
+-- ══════════════════════════════════════════════════════════════════
+-- Q10. Cross-region and cross-cloud sharing
+-- ══════════════════════════════════════════════════════════════════
+-- A provider account runs on AWS in us-east-1. A consumer account
+-- runs on Azure in West Europe. Can the provider share data to that
+-- consumer directly with CREATE SHARE / ALTER SHARE ADD ACCOUNTS?
+--
+--   A. Yes, Snowflake shares transparently across any region/cloud
+--      combination with no extra setup.
+--   B. No -- direct sharing only works within the same region and
+--      cloud platform; cross-region/cross-cloud sharing requires
+--      database replication first, and the replica is shared from
+--      there.
+--   C. Yes, but only if both accounts are on Business Critical
+--      edition or higher.
+--   D. No -- cross-cloud sharing is not possible under any
+--      circumstances, even with replication.
+--
+-- ANSWER: B
+-- Direct sharing is same-region/same-cloud only. Getting data to a
+-- consumer elsewhere requires replicating the database into a
+-- matching region/cloud first (a Goal 8 topic), then sharing the
+-- replica. See 7.1 WHAT IF.
+
+
+-- ══════════════════════════════════════════════════════════════════
+-- Q11. Data Clean Rooms -- the core trust-model difference
+-- ══════════════════════════════════════════════════════════════════
+-- How does the trust model of a Data Clean Room fundamentally differ
+-- from ordinary Secure Data Sharing?
+--
+--   A. Clean rooms are free; secure data sharing always has a cost.
+--   B. Secure data sharing grants the consumer direct query access to
+--      real underlying rows; a clean room restricts both parties to
+--      pre-agreed analyses/templates and neither party ever sees the
+--      other's raw rows.
+--   C. Clean rooms only work for tables, never views; secure data
+--      sharing only works for views.
+--   D. There is no real difference -- "clean room" is just Snowflake's
+--      marketing term for a share with more than one consumer.
+--
+-- ANSWER: B
+-- Secure data sharing assumes the provider is comfortable granting
+-- the consumer direct query access to real rows. A clean room exists
+-- for when NEITHER side is willing to do that -- collaborators
+-- pre-agree on a fixed set of allowed analyses, and only aggregated
+-- or otherwise protected output is ever visible to either side. See
+-- 7.3 CONCEPT.
+
+
+-- ══════════════════════════════════════════════════════════════════
+-- Q12. Clean room collaboration roles
+-- ══════════════════════════════════════════════════════════════════
+-- In a Snowflake Data Clean Room collaboration, which role can create
+-- the collaboration, invite collaborators, and control teardown --
+-- and how many of this role can a single collaboration have?
+--
+--   A. Data Provider; unlimited per collaboration.
+--   B. Analysis Runner; exactly one per collaboration.
+--   C. Owner; exactly one per collaboration.
+--   D. ACCOUNTADMIN; one per participating Snowflake account.
+--
+-- ANSWER: C
+-- The Owner creates the collaboration, assigns roles, decides who
+-- can share data with whom, and controls teardown -- a collaboration
+-- has exactly one Owner. The Owner isn't automatically a Data
+-- Provider or Analysis Runner and has no elevated query privileges
+-- beyond that administrative role. See 7.3 CONCEPT.
+
+
+-- ══════════════════════════════════════════════════════════════════
+-- Q13. Clean room edition requirements
+-- ══════════════════════════════════════════════════════════════════
+-- Which statement about Snowflake edition requirements for Data
+-- Clean Rooms is correct?
+--
+--   A. Trial accounts fully support Data Clean Rooms with no
+--      restrictions.
+--   B. Any edition (including Standard) can act as a Data Provider;
+--      only the Owner needs Enterprise.
+--   C. Trial accounts cannot use Data Clean Rooms at all; Data
+--      Providers must be Enterprise Edition or higher; Owners and
+--      Analysis Runners can be on Standard Edition.
+--   D. Data Clean Rooms require Business Critical edition for every
+--      participant, with no exceptions.
+--
+-- ANSWER: C
+-- Trial accounts are excluded entirely. A Data Provider (the party
+-- contributing a protected data offering) must be Enterprise or
+-- higher; Owner and Analysis Runner roles can operate on Standard
+-- Edition. This is why 7.3 stayed conceptual in this workbook even
+-- though the workbook's own account is Enterprise -- a real clean
+-- room still needs a second, independent account to collaborate
+-- with. See 7.3 CONCEPT and WHAT IF.

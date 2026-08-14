@@ -1,0 +1,167 @@
+-- ══════════════════════════════════════════════════════════════════
+-- SNOWFLAKE ENGINEERING WORKBOOK
+-- Author       : Marc Bacchus · github.com/marcbacchus/data-engineering-workbooks
+-- Goal 7       : Share and Collaborate
+-- Sub-task 7.3 : Understand Data Clean Rooms
+-- ══════════════════════════════════════════════════════════════════
+-- ──────────────────────────────────────────────────────────────────
+-- Time to complete : 15-20 min (conceptual -- no hands-on component)
+-- Warehouse size    : n/a
+-- Database          : n/a
+-- Run in            : Reading only -- no live SQL in this sub-task
+-- Prerequisites     : Goals 1-6 complete, Goal 7.1 and 7.2 complete.
+-- COF-C03 domain    : 5.0 Data Collaboration (10%)
+-- ──────────────────────────────────────────────────────────────────
+
+-- ══════════════════════════════════════════════════════════════════
+-- WHAT YOU ARE DOING AND WHY
+-- ══════════════════════════════════════════════════════════════════
+-- 7.1 and 7.2 both required trusting the other side completely: as a
+-- provider, you decided exactly what a consumer could see and shared
+-- it outright (7.1); as a consumer, you took Pelmorex's word for
+-- what their weather data contained and queried it directly (7.2).
+-- Both models assume one side is comfortable handing the other
+-- direct query access to real rows.
+--
+-- Data Clean Rooms exist for the case where NEITHER side is willing
+-- to do that. Two competitors want to know how much of their
+-- customer bases overlap, without either one ever seeing the other's
+-- actual customer list. A retailer and an ad platform want to
+-- measure campaign effectiveness without the retailer exposing
+-- purchase history or the ad platform exposing exposure data. This
+-- sub-task is conceptual only -- setting up a real clean room
+-- requires a second independent Snowflake account with its own data
+-- to collaborate with, which a solo workbook environment can't
+-- simulate (a reader account, the 7.1 workaround, doesn't fit --
+-- there's no second party with real data behind it).
+
+-- ══════════════════════════════════════════════════════════════════
+-- CONCEPT
+-- ══════════════════════════════════════════════════════════════════
+-- A clean room is an isolated, jointly-governed environment where
+-- collaborators bring data in, agree in advance on exactly which
+-- queries/analyses are allowed to run against it, and only ever see
+-- aggregated or otherwise protected OUTPUT -- never each other's raw
+-- rows. This is a fundamentally different trust model than 7.1/7.2:
+--
+--   Secure Data Sharing (7.1/7.2) -- the consumer can run ANY query
+--     the granted privileges allow, against real underlying rows.
+--     Trust model: "I trust you with direct access to this data."
+--
+--   Data Clean Room -- collaborators pre-agree on a fixed set of
+--     allowed analyses (often via approved templates). No party can
+--     run arbitrary queries against the other's raw data, and
+--     results can have privacy protections (see below) applied
+--     before anyone sees them.
+--     Trust model: "I don't fully trust you, so we agree on rules
+--     up front and neither of us sees the other's raw data at all."
+--
+-- Collaboration roles:
+--   OWNER          -- creates the clean room, invites collaborators,
+--                      assigns roles, controls teardown. Exactly one
+--                      per collaboration.
+--   DATA PROVIDER   -- brings a data offering (tables/views) into the
+--                      collaboration under agreed-upon rules.
+--   ANALYSIS RUNNER -- executes the approved analyses/templates
+--                      against the combined data and receives output.
+--
+-- Privacy-preserving mechanisms layered on top of the access control:
+--   DIFFERENTIAL PRIVACY -- adds controlled statistical noise to
+--     results, making it mathematically difficult to reverse-engineer
+--     any single individual's presence in the underlying data even
+--     from aggregated output.
+--   Row/column-level restrictions and pre-approved query templates --
+--     the mechanical layer that prevents arbitrary querying in the
+--     first place, functioning like row access policies and secure
+--     views (Goal 4) but enforced jointly across two accounts rather
+--     than within one.
+--
+-- Edition/account requirements (confirmed current as of this
+-- workbook -- verify against Snowflake's docs before relying on this
+-- for a real implementation, as clean rooms are actively evolving):
+--   - Trial accounts cannot use Data Clean Rooms at all.
+--   - Data providers must be on Enterprise Edition or higher.
+--   - Owners and analysis runners can be on Standard Edition.
+--   - The environment is installed ONCE per Snowflake account (not
+--     per user, not per clean room) by ACCOUNTADMIN.
+--   - Snowflake is mid-migration away from the legacy Provider/
+--     Consumer UI toward a newer Collaboration API-based model --
+--     new legacy clean rooms are already blocked from creation via
+--     the old UI as of a recent cutoff, with full UI retirement
+--     scheduled after that. Anything built today should target the
+--     Collaboration API, not the legacy UI workflow.
+--
+-- ── Oracle / SQL Server comparison ──────────────────────────────
+-- Neither platform has a native clean room primitive. Achieving the
+-- same outcome outside Snowflake means either: (a) a fully manual,
+-- negotiated process -- both parties independently pre-aggregate
+-- and anonymize their own data, exchange only the aggregated
+-- extracts, with no technical enforcement that either side actually
+-- did the aggregation correctly or didn't retain raw data on their
+-- own end; or (b) bringing in a third-party clean room vendor (e.g.
+-- LiveRamp, Habu) as a neutral intermediary, adding a new vendor
+-- relationship and integration on top of the existing database
+-- platform. Snowflake's version is native to the platform the data
+-- already lives in, with the access controls enforced by Snowflake
+-- itself rather than by mutual trust or an external party.
+-- ─────────────────────────────────────────────────────────────────
+
+-- ══════════════════════════════════════════════════════════════════
+-- PRACTICE GAP
+-- ══════════════════════════════════════════════════════════════════
+-- 1. Read Snowflake's current Data Clean Rooms documentation
+--    (Collaboration API version, not the legacy UI) and identify
+--    which of the three collaboration roles (owner, data provider,
+--    analysis runner) you would take on if you wanted to measure
+--    overlap between ECOMMERCE's customer base and a hypothetical
+--    partner's customer base.
+-- 2. Sketch (in plain English or a diagram, not SQL) what a
+--    "customer overlap" query template between two providers would
+--    need to guarantee to be safe to pre-approve -- specifically,
+--    what would prevent one party from using it to fish for
+--    individual-level information one row at a time.
+-- 3. Compare differential privacy's guarantee to what a row access
+--    policy (Goal 4) or a secure view (7.1) guarantees. What can
+--    differential privacy protect against that neither of those
+--    mechanisms can?
+
+-- ══════════════════════════════════════════════════════════════════
+-- WHAT IF
+-- ══════════════════════════════════════════════════════════════════
+-- Q: What if I wanted to actually build one of these for real?
+-- A: You'd need ACCOUNTADMIN to install the clean room environment
+--    (one-time, account-wide) and a second, genuinely independent
+--    Snowflake account -- ideally a real partner org's account, not
+--    a reader account you created yourself, since a reader account
+--    has no independent data of its own to bring into the
+--    collaboration. This workbook's Enterprise edition account (see
+--    Goal 1 setup) would qualify as a data provider; the second
+--    party would need at least Standard edition to act as owner or
+--    analysis runner.
+--
+-- Q: What if two providers both bring data into the same clean room
+--    -- can either one see the other's raw rows at any point?
+-- A: No, by design. Each provider's data offering stays governed by
+--    that provider's own rules; only pre-approved analyses run
+--    against the combined data, and only the analysis runner sees
+--    the (possibly noise-added) output -- never either provider
+--    directly querying the other's underlying rows.
+--
+-- Q: What if this looks a lot like row access policies plus secure
+--    views (Goal 4) -- what's actually different?
+-- A: Scope and enforcement point. Row access policies and secure
+--    views govern access WITHIN an account you control, for roles
+--    you define. A clean room governs access ACROSS two accounts
+--    neither party fully controls, where the entire point is that
+--    neither side can unilaterally change the rules or peek at raw
+--    data -- the agreement is jointly configured and jointly
+--    enforced by Snowflake, not by either party's own policies.
+--
+-- Q: What if I need this for advertising/marketing attribution
+--    specifically, not general data collaboration?
+-- A: That's the single most common real-world clean room use case
+--    (matching ad exposure data against purchase data without either
+--    the ad platform or the retailer exposing their raw
+--    identifiers) -- the mechanics above are the same regardless of
+--    industry, but expect purpose-built templates and identity-
+--    matching helpers in that space specifically.
