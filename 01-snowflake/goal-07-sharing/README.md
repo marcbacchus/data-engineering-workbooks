@@ -163,7 +163,7 @@ git commit -m "feat: complete goal-07 share and collaborate"
 git push
 ```
 
-2. Move to [Goal 8: Recover from Mistakes](../goal-08-recover-data/)
+2. Move to [Goal 8: Recover from Mistakes](../goal-08-recovery/)
 
 ---
 
