@@ -2,7 +2,7 @@
 
 **Series:** [Data Engineering Workbooks](../README.md)  
 **Dataset:** [E-Commerce dataset](../dataset/SCHEMA.md)  
-**Estimated time:** 33–45 hours total (Goals 1–7 actual; Goals 8–9 estimated, will be refined as each is completed)
+**Estimated time:** 37–49 hours total (Goals 1–78 actual; Goal 9 estimated, will be refined when completed)
 **Certification alignment:** SnowPro Core COF-C03  
 
 ---
@@ -44,7 +44,7 @@ By the end of this workbook you will have:
 | [05](goal-05-performance/) | Optimize performance | Query Profile, caching, clustering, warehouse sizing, Search Optimization | ~6–7 hrs |
 | [06](goal-06-automation/) | Automate workflows | Tasks, Streams, CDC pipelines, stored procedures, Dynamic Tables | ~7–8 hrs |
 | [07](goal-07-sharing/) | Share and collaborate | Secure data sharing, Marketplace, Data Clean Rooms | ~2–3 hrs |
-| [08](goal-08-recovery/) | Recover from mistakes | Time Travel, Fail-Safe, zero-copy cloning, replication | ~1–2 hrs |
+| [08](goal-08-recovery/) | Recover from mistakes | Time Travel, Fail-Safe, zero-copy cloning, replication | ~3–4 hrs |
 | [09](goal-09-monitoring/) | Monitor and manage costs | INFORMATION_SCHEMA, ACCOUNT_USAGE, SHOW commands, resource monitors | ~1–2 hrs |
 
 ---
@@ -62,7 +62,8 @@ Each goal includes a dedicated exam preparation file as the final sub-task. Thes
 | Goal 5 | [11_exam_prep.sql](goal-05-performance/11_exam_prep.sql) | 13 |
 | Goal 6 | [09_exam_prep.sql](goal-06-automation/09_exam_prep.sql) | 15 |
 | Goal 7 | [04_exam_prep.sql](goal-07-sharing/04_exam_prep.sql) | 13 |
-| Goals 8–9 | Coming as each goal is published | — |
+| Goal 8 | [10_exam_prep.sql](goal-08-recovery/10_exam_prep.sql) | 18 |
+| Goal 9 | Coming as goal is published | — |
 
 Questions are original — written specifically for this workbook using the COF-C03 exam objectives as a guide. They are not reproduced from any third-party source.
 
@@ -118,11 +119,11 @@ git push
 
 | Domain | Weight | Goals |
 |---|---|---|
-| Snowflake AI Data Cloud Features & Architecture | 31% | 01 |
+| Snowflake AI Data Cloud Features & Architecture | 31% | 01, 08 |
 | Account Management and Data Governance | 20% | 04, 09 |
 | Data Loading, Unloading, and Connectivity | 18% | 02 |
 | Performance Optimization, Querying, and Transformation | 21% | 03, 05, 06 |
-| Data Collaboration | 10% | 07, 08* |
+| Data Collaboration | 10% | 07, 08 |
 
 Sub-tasks that map directly to exam objectives are marked with the COF-C03 domain in the file header.
 
