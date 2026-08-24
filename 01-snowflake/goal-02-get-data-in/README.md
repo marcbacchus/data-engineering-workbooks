@@ -57,20 +57,19 @@ All files are in the `dataset/` folder at the root of this repository.
 
 Work through these in order. Each file builds on the previous one.
 
-| File | Sub-task | Time | Key concepts |
-|---|---|---|---|
-| [00_cleanup.sql](00_cleanup.sql) | Reset Goal 2 work | 2 min | Drop tables, formats, stage files — safe to re-run |
-| [01_file_formats.sql](01_file_formats.sql) | Create file format objects | ~20 min | CSV_FORMAT, JSON_FORMAT, PARQUET_FORMAT, named vs inline |
-| [02_staging_files.sql](02_staging_files.sql) | Stage files for loading | ~25 min | PUT via SnowSQL, LIST, stage preview, Mac/Windows variants |
-| [03_copy_into.sql](03_copy_into.sql) | Load data with COPY INTO | ~30 min | COPY INTO, load deduplication, LOAD_HISTORY, first queries |
-| [04_error_handling.sql](04_error_handling.sql) | Handle load errors | ~25 min | VALIDATION_MODE, ON_ERROR options, VALIDATE(), error diagnosis |
-| [05_semi_structured.sql](05_semi_structured.sql) | Semi-structured data | ~40 min | VARIANT, dot-notation, FLATTEN, JSON load, Parquet load, TO_TIMESTAMP |
-| [06_snowpipe.sql](06_snowpipe.sql) | Automate with Snowpipe | ~25 min | CREATE PIPE, AUTO_INGEST, REST API, pipe monitoring, pause/resume |
-| [07_unload_data.sql](07_unload_data.sql) | Unload data from Snowflake | ~20 min | COPY INTO stage, HEADER, SINGLE, partitioned exports, GET |
-| [08_external_tables.sql](08_external_tables.sql) | Work with external tables | ~20 min | External table concepts, direct stage queries, METADATA$FILENAME |
-| [09_schema_evolution.sql](09_schema_evolution.sql) | Manage schema evolution | ~25 min | ALTER TABLE, ADD/DROP/RENAME COLUMN, SWAP, sequences, safe DDL |
-| [10_exam_prep.sql](10_exam_prep.sql) | COF-C03 exam preparation | ~35 min | 14 practice questions covering all Goal 2 topics |
-
+| # | Sub-task | File | Time | COF-C03 Domain | Key Concepts |
+|---|---|---|---|---|---|
+| Reset | Reset Goal 2 work | [00_cleanup.sql](00_cleanup.sql) | 2 min | — | Drop tables, formats, stage files — safe to re-run |
+| 2.1 | Create file format objects | [01_file_formats.sql](01_file_formats.sql) | ~20 min | 3.0 (18%) | CSV_FORMAT, JSON_FORMAT, PARQUET_FORMAT, named vs inline |
+| 2.2 | Stage files for loading | [02_staging_files.sql](02_staging_files.sql) | ~25 min | 3.0 (18%) | PUT via SnowSQL, LIST, stage preview, Mac/Windows variants |
+| 2.3 | Load data with COPY INTO | [03_copy_into.sql](03_copy_into.sql) | ~30 min | 3.0 (18%) | COPY INTO, load deduplication, LOAD_HISTORY, first queries |
+| 2.4 | Handle load errors | [04_error_handling.sql](04_error_handling.sql) | ~25 min | 3.0 (18%) | VALIDATION_MODE, ON_ERROR options, VALIDATE(), error diagnosis |
+| 2.5 | Semi-structured data | [05_semi_structured.sql](05_semi_structured.sql) | ~40 min | 4.0 (21%) | VARIANT, dot-notation, FLATTEN, JSON load, Parquet load, TO_TIMESTAMP |
+| 2.6 | Automate with Snowpipe | [06_snowpipe.sql](06_snowpipe.sql) | ~25 min | 3.0 (18%) | CREATE PIPE, AUTO_INGEST, REST API, pipe monitoring, pause/resume |
+| 2.7 | Unload data from Snowflake | [07_unload_data.sql](07_unload_data.sql) | ~20 min | 3.0 (18%) | COPY INTO stage, HEADER, SINGLE, partitioned exports, GET |
+| 2.8 | Work with external tables | [08_external_tables.sql](08_external_tables.sql) | ~20 min | 3.0 (18%) | External table concepts, direct stage queries, METADATA$FILENAME |
+| 2.9 | Manage schema evolution | [09_schema_evolution.sql](09_schema_evolution.sql) | ~25 min | 4.0 (21%) | ALTER TABLE, ADD/DROP/RENAME COLUMN, SWAP, sequences, safe DDL |
+| Exam prep | COF-C03 exam preparation | [10_exam_prep.sql](10_exam_prep.sql) | ~35 min | 3.0 / 4.0 (mixed) | 14 practice questions covering all Goal 2 topics |
 ---
 
 ## How to run these files

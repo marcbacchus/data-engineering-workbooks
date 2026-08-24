@@ -53,18 +53,18 @@ By the end of this goal you will be able to:
 
 ## Sub-tasks
 
-| # | Sub-task | File | COF-C03 Domain |
-|---|---|---|---|
-| 8.1 | Time Travel Fundamentals | `01_time_travel_basics.sql` | 1.0 |
-| 8.2 | Recovering from Mistakes — UNDROP | `02_undrop_recovery.sql` | 1.0 |
-| 8.3 | `DATA_RETENTION_TIME_IN_DAYS` — Configuring Retention | `03_data_retention_configuration.sql` | 1.0 |
-| 8.4 | Fail-Safe — The Non-Configurable Last Resort | `04_failsafe.sql` | 1.0 |
-| 8.5 | Zero-Copy Cloning Fundamentals | `05_cloning_fundamentals.sql` | 1.0 |
-| 8.6 | Cloning + Time Travel Combined | `06_cloning_with_time_travel.sql` | 1.0 |
-| 8.7 | Practical Clone Patterns — Dev/Test Refresh & Clone-and-Swap | `07_clone_patterns.sql` | 1.0 |
-| 8.8 | Database Replication | `08_database_replication.sql` | 5.0 |
-| 8.9 | Capstone — Simulated Incident Recovery | `09_capstone_incident_recovery.sql` | 1.0 |
-| 8.10 | Exam Prep (18 questions) | `10_exam_prep.sql` | 1.0 (×14) / 5.0 (×4) |
+| # | Sub-task | File | Time | COF-C03 Domain | Key Concepts |
+|---|---|---|---|---|---|
+| 8.1 | Time Travel Fundamentals | [01_time_travel_basics.sql](01_time_travel_basics.sql) | ~25–30 min | 1.0 (31%) | AT/BEFORE by TIMESTAMP/OFFSET/STATEMENT, bounded by DATA_RETENTION_TIME_IN_DAYS |
+| 8.2 | Recovering from Mistakes — UNDROP | [02_undrop_recovery.sql](02_undrop_recovery.sql) | ~30-35 min | 1.0 (31%) | UNDROP tables/schemas/databases, name-conflict handling, targeting a specific dropped version |
+| 8.3 | DATA_RETENTION_TIME_IN_DAYS — Configuring Retention | [03_data_retention_configuration.sql](03_data_retention_configuration.sql) | ~25–30 min | 1.0 (31%) | Retention at account/database/schema/table levels, live vs. frozen inheritance, transient/temporary hard-errors past 1 day (not a silent cap) |
+| 8.4 | Fail-Safe — The Non-Configurable Last Resort | [04_failsafe.sql](04_failsafe.sql) | ~20–25 min | 1.0 (31%) | Non-configurable 7-day period, Support-only recovery, observability only |
+| 8.5 | Zero-Copy Cloning Fundamentals | [05_cloning_fundamentals.sql](05_cloning_fundamentals.sql) | ~30-35 min | 1.0 (31%) | Metadata-only creation, copy-on-write storage, COPY GRANTS as table/view-only syntax, table vs. schema/database clone timing |
+| 8.6 | Cloning + Time Travel Combined | [06_cloning_with_time_travel.sql](06_cloning_with_time_travel.sql) | ~25–30 min | 1.0 (31%) | CLONE ... AT / BEFORE for independent point-in-time snapshots, temporary-table restriction |
+| 8.7 | Practical Clone Patterns — Dev/Test Refresh & Clone-and-Swap | [07_clone_patterns.sql](07_clone_patterns.sql) | ~30-35 min | 1.0 (31%) | Dev/test refresh grants trap, clone-and-swap via ALTER TABLE ... SWAP WITH |
+| 8.8 | Database Replication | [08_database_replication.sql](08_database_replication.sql) | ~20–25 min | 5.0 (10%) | Replication vs. failover, edition requirements, ACCOUNT_USAGE monitoring (conceptual only) |
+| 8.9 | Simulated Incident Recovery | [09_capstone_incident_recovery.sql](09_capstone_incident_recovery.sql) | ~50–60 min | 1.0 (31%) | Combines point-in-time cloning (safety snapshot), UNDROP, and clone-and-swap recovery in one incident |
+| 8.10 | 18 practice questions | [10_exam_prep.sql](10_exam_prep.sql) | ~25–30 min | 1.0 / 5.0 (mixed) | Full-goal review — Time Travel, UNDROP, retention, Fail-safe, cloning, replication |
 
 No `00_reset_goal8.sql` — every sub-task's objects are disposable
 sandbox tables/schemas cleaned up within their own file. 8.8's

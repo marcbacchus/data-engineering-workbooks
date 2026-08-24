@@ -2,7 +2,7 @@
 
 **Series:** [Data Engineering Workbooks](../README.md)  
 **Dataset:** [E-Commerce dataset](../dataset/SCHEMA.md)  
-**Estimated time:** 37–49 hours total (Goals 1–78 actual; Goal 9 estimated, will be refined when completed)
+**Estimated time:** ~36–45 hours total (Goals 1–9 complete)
 **Certification alignment:** SnowPro Core COF-C03  
 
 ---
@@ -45,7 +45,7 @@ By the end of this workbook you will have:
 | [06](goal-06-automation/) | Automate workflows | Tasks, Streams, CDC pipelines, stored procedures, Dynamic Tables | ~7–8 hrs |
 | [07](goal-07-sharing/) | Share and collaborate | Secure data sharing, Marketplace, Data Clean Rooms | ~2–3 hrs |
 | [08](goal-08-recovery/) | Recover from mistakes | Time Travel, Fail-Safe, zero-copy cloning, replication | ~3–4 hrs |
-| [09](goal-09-monitoring/) | Monitor and manage costs | INFORMATION_SCHEMA, ACCOUNT_USAGE, SHOW commands, resource monitors | ~1–2 hrs |
+| [09](goal-09-monitoring)| Monitor and manage costs | INFORMATION_SCHEMA, ACCOUNT_USAGE, SHOW commands, resource monitors | ~3–4 hrs |
 
 ---
 
@@ -63,7 +63,7 @@ Each goal includes a dedicated exam preparation file as the final sub-task. Thes
 | Goal 6 | [09_exam_prep.sql](goal-06-automation/09_exam_prep.sql) | 15 |
 | Goal 7 | [04_exam_prep.sql](goal-07-sharing/04_exam_prep.sql) | 13 |
 | Goal 8 | [10_exam_prep.sql](goal-08-recovery/10_exam_prep.sql) | 18 |
-| Goal 9 | Coming as goal is published | — |
+| Goal 9 | [11_exam_prep.sql](goal-09-monitoring/11_exam_prep.sql) | 15 |
 
 Questions are original — written specifically for this workbook using the COF-C03 exam objectives as a guide. They are not reproduced from any third-party source.
 

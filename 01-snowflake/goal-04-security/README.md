@@ -41,18 +41,18 @@ By the end of this goal you will have:
 
 Work through these in order. Each file builds on the previous one — the Capstone specifically assumes every role, policy, tag, and view from 4.1–4.8 already exists.
 
-| File | Sub-task | Time | Key concepts |
-|---|---|---|---|
-| [01_rbac_fundamentals.sql](01_rbac_fundamentals.sql) | RBAC fundamentals | ~30 min | System roles, `ACCOUNTADMIN`/`SYSADMIN`/`SECURITYADMIN`/`USERADMIN`/`PUBLIC`, ownership doesn't cascade, `USAGE` on every container |
-| [02_role_hierarchy_custom_roles.sql](02_role_hierarchy_custom_roles.sql) | Role hierarchy and custom roles | ~30 min | Access-role/functional-role pattern, `SHOW GRANTS TO` vs `OF ROLE`, secondary roles |
-| [03_privilege_grants_deep_dive.sql](03_privilege_grants_deep_dive.sql) | Privilege grants deep dive | ~35 min | Multiple privileges, `WITH GRANT OPTION`, future grants, `ALL PRIVILEGES` excludes `OWNERSHIP` |
-| [04_dynamic_data_masking.sql](04_dynamic_data_masking.sql) | Dynamic data masking | ~40 min | Masking policies, role-based unmasking, `APPLY MASKING POLICY` privilege reality |
-| [05_row_access_policies.sql](05_row_access_policies.sql) | Row access policies | ~35 min | Mapping-table pattern, policy runs as its OWNER not the querying role, `CREATE OR REPLACE` fails once attached |
-| [06_tag_based_governance.sql](06_tag_based_governance.sql) | Tag-based governance | ~30 min | `CREATE TAG`, binding a masking policy to a tag, new columns inherit protection automatically |
-| [07_network_policies.sql](07_network_policies.sql) | Network policies | ~30 min | IP allow/blocklists, "blocked always wins" precedence, no longest-prefix-match |
-| [08_secure_views.sql](08_secure_views.sql) | Secure views | ~35 min | Owner's-rights execution, no `APPLY`-style privilege gate, `CREATE OR REPLACE VIEW` silently drops grants without `COPY GRANTS` |
-| [09_capstone.sql](09_capstone.sql) | Capstone — combining every security layer | ~50 min | Proves policy composition; `CURRENT_ROLE()` vs `IS_ROLE_IN_SESSION()` and role hierarchy |
-| [10_exam_prep.sql](10_exam_prep.sql) | COF-C03 exam preparation | ~35 min | 15 practice questions covering all Goal 4 topics |
+| # | Sub-task | File | Time | COF-C03 Domain | Key Concepts |
+|---|---|---|---|---|---|
+| 4.1 | RBAC fundamentals | [01_rbac_fundamentals.sql](01_rbac_fundamentals.sql) | ~30 min | 2.0 (20%) | System roles, `ACCOUNTADMIN`/`SYSADMIN`/`SECURITYADMIN`/`USERADMIN`/`PUBLIC`, ownership doesn't cascade, `USAGE` on every container |
+| 4.2 | Role hierarchy and custom roles | [02_role_hierarchy_custom_roles.sql](02_role_hierarchy_custom_roles.sql) | ~30 min | 2.0 (20%) | Access-role/functional-role pattern, `SHOW GRANTS TO` vs `OF ROLE`, secondary roles |
+| 4.3 | Privilege grants deep dive | [03_privilege_grants_deep_dive.sql](03_privilege_grants_deep_dive.sql) | ~35 min | 2.0 (20%) | Multiple privileges, `WITH GRANT OPTION`, future grants, `ALL PRIVILEGES` excludes `OWNERSHIP` |
+| 4.4 | Dynamic data masking | [04_dynamic_data_masking.sql](04_dynamic_data_masking.sql) | ~40 min | 2.0 (20%) | Masking policies, role-based unmasking, `APPLY MASKING POLICY` privilege reality |
+| 4.5 | Row access policies | [05_row_access_policies.sql](05_row_access_policies.sql) | ~35 min | 2.0 (20%) | Mapping-table pattern, policy runs as its OWNER not the querying role, `CREATE OR REPLACE` fails once attached |
+| 4.6 | Tag-based governance | [06_tag_based_governance.sql](06_tag_based_governance.sql) | ~30 min | 2.0 (20%) | `CREATE TAG`, binding a masking policy to a tag, new columns inherit protection automatically |
+| 4.7 | Network policies | [07_network_policies.sql](07_network_policies.sql) | ~30 min | 2.0 (20%) | IP allow/blocklists, "blocked always wins" precedence, no longest-prefix-match |
+| 4.8 | Secure views | [08_secure_views.sql](08_secure_views.sql) | ~35 min | 2.0 (20%) | Owner's-rights execution, no `APPLY`-style privilege gate, `CREATE OR REPLACE VIEW` silently drops grants without `COPY GRANTS` |
+| 4.9 | Combining every security layer | [09_capstone.sql](09_capstone.sql) | ~50 min | 2.0 (20%) | Proves policy composition; `CURRENT_ROLE()` vs `IS_ROLE_IN_SESSION()` and role hierarchy |
+| 4.10 | COF-C03 exam preparation | [10_exam_prep.sql](10_exam_prep.sql) | ~35 min | 2.0 (20%) | 15 practice questions covering all Goal 4 topics |
 
 A destructive reset script, [`00_reset_goal4.sql`](00_reset_goal4.sql), is also included — it undoes every role, policy, and tag this goal creates so any sub-task can be retested from a clean starting point. Do not run it mid-goal.
 

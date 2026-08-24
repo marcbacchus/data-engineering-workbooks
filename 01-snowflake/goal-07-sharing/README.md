@@ -50,12 +50,12 @@ By the end of this goal you will have:
 
 ## Sub-tasks
 
-| # | Sub-task | File | What you'll build |
-|---|---|---|---|
-| 7.1 | Share data between Snowflake accounts | [01_share_data.sql](01_share_data.sql) | Managed reader account, secure view, live cross-account share and query |
-| 7.2 | Use the Snowflake Marketplace | [02_marketplace.sql](02_marketplace.sql) | Mounted free weather listing, joined against ORDERS/CUSTOMERS for enrichment |
-| 7.3 | Understand Data Clean Rooms | [03_clean_rooms.sql](03_clean_rooms.sql) | Conceptual only — no hands-on component (requires a second independent account) |
-| 7.4 | Exam prep | [04_exam_prep.sql](04_exam_prep.sql) | 13 COF-C03 practice questions, Domain 5.0 |
+| # | Sub-task | File | Time | COF-C03 Domain | Key Concepts |
+|---|---|---|---|---|---|
+| 7.1 | Share data between Snowflake accounts | [01_share_data.sql](01_share_data.sql) | ~30-40 min | 5.0 (10%) | Managed reader account, secure view, live cross-account share and query |
+| 7.2 | Use the Snowflake Marketplace | [02_marketplace.sql](02_marketplace.sql) | ~30-40 min | 5.0 (10%) | Mounted free weather listing, joined against ORDERS/CUSTOMERS for enrichment |
+| 7.3 | Understand Data Clean Rooms | [03_clean_rooms.sql](03_clean_rooms.sql) | ~15-20 min | 5.0 (10%) | Conceptual only — no hands-on component (requires a second independent account) |
+| Exam prep | COF-C03 exam preparation | [04_exam_prep.sql](04_exam_prep.sql) | ~30-40 min | 5.0 (10%) | 13 practice questions covering all Goal 7 topics |
 
 No capstone for this goal — three genuinely hands-on/conceptual
 sub-tasks is a thin domain (10% exam weight, and one sub-task is

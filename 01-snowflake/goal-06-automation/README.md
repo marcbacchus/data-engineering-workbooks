@@ -41,17 +41,17 @@ By the end of this goal you will have:
 
 Work through these in order — later sub-tasks directly reuse objects from earlier ones (6.3's `ORDERS_MART` and `SYNC_ORDERS_MART_TASK` are rebuilt into the Capstone's DAG; 6.7's `ALERT_LOG` table is reused by the Capstone's failure alert).
 
-| File | Sub-task | Time | Key concepts |
-|---|---|---|---|
-| [01_schedule_tasks.sql](01_schedule_tasks.sql) | Schedule Work with Tasks | ~30–40 min | `CREATE TASK`, CRON/interval scheduling, serverless vs. warehouse-assigned, `EXECUTE TASK` privilege gap |
-| [02_capture_change_data_streams.sql](02_capture_change_data_streams.sql) | Capture Change Data with Streams | ~35–45 min | `CREATE STREAM`, offset consumption mechanics, update-pair representation, STANDARD vs. APPEND_ONLY |
-| [03_incremental_pipelines_streams_tasks.sql](03_incremental_pipelines_streams_tasks.sql) | Build Incremental Pipelines with Streams + Tasks | ~40–50 min | `WHEN SYSTEM$STREAM_HAS_DATA`, idempotent `MERGE`, `SKIPPED` task state |
-| [04_orchestrate_task_dags.sql](04_orchestrate_task_dags.sql) | Orchestrate with Task DAGs | ~45–55 min | `AFTER`, parallel branches, join points, `WHEN` clause restrictions, `SYSTEM$TASK_DEPENDENTS_ENABLE`, active-DAG modification rules |
-| [05_stored_procedures.sql](05_stored_procedures.sql) | Write Stored Procedures | ~50–60 min | Snowflake Scripting, cursors, `EXCEPTION` handling, `SYSTEM$SET_RETURN_VALUE` restrictions |
-| [06_dynamic_tables.sql](06_dynamic_tables.sql) | Work with Dynamic Tables | ~40–50 min | `TARGET_LAG`, `DOWNSTREAM` chaining, incremental vs. full refresh, contrast with Goal 5's materialized views |
-| [07_pipeline_errors_observability.sql](07_pipeline_errors_observability.sql) | Handle Pipeline Errors and Observability | ~45–55 min | Dead-letter pattern, `CREATE ALERT`, `ALERT_HISTORY`, `SYSTEM$SEND_EMAIL`, notification integrations |
-| [08_capstone.sql](08_capstone.sql) | Capstone — Three-Way Incremental Pipeline Comparison | ~60–75 min | Combines 6.1–6.7 into one DAG: raw `MERGE` vs. stored procedure vs. Dynamic Table, with failure alerting |
-| [09_exam_prep.sql](09_exam_prep.sql) | COF-C03 exam preparation | ~40–45 min | 15 practice questions, most built directly from this goal's live debugging |
+| # | Sub-task | File | Time | COF-C03 Domain | Key Concepts |
+|---|---|---|---|---|---|
+| 6.1 | Schedule Work with Tasks | [01_schedule_tasks.sql](01_schedule_tasks.sql) | ~30–40 min | 4.0 (21%) | `CREATE TASK`, CRON/interval scheduling, serverless vs. warehouse-assigned, `EXECUTE TASK` privilege gap |
+| 6.2 | Capture Change Data with Streams | [02_capture_change_data_streams.sql](02_capture_change_data_streams.sql) | ~35–45 min | 4.0 (21%) | `CREATE STREAM`, offset consumption mechanics, update-pair representation, STANDARD vs. APPEND_ONLY |
+| 6.3 | Build Incremental Pipelines with Streams + Tasks | [03_incremental_pipelines_streams_tasks.sql](03_incremental_pipelines_streams_tasks.sql) | ~40–50 min | 4.0 (21%) | `WHEN SYSTEM$STREAM_HAS_DATA`, idempotent `MERGE`, `SKIPPED` task state |
+| 6.4 | Orchestrate with Task DAGs | [04_orchestrate_task_dags.sql](04_orchestrate_task_dags.sql) | ~45–55 min | 4.0 (21%) | `AFTER`, parallel branches, join points, `WHEN` clause restrictions, `SYSTEM$TASK_DEPENDENTS_ENABLE`, active-DAG modification rules |
+| 6.5 | Write Stored Procedures | [05_stored_procedures.sql](05_stored_procedures.sql) | ~50–60 min | 4.0 (21%) | Snowflake Scripting, cursors, `EXCEPTION` handling, `SYSTEM$SET_RETURN_VALUE` restrictions |
+| 6.6 | Work with Dynamic Tables | [06_dynamic_tables.sql](06_dynamic_tables.sql) | ~40–50 min | 4.0 (21%) | `TARGET_LAG`, `DOWNSTREAM` chaining, incremental vs. full refresh, contrast with Goal 5's materialized views |
+| 6.7 | Handle Pipeline Errors and Observability | [07_pipeline_errors_observability.sql](07_pipeline_errors_observability.sql) | ~45–55 min | 4.0 (21%) | Dead-letter pattern, `CREATE ALERT`, `ALERT_HISTORY`, `SYSTEM$SEND_EMAIL`, notification integrations |
+| Capstone | Three-Way Incremental Pipeline Comparison | [08_capstone.sql](08_capstone.sql) | ~60–75 min | 4.0 (21%) | Combines 6.1–6.7 into one DAG: raw `MERGE` vs. stored procedure vs. Dynamic Table, with failure alerting |
+| Exam prep | COF-C03 exam preparation | [09_exam_prep.sql](09_exam_prep.sql) | ~40–45 min | 4.0 (21%) | 15 practice questions, most built directly from this goal's live debugging |
 
 ---
 

@@ -39,18 +39,17 @@ By the end of this goal you will have:
 
 Work through these in order. Each file builds on the previous one.
 
-| File | Sub-task | Time | Key concepts |
-|---|---|---|---|
-| [01_sql_fundamentals.sql](01_sql_fundamentals.sql) | SQL fundamentals and query patterns | ~30 min | WHERE, NULL handling, CASE/IFF, TRY_CAST, date functions, TABLESAMPLE, ILIKE |
-| [02_joins_aggregations.sql](02_joins_aggregations.sql) | Joins and aggregations at scale | ~35 min | INNER/LEFT/FULL OUTER joins, GROUP BY rules, HAVING, correlated subqueries, fan-out |
-| [03_window_functions.sql](03_window_functions.sql) | Window functions | ~35 min | ROW_NUMBER, RANK, DENSE_RANK, NTILE, LAG/LEAD, running totals, moving averages, QUALIFY |
-| [04_ctes.sql](04_ctes.sql) | CTEs and query organisation | ~30 min | WITH clause, chained CTEs, recursive CTEs, CTE vs subquery vs view, data quality checks |
-| [05_dml_transactions.sql](05_dml_transactions.sql) | DML and transactions | ~30 min | INSERT, UPDATE, DELETE, TRUNCATE, MERGE, AUTOCOMMIT trap, BEGIN/COMMIT/ROLLBACK |
-| [06_cortex_ai.sql](06_cortex_ai.sql) | Cortex AI functions | ~35 min | AI_SENTIMENT, AI_CLASSIFY, AI_FILTER, AI_COMPLETE, AI_AGG, AI_TRANSLATE — paid account required |
-| [07_udfs.sql](07_udfs.sql) | User-defined functions | ~30 min | SQL UDFs, JavaScript UDFs, UDTFs, overloading, secure UDFs, date series generator |
-| [08_snowpark.sql](08_snowpark.sql) | Snowpark Python intro | ~35 min | Snowsight Notebooks, session setup, DataFrames, lazy evaluation, write back, Python UDFs |
-| [09_exam_prep.sql](09_exam_prep.sql) | COF-C03 exam preparation | ~35 min | 14 practice questions covering all Goal 3 topics |
-
+| # | Sub-task | File | Time | COF-C03 Domain | Key Concepts |
+|---|---|---|---|---|---|
+| 3.1 | SQL fundamentals and query patterns | [01_sql_fundamentals.sql](01_sql_fundamentals.sql) | ~30 min | 4.0 (21%) | WHERE, NULL handling, CASE/IFF, TRY_CAST, date functions, TABLESAMPLE, ILIKE |
+| 3.2 | Joins and aggregations at scale | [02_joins_aggregations.sql](02_joins_aggregations.sql) | ~35 min | 4.0 (21%) | INNER/LEFT/FULL OUTER joins, GROUP BY rules, HAVING, correlated subqueries, fan-out |
+| 3.3 | Window functions | [03_window_functions.sql](03_window_functions.sql) | ~35 min | 4.0 (21%) | ROW_NUMBER, RANK, DENSE_RANK, NTILE, LAG/LEAD, running totals, moving averages, QUALIFY |
+| 3.4 | CTEs and query organisation | [04_ctes.sql](04_ctes.sql) | ~30 min | 4.0 (21%) | WITH clause, chained CTEs, recursive CTEs, CTE vs subquery vs view, data quality checks |
+| 3.5 | DML and transactions | [05_dml_transactions.sql](05_dml_transactions.sql) | ~30 min | 4.0 (21%) | INSERT, UPDATE, DELETE, TRUNCATE, MERGE, AUTOCOMMIT trap, BEGIN/COMMIT/ROLLBACK |
+| 3.6 | Cortex AI functions | [06_cortex_ai.sql](06_cortex_ai.sql) | ~35 min | 4.0 (21%) | AI_SENTIMENT, AI_CLASSIFY, AI_FILTER, AI_COMPLETE, AI_AGG, AI_TRANSLATE — paid account required |
+| 3.7 | User-defined functions | [07_udfs.sql](07_udfs.sql) | ~30 min | 4.0 (21%) | SQL UDFs, JavaScript UDFs, UDTFs, overloading, secure UDFs, date series generator |
+| 3.8 | Snowpark Python intro | [08_snowpark.sql](08_snowpark.sql) | ~35 min | 4.0 (21%) | Snowsight Notebooks, session setup, DataFrames, lazy evaluation, write back, Python UDFs |
+| Exam prep | COF-C03 exam preparation | [09_exam_prep.sql](09_exam_prep.sql) | ~35 min | 4.0 (21%) | 14 practice questions covering all Goal 3 topics |
 ---
 
 ## Important notes before starting

@@ -46,18 +46,17 @@ You will also have created the `ECOMMERCE` database and its three-schema structu
 
 Work through these in order. Each file is self-contained and runnable step by step in Snowsight.
 
-| File | Sub-task | Time | Key concepts |
-|---|---|---|---|
-| [01_architecture.sql](01_architecture.sql) | Understand the Snowflake architecture | ~20 min | Three-layer model, storage/compute separation, cloud services layer, credit consumption |
-| [02_object_hierarchy.sql](02_object_hierarchy.sql) | Navigate the object hierarchy | ~25 min | Account → database → schema → table, SHOW commands, INFORMATION_SCHEMA, ECOMMERCE database setup |
-| [03_table_types.sql](03_table_types.sql) | Know your table types | ~25 min | Permanent, transient, temporary, external tables — when to use each and cost implications |
-| [04_view_types.sql](04_view_types.sql) | Know your view types | ~20 min | Standard, secure, and materialized views — use cases and trade-offs |
-| [05_stage_types.sql](05_stage_types.sql) | Know your stage types | ~20 min | User, table, named internal, named external stages — when to use each |
-| [06_editions.sql](06_editions.sql) | Understand Snowflake editions | ~15 min | Standard vs Enterprise vs Business Critical — feature gates and cost implications |
-| [07_virtual_warehouses.sql](07_virtual_warehouses.sql) | Configure virtual warehouses | ~30 min | Sizing, auto-suspend, auto-resume, multi-cluster, credit consumption |
-| [08_session_parameters.sql](08_session_parameters.sql) | Understand session and account parameters | ~20 min | ALTER SESSION, ALTER ACCOUNT, SHOW PARAMETERS, timezone and date format traps |
-| [09_exam_prep.sql](09_exam_prep.sql) | COF-C03 exam preparation | ~30 min | 12 practice questions with full explanations tied to sub-tasks |
-
+| # | Sub-task | File | Time | COF-C03 Domain | Key Concepts |
+|---|---|---|---|---|---|
+| 1.1 | Understand the Snowflake architecture | [01_architecture.sql](01_architecture.sql) | ~20 min | 1.0 (31%) | Three-layer model, storage/compute separation, cloud services layer, credit consumption |
+| 1.2 | Navigate the object hierarchy | [02_object_hierarchy.sql](02_object_hierarchy.sql) | ~25 min | 1.0 (31%) | Account → database → schema → table, SHOW commands, INFORMATION_SCHEMA, ECOMMERCE database setup |
+| 1.3 | Know your table types | [03_table_types.sql](03_table_types.sql) | ~25 min | 1.0 (31%) | Permanent, transient, temporary, external tables — when to use each and cost implications |
+| 1.4 | Know your view types | [04_view_types.sql](04_view_types.sql) | ~20 min | 1.0 (31%) | Standard, secure, and materialized views — use cases and trade-offs |
+| 1.5 | Know your stage types | [05_stage_types.sql](05_stage_types.sql) | ~20 min | 1.0 (31%) | User, table, named internal, named external stages — when to use each |
+| 1.6 | Understand Snowflake editions | [06_editions.sql](06_editions.sql) | ~15 min | 1.0 (31%) | Standard vs Enterprise vs Business Critical — feature gates and cost implications |
+| 1.7 | Configure virtual warehouses | [07_virtual_warehouses.sql](07_virtual_warehouses.sql) | ~30 min | 1.0 (31%) | Sizing, auto-suspend, auto-resume, multi-cluster, credit consumption |
+| 1.8 | Understand session and account parameters | [08_session_parameters.sql](08_session_parameters.sql) | ~20 min | 1.0 (31%) | ALTER SESSION, ALTER ACCOUNT, SHOW PARAMETERS, timezone and date format traps |
+| Exam prep | COF-C03 exam preparation | [09_exam_prep.sql](09_exam_prep.sql) | ~30 min | 1.0 (31%) | 12 practice questions with full explanations tied to sub-tasks |
 ---
 
 ## How to run these files

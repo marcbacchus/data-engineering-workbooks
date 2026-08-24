@@ -42,19 +42,19 @@ By the end of this goal you will have:
 
 Work through these in order. Each file builds on the previous one, and several later sub-tasks directly reuse findings from earlier ones (5.8 reuses 5.2's exact column; 5.3 and 5.8 get compared head-to-head in the Capstone).
 
-| File | Sub-task | Time | Key concepts |
-|---|---|---|---|
-| [01_reading_query_profile.sql](01_reading_query_profile.sql) | Reading Query Profile | ~25–30 min | Query Profile, `GET_QUERY_OPERATOR_STATS`, `EXPLAIN`, row access policy blind spot |
-| [02_micro_partitions_and_pruning.sql](02_micro_partitions_and_pruning.sql) | Micro-partitions & Pruning | ~25–30 min | `SYSTEM$CLUSTERING_INFORMATION`, average_depth/overlaps, partition pruning in practice |
-| [03_clustering_keys.sql](03_clustering_keys.sql) | Clustering Keys | ~30–35 min | `CLUSTER BY`, automatic reclustering, cardinality cost warnings |
-| [04_result_and_warehouse_caching.sql](04_result_and_warehouse_caching.sql) | Result & Warehouse Caching | ~30–35 min | Result cache, warehouse (local disk) cache, metadata cache, `USE_CACHED_RESULT` |
-| [05_warehouse_sizing_and_scaling_policies.sql](05_warehouse_sizing_and_scaling_policies.sql) | Warehouse Sizing & Scaling Policies | ~25–30 min | T-shirt sizing, credit doubling per size, live resize, scaling policy concept |
-| [06_multi_cluster_warehouses_and_concurrency.sql](06_multi_cluster_warehouses_and_concurrency.sql) | Multi-Cluster Warehouses & Concurrency | ~30–40 min | `MIN/MAX_CLUSTER_COUNT`, scaling policy, concurrency vs. single-query speed |
-| [07_materialized_views.sql](07_materialized_views.sql) | Materialized Views | ~30–35 min | Single-table restriction, cost-based query rewrite, refresh maintenance |
-| [08_search_optimization_service.sql](08_search_optimization_service.sql) | Search Optimization Service | ~30–40 min | Search access path, point lookups vs. range queries, cardinality warnings |
-| [09_resource_monitors_and_query_acceleration_service.sql](09_resource_monitors_and_query_acceleration_service.sql) | Resource Monitors & Query Acceleration Service | ~25–30 min | `CREDIT_QUOTA`, `TRIGGERS`, QAS eligibility, serverless-warehouse blind spot |
-| [10_capstone.sql](10_capstone.sql) | Capstone — Diagnose and Fix a Slow Analytics Workload | ~60–75 min | Applies 5.1–5.9 together on real TPC-H benchmark data |
-| [11_exam_prep.sql](11_exam_prep.sql) | COF-C03 exam preparation | ~35–40 min | 13 practice questions covering all Goal 5 topics |
+| # | Sub-task | File | Time | COF-C03 Domain | Key Concepts |
+|---|---|---|---|---|---|
+| 5.1 | Reading Query Profile | [01_reading_query_profile.sql](01_reading_query_profile.sql) | ~25–30 min | 4.0 (21%) | Query Profile, `GET_QUERY_OPERATOR_STATS`, `EXPLAIN`, row access policy blind spot |
+| 5.2 | Micro-partitions & Pruning | [02_micro_partitions_and_pruning.sql](02_micro_partitions_and_pruning.sql) | ~25–30 min | 4.0 (21%) | `SYSTEM$CLUSTERING_INFORMATION`, average_depth/overlaps, partition pruning in practice |
+| 5.3 | Clustering Keys | [03_clustering_keys.sql](03_clustering_keys.sql) | ~30–35 min | 4.0 (21%) | `CLUSTER BY`, automatic reclustering, cardinality cost warnings |
+| 5.4 | Result & Warehouse Caching | [04_result_and_warehouse_caching.sql](04_result_and_warehouse_caching.sql) | ~30–35 min | 4.0 (21%) | Result cache, warehouse (local disk) cache, metadata cache, `USE_CACHED_RESULT` |
+| 5.5 | Warehouse Sizing & Scaling Policies | [05_warehouse_sizing_and_scaling_policies.sql](05_warehouse_sizing_and_scaling_policies.sql) | ~25–30 min | 4.0 (21%) | T-shirt sizing, credit doubling per size, live resize, scaling policy concept |
+| 5.6 | Multi-Cluster Warehouses & Concurrency | [06_multi_cluster_warehouses_and_concurrency.sql](06_multi_cluster_warehouses_and_concurrency.sql) | ~30–40 min | 4.0 (21%) | `MIN/MAX_CLUSTER_COUNT`, scaling policy, concurrency vs. single-query speed |
+| 5.7 | Materialized Views | [07_materialized_views.sql](07_materialized_views.sql) | ~30–35 min | 4.0 (21%) | Single-table restriction, cost-based query rewrite, refresh maintenance |
+| 5.8 | Search Optimization Service | [08_search_optimization_service.sql](08_search_optimization_service.sql) | ~30–40 min | 4.0 (21%) | Search access path, point lookups vs. range queries, cardinality warnings |
+| 5.9 | Resource Monitors & Query Acceleration Service | [09_resource_monitors_and_query_acceleration_service.sql](09_resource_monitors_and_query_acceleration_service.sql) | ~25–30 min | 4.0 (21%) | `CREDIT_QUOTA`, `TRIGGERS`, QAS eligibility, serverless-warehouse blind spot |
+| 5.10 | Diagnose and Fix a Slow Analytics Workload | [10_capstone.sql](10_capstone.sql) | ~60–75 min | 4.0 (21%) | Applies 5.1–5.9 together on real TPC-H benchmark data |
+| 5.11 | COF-C03 exam preparation | [11_exam_prep.sql](11_exam_prep.sql) | ~35–40 min | 4.0 (21%) | 13 practice questions covering all Goal 5 topics |
 
 ---
 
